@@ -760,7 +760,7 @@ Camera:
   m_GameObject: {fileID: 330585543}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
+  m_ClearFlags: 2
   m_BackGroundColor: {r: 0, g: 0, b: 0, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
@@ -2889,99 +2889,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1455569689}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1001 &1467844808
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 2171034749813684662, guid: f9e1e4a0ea57a2c41a52d56e2e07c778,
-        type: 3}
-      propertyPath: m_Name
-      value: NextTileChecker
-      objectReference: {fileID: 0}
-    - target: {fileID: 6544046775708547937, guid: f9e1e4a0ea57a2c41a52d56e2e07c778,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6544046775708547937, guid: f9e1e4a0ea57a2c41a52d56e2e07c778,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6544046775708547937, guid: f9e1e4a0ea57a2c41a52d56e2e07c778,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6544046775708547937, guid: f9e1e4a0ea57a2c41a52d56e2e07c778,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6544046775708547937, guid: f9e1e4a0ea57a2c41a52d56e2e07c778,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6544046775708547937, guid: f9e1e4a0ea57a2c41a52d56e2e07c778,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6544046775708547937, guid: f9e1e4a0ea57a2c41a52d56e2e07c778,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6544046775708547937, guid: f9e1e4a0ea57a2c41a52d56e2e07c778,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6544046775708547937, guid: f9e1e4a0ea57a2c41a52d56e2e07c778,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6544046775708547937, guid: f9e1e4a0ea57a2c41a52d56e2e07c778,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6544046775708547937, guid: f9e1e4a0ea57a2c41a52d56e2e07c778,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6544046775708547937, guid: f9e1e4a0ea57a2c41a52d56e2e07c778,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6544046775708547937, guid: f9e1e4a0ea57a2c41a52d56e2e07c778,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6544046775708547937, guid: f9e1e4a0ea57a2c41a52d56e2e07c778,
-        type: 3}
-      propertyPath: m_ConstrainProportionsScale
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8007802733416281455, guid: f9e1e4a0ea57a2c41a52d56e2e07c778,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: f9e1e4a0ea57a2c41a52d56e2e07c778, type: 3}
 --- !u!1 &1475012676
 GameObject:
   m_ObjectHideFlags: 0
@@ -3702,333 +3609,873 @@ MonoBehaviour:
   m_HexTiles:
   - Name: CloseLeft_1
     Bifurcations:
-      ExitOne: 1
-      ExitTwo: 0
-      ExitThree: 0
-      ExitFour: 0
-      ExitFive: 0
+      Exit_1: 1
+      Exit_2: 0
+      Exit_3: 0
+      Exit_4: 0
+      Exit_5: 0
       End: 0
     DoubleTile: 0
+    DoubleTileBifurcations:
+      Exit_6: 0
+      Exit_7: 0
+      Exit_8: 0
+      Exit_9: 0
+      Exit_10: 0
+      Exit_11: 0
+      Exit_12: 0
+      Exit_13: 0
+      Exit_14: 0
+      Exit_15: 0
+      Exit_16: 0
+      Exit_17: 0
+      Exit_18: 0
+      Exit_19: 0
+      Exit_20: 0
+      Exit_21: 0
+      Exit_22: 0
     HexTile: {fileID: 1724604541513878114, guid: bfe7d388c45f9a340ab0cd6746848c62,
       type: 3}
   - Name: CloseLeft_2
     Bifurcations:
-      ExitOne: 1
-      ExitTwo: 0
-      ExitThree: 0
-      ExitFour: 0
-      ExitFive: 0
+      Exit_1: 1
+      Exit_2: 0
+      Exit_3: 0
+      Exit_4: 0
+      Exit_5: 0
       End: 0
     DoubleTile: 0
+    DoubleTileBifurcations:
+      Exit_6: 0
+      Exit_7: 0
+      Exit_8: 0
+      Exit_9: 0
+      Exit_10: 0
+      Exit_11: 0
+      Exit_12: 0
+      Exit_13: 0
+      Exit_14: 0
+      Exit_15: 0
+      Exit_16: 0
+      Exit_17: 0
+      Exit_18: 0
+      Exit_19: 0
+      Exit_20: 0
+      Exit_21: 0
+      Exit_22: 0
     HexTile: {fileID: 3236519894889363250, guid: 9dd18ceb200053649aad865e1ae8bc16,
       type: 3}
   - Name: CloseLeft_3
     Bifurcations:
-      ExitOne: 1
-      ExitTwo: 0
-      ExitThree: 0
-      ExitFour: 0
-      ExitFive: 0
+      Exit_1: 1
+      Exit_2: 0
+      Exit_3: 0
+      Exit_4: 0
+      Exit_5: 0
       End: 0
     DoubleTile: 0
+    DoubleTileBifurcations:
+      Exit_6: 0
+      Exit_7: 0
+      Exit_8: 0
+      Exit_9: 0
+      Exit_10: 0
+      Exit_11: 0
+      Exit_12: 0
+      Exit_13: 0
+      Exit_14: 0
+      Exit_15: 0
+      Exit_16: 0
+      Exit_17: 0
+      Exit_18: 0
+      Exit_19: 0
+      Exit_20: 0
+      Exit_21: 0
+      Exit_22: 0
     HexTile: {fileID: 4310394104581009709, guid: f8b20012c859c5740bf6c903183d9b1d,
       type: 3}
   - Name: CloseRight_1
     Bifurcations:
-      ExitOne: 0
-      ExitTwo: 0
-      ExitThree: 0
-      ExitFour: 0
-      ExitFive: 1
+      Exit_1: 0
+      Exit_2: 0
+      Exit_3: 0
+      Exit_4: 0
+      Exit_5: 1
       End: 0
     DoubleTile: 0
+    DoubleTileBifurcations:
+      Exit_6: 0
+      Exit_7: 0
+      Exit_8: 0
+      Exit_9: 0
+      Exit_10: 0
+      Exit_11: 0
+      Exit_12: 0
+      Exit_13: 0
+      Exit_14: 0
+      Exit_15: 0
+      Exit_16: 0
+      Exit_17: 0
+      Exit_18: 0
+      Exit_19: 0
+      Exit_20: 0
+      Exit_21: 0
+      Exit_22: 0
     HexTile: {fileID: 1724604541513878114, guid: cc5451492899b514abb0813ec862d7e5,
       type: 3}
   - Name: CloseRight_2
     Bifurcations:
-      ExitOne: 0
-      ExitTwo: 0
-      ExitThree: 0
-      ExitFour: 0
-      ExitFive: 1
+      Exit_1: 0
+      Exit_2: 0
+      Exit_3: 0
+      Exit_4: 0
+      Exit_5: 1
       End: 0
     DoubleTile: 0
+    DoubleTileBifurcations:
+      Exit_6: 0
+      Exit_7: 0
+      Exit_8: 0
+      Exit_9: 0
+      Exit_10: 0
+      Exit_11: 0
+      Exit_12: 0
+      Exit_13: 0
+      Exit_14: 0
+      Exit_15: 0
+      Exit_16: 0
+      Exit_17: 0
+      Exit_18: 0
+      Exit_19: 0
+      Exit_20: 0
+      Exit_21: 0
+      Exit_22: 0
     HexTile: {fileID: 3236519894889363250, guid: daa412203fe95a942941db918dccfd0a,
       type: 3}
   - Name: CloseRight_3
     Bifurcations:
-      ExitOne: 0
-      ExitTwo: 0
-      ExitThree: 0
-      ExitFour: 0
-      ExitFive: 1
+      Exit_1: 0
+      Exit_2: 0
+      Exit_3: 0
+      Exit_4: 0
+      Exit_5: 1
       End: 0
     DoubleTile: 0
+    DoubleTileBifurcations:
+      Exit_6: 0
+      Exit_7: 0
+      Exit_8: 0
+      Exit_9: 0
+      Exit_10: 0
+      Exit_11: 0
+      Exit_12: 0
+      Exit_13: 0
+      Exit_14: 0
+      Exit_15: 0
+      Exit_16: 0
+      Exit_17: 0
+      Exit_18: 0
+      Exit_19: 0
+      Exit_20: 0
+      Exit_21: 0
+      Exit_22: 0
     HexTile: {fileID: 4310394104581009709, guid: b79313b917825af4b8c6439a7fb29084,
       type: 3}
   - Name: End_1
     Bifurcations:
-      ExitOne: 0
-      ExitTwo: 0
-      ExitThree: 0
-      ExitFour: 0
-      ExitFive: 0
+      Exit_1: 0
+      Exit_2: 0
+      Exit_3: 0
+      Exit_4: 0
+      Exit_5: 0
       End: 1
     DoubleTile: 0
+    DoubleTileBifurcations:
+      Exit_6: 0
+      Exit_7: 0
+      Exit_8: 0
+      Exit_9: 0
+      Exit_10: 0
+      Exit_11: 0
+      Exit_12: 0
+      Exit_13: 0
+      Exit_14: 0
+      Exit_15: 0
+      Exit_16: 0
+      Exit_17: 0
+      Exit_18: 0
+      Exit_19: 0
+      Exit_20: 0
+      Exit_21: 0
+      Exit_22: 0
     HexTile: {fileID: 8004503880869187092, guid: 689669926b7fc3341935fd9670b67cbf,
       type: 3}
   - Name: End_2
     Bifurcations:
-      ExitOne: 0
-      ExitTwo: 0
-      ExitThree: 0
-      ExitFour: 0
-      ExitFive: 0
+      Exit_1: 0
+      Exit_2: 0
+      Exit_3: 0
+      Exit_4: 0
+      Exit_5: 0
       End: 1
     DoubleTile: 0
+    DoubleTileBifurcations:
+      Exit_6: 0
+      Exit_7: 0
+      Exit_8: 0
+      Exit_9: 0
+      Exit_10: 0
+      Exit_11: 0
+      Exit_12: 0
+      Exit_13: 0
+      Exit_14: 0
+      Exit_15: 0
+      Exit_16: 0
+      Exit_17: 0
+      Exit_18: 0
+      Exit_19: 0
+      Exit_20: 0
+      Exit_21: 0
+      Exit_22: 0
     HexTile: {fileID: 8280890478747456764, guid: a0fa02232f29b2f4f8646ede72ca57e0,
       type: 3}
   - Name: End_3
     Bifurcations:
-      ExitOne: 0
-      ExitTwo: 0
-      ExitThree: 0
-      ExitFour: 0
-      ExitFive: 0
+      Exit_1: 0
+      Exit_2: 0
+      Exit_3: 0
+      Exit_4: 0
+      Exit_5: 0
       End: 1
     DoubleTile: 0
+    DoubleTileBifurcations:
+      Exit_6: 0
+      Exit_7: 0
+      Exit_8: 0
+      Exit_9: 0
+      Exit_10: 0
+      Exit_11: 0
+      Exit_12: 0
+      Exit_13: 0
+      Exit_14: 0
+      Exit_15: 0
+      Exit_16: 0
+      Exit_17: 0
+      Exit_18: 0
+      Exit_19: 0
+      Exit_20: 0
+      Exit_21: 0
+      Exit_22: 0
     HexTile: {fileID: 7510660563771722453, guid: 1accf300557af8f42b87f5368c877173,
       type: 3}
   - Name: LongLeft_1
     Bifurcations:
-      ExitOne: 0
-      ExitTwo: 1
-      ExitThree: 0
-      ExitFour: 0
-      ExitFive: 0
+      Exit_1: 0
+      Exit_2: 1
+      Exit_3: 0
+      Exit_4: 0
+      Exit_5: 0
       End: 0
     DoubleTile: 0
+    DoubleTileBifurcations:
+      Exit_6: 0
+      Exit_7: 0
+      Exit_8: 0
+      Exit_9: 0
+      Exit_10: 0
+      Exit_11: 0
+      Exit_12: 0
+      Exit_13: 0
+      Exit_14: 0
+      Exit_15: 0
+      Exit_16: 0
+      Exit_17: 0
+      Exit_18: 0
+      Exit_19: 0
+      Exit_20: 0
+      Exit_21: 0
+      Exit_22: 0
     HexTile: {fileID: 1039170778232925723, guid: ec6edf822bc4a8d489fa88c7363ab794,
       type: 3}
   - Name: LongLeft_2
     Bifurcations:
-      ExitOne: 0
-      ExitTwo: 1
-      ExitThree: 0
-      ExitFour: 0
-      ExitFive: 0
+      Exit_1: 0
+      Exit_2: 1
+      Exit_3: 0
+      Exit_4: 0
+      Exit_5: 0
       End: 0
     DoubleTile: 0
+    DoubleTileBifurcations:
+      Exit_6: 0
+      Exit_7: 0
+      Exit_8: 0
+      Exit_9: 0
+      Exit_10: 0
+      Exit_11: 0
+      Exit_12: 0
+      Exit_13: 0
+      Exit_14: 0
+      Exit_15: 0
+      Exit_16: 0
+      Exit_17: 0
+      Exit_18: 0
+      Exit_19: 0
+      Exit_20: 0
+      Exit_21: 0
+      Exit_22: 0
     HexTile: {fileID: 4877962098151580472, guid: 4485425b730dd4144a30f9b213f1c386,
       type: 3}
   - Name: LongLeft_3
     Bifurcations:
-      ExitOne: 0
-      ExitTwo: 1
-      ExitThree: 0
-      ExitFour: 0
-      ExitFive: 0
+      Exit_1: 0
+      Exit_2: 1
+      Exit_3: 0
+      Exit_4: 0
+      Exit_5: 0
       End: 0
     DoubleTile: 0
+    DoubleTileBifurcations:
+      Exit_6: 0
+      Exit_7: 0
+      Exit_8: 0
+      Exit_9: 0
+      Exit_10: 0
+      Exit_11: 0
+      Exit_12: 0
+      Exit_13: 0
+      Exit_14: 0
+      Exit_15: 0
+      Exit_16: 0
+      Exit_17: 0
+      Exit_18: 0
+      Exit_19: 0
+      Exit_20: 0
+      Exit_21: 0
+      Exit_22: 0
     HexTile: {fileID: 7401218107390864005, guid: b9b6563e6e6ad1341bbe11db2c623888,
       type: 3}
   - Name: LongLeft_4
     Bifurcations:
-      ExitOne: 0
-      ExitTwo: 1
-      ExitThree: 0
-      ExitFour: 0
-      ExitFive: 0
+      Exit_1: 0
+      Exit_2: 1
+      Exit_3: 0
+      Exit_4: 0
+      Exit_5: 0
       End: 0
     DoubleTile: 0
+    DoubleTileBifurcations:
+      Exit_6: 0
+      Exit_7: 0
+      Exit_8: 0
+      Exit_9: 0
+      Exit_10: 0
+      Exit_11: 0
+      Exit_12: 0
+      Exit_13: 0
+      Exit_14: 0
+      Exit_15: 0
+      Exit_16: 0
+      Exit_17: 0
+      Exit_18: 0
+      Exit_19: 0
+      Exit_20: 0
+      Exit_21: 0
+      Exit_22: 0
     HexTile: {fileID: 8539271684980000182, guid: ba5d079630f632d41ad04afa7ee83f25,
       type: 3}
   - Name: LongRight_1
     Bifurcations:
-      ExitOne: 0
-      ExitTwo: 0
-      ExitThree: 0
-      ExitFour: 1
-      ExitFive: 0
+      Exit_1: 0
+      Exit_2: 0
+      Exit_3: 0
+      Exit_4: 1
+      Exit_5: 0
       End: 0
     DoubleTile: 0
+    DoubleTileBifurcations:
+      Exit_6: 0
+      Exit_7: 0
+      Exit_8: 0
+      Exit_9: 0
+      Exit_10: 0
+      Exit_11: 0
+      Exit_12: 0
+      Exit_13: 0
+      Exit_14: 0
+      Exit_15: 0
+      Exit_16: 0
+      Exit_17: 0
+      Exit_18: 0
+      Exit_19: 0
+      Exit_20: 0
+      Exit_21: 0
+      Exit_22: 0
     HexTile: {fileID: 1039170778232925723, guid: 920f8aec9007dc145bf9702a1f5a6b70,
       type: 3}
   - Name: LongRight_2
     Bifurcations:
-      ExitOne: 0
-      ExitTwo: 0
-      ExitThree: 0
-      ExitFour: 1
-      ExitFive: 0
+      Exit_1: 0
+      Exit_2: 0
+      Exit_3: 0
+      Exit_4: 1
+      Exit_5: 0
       End: 0
     DoubleTile: 0
+    DoubleTileBifurcations:
+      Exit_6: 0
+      Exit_7: 0
+      Exit_8: 0
+      Exit_9: 0
+      Exit_10: 0
+      Exit_11: 0
+      Exit_12: 0
+      Exit_13: 0
+      Exit_14: 0
+      Exit_15: 0
+      Exit_16: 0
+      Exit_17: 0
+      Exit_18: 0
+      Exit_19: 0
+      Exit_20: 0
+      Exit_21: 0
+      Exit_22: 0
     HexTile: {fileID: 4877962098151580472, guid: 51c5659b5e852e445bbec13d791b43bc,
       type: 3}
   - Name: LongRight_3
     Bifurcations:
-      ExitOne: 0
-      ExitTwo: 0
-      ExitThree: 0
-      ExitFour: 1
-      ExitFive: 0
+      Exit_1: 0
+      Exit_2: 0
+      Exit_3: 0
+      Exit_4: 1
+      Exit_5: 0
       End: 0
     DoubleTile: 0
+    DoubleTileBifurcations:
+      Exit_6: 0
+      Exit_7: 0
+      Exit_8: 0
+      Exit_9: 0
+      Exit_10: 0
+      Exit_11: 0
+      Exit_12: 0
+      Exit_13: 0
+      Exit_14: 0
+      Exit_15: 0
+      Exit_16: 0
+      Exit_17: 0
+      Exit_18: 0
+      Exit_19: 0
+      Exit_20: 0
+      Exit_21: 0
+      Exit_22: 0
     HexTile: {fileID: 7401218107390864005, guid: 4b9193f0aa7324f468bc35d28ba4db3e,
       type: 3}
   - Name: LongRight_4
     Bifurcations:
-      ExitOne: 0
-      ExitTwo: 0
-      ExitThree: 0
-      ExitFour: 1
-      ExitFive: 0
+      Exit_1: 0
+      Exit_2: 0
+      Exit_3: 0
+      Exit_4: 1
+      Exit_5: 0
       End: 0
     DoubleTile: 0
+    DoubleTileBifurcations:
+      Exit_6: 0
+      Exit_7: 0
+      Exit_8: 0
+      Exit_9: 0
+      Exit_10: 0
+      Exit_11: 0
+      Exit_12: 0
+      Exit_13: 0
+      Exit_14: 0
+      Exit_15: 0
+      Exit_16: 0
+      Exit_17: 0
+      Exit_18: 0
+      Exit_19: 0
+      Exit_20: 0
+      Exit_21: 0
+      Exit_22: 0
     HexTile: {fileID: 8539271684980000182, guid: 88581bd7c0fa3804786c447e8ff8507e,
       type: 3}
   - Name: Straight_1
     Bifurcations:
-      ExitOne: 0
-      ExitTwo: 0
-      ExitThree: 1
-      ExitFour: 0
-      ExitFive: 0
+      Exit_1: 0
+      Exit_2: 0
+      Exit_3: 1
+      Exit_4: 0
+      Exit_5: 0
       End: 0
     DoubleTile: 0
+    DoubleTileBifurcations:
+      Exit_6: 0
+      Exit_7: 0
+      Exit_8: 0
+      Exit_9: 0
+      Exit_10: 0
+      Exit_11: 0
+      Exit_12: 0
+      Exit_13: 0
+      Exit_14: 0
+      Exit_15: 0
+      Exit_16: 0
+      Exit_17: 0
+      Exit_18: 0
+      Exit_19: 0
+      Exit_20: 0
+      Exit_21: 0
+      Exit_22: 0
     HexTile: {fileID: 4962567121588490699, guid: 180878fc6a7201e4c9eb7bf8f44a044c,
       type: 3}
   - Name: Straight_2
     Bifurcations:
-      ExitOne: 0
-      ExitTwo: 0
-      ExitThree: 1
-      ExitFour: 0
-      ExitFive: 0
+      Exit_1: 0
+      Exit_2: 0
+      Exit_3: 1
+      Exit_4: 0
+      Exit_5: 0
       End: 0
     DoubleTile: 0
+    DoubleTileBifurcations:
+      Exit_6: 0
+      Exit_7: 0
+      Exit_8: 0
+      Exit_9: 0
+      Exit_10: 0
+      Exit_11: 0
+      Exit_12: 0
+      Exit_13: 0
+      Exit_14: 0
+      Exit_15: 0
+      Exit_16: 0
+      Exit_17: 0
+      Exit_18: 0
+      Exit_19: 0
+      Exit_20: 0
+      Exit_21: 0
+      Exit_22: 0
     HexTile: {fileID: 7230534771081472712, guid: d2ff73632ae93344083e13553f31a21c,
       type: 3}
   - Name: Straight_3
     Bifurcations:
-      ExitOne: 0
-      ExitTwo: 0
-      ExitThree: 1
-      ExitFour: 0
-      ExitFive: 0
+      Exit_1: 0
+      Exit_2: 0
+      Exit_3: 1
+      Exit_4: 0
+      Exit_5: 0
       End: 0
     DoubleTile: 0
+    DoubleTileBifurcations:
+      Exit_6: 0
+      Exit_7: 0
+      Exit_8: 0
+      Exit_9: 0
+      Exit_10: 0
+      Exit_11: 0
+      Exit_12: 0
+      Exit_13: 0
+      Exit_14: 0
+      Exit_15: 0
+      Exit_16: 0
+      Exit_17: 0
+      Exit_18: 0
+      Exit_19: 0
+      Exit_20: 0
+      Exit_21: 0
+      Exit_22: 0
     HexTile: {fileID: 6790089833013571467, guid: ee14dd0c39b6d104da5360ca81a283d1,
       type: 3}
   - Name: Straight_4
     Bifurcations:
-      ExitOne: 0
-      ExitTwo: 0
-      ExitThree: 1
-      ExitFour: 0
-      ExitFive: 0
+      Exit_1: 0
+      Exit_2: 0
+      Exit_3: 1
+      Exit_4: 0
+      Exit_5: 0
       End: 0
     DoubleTile: 0
+    DoubleTileBifurcations:
+      Exit_6: 0
+      Exit_7: 0
+      Exit_8: 0
+      Exit_9: 0
+      Exit_10: 0
+      Exit_11: 0
+      Exit_12: 0
+      Exit_13: 0
+      Exit_14: 0
+      Exit_15: 0
+      Exit_16: 0
+      Exit_17: 0
+      Exit_18: 0
+      Exit_19: 0
+      Exit_20: 0
+      Exit_21: 0
+      Exit_22: 0
     HexTile: {fileID: 4641471824103506278, guid: 37770b34ba08e9047b3c04e92a8c2d61,
       type: 3}
   - Name: Straight_5
     Bifurcations:
-      ExitOne: 0
-      ExitTwo: 0
-      ExitThree: 1
-      ExitFour: 0
-      ExitFive: 0
+      Exit_1: 0
+      Exit_2: 0
+      Exit_3: 1
+      Exit_4: 0
+      Exit_5: 0
       End: 0
     DoubleTile: 0
+    DoubleTileBifurcations:
+      Exit_6: 0
+      Exit_7: 0
+      Exit_8: 0
+      Exit_9: 0
+      Exit_10: 0
+      Exit_11: 0
+      Exit_12: 0
+      Exit_13: 0
+      Exit_14: 0
+      Exit_15: 0
+      Exit_16: 0
+      Exit_17: 0
+      Exit_18: 0
+      Exit_19: 0
+      Exit_20: 0
+      Exit_21: 0
+      Exit_22: 0
     HexTile: {fileID: 4641471824103506278, guid: d5d122edd5054384a87e1f0e4f8089ff,
       type: 3}
   - Name: Straight_6
     Bifurcations:
-      ExitOne: 0
-      ExitTwo: 0
-      ExitThree: 1
-      ExitFour: 0
-      ExitFive: 0
+      Exit_1: 0
+      Exit_2: 0
+      Exit_3: 1
+      Exit_4: 0
+      Exit_5: 0
       End: 0
     DoubleTile: 0
+    DoubleTileBifurcations:
+      Exit_6: 0
+      Exit_7: 0
+      Exit_8: 0
+      Exit_9: 0
+      Exit_10: 0
+      Exit_11: 0
+      Exit_12: 0
+      Exit_13: 0
+      Exit_14: 0
+      Exit_15: 0
+      Exit_16: 0
+      Exit_17: 0
+      Exit_18: 0
+      Exit_19: 0
+      Exit_20: 0
+      Exit_21: 0
+      Exit_22: 0
     HexTile: {fileID: 4641471824103506278, guid: 7fe35146dd22fb245a6a6807fff6e618,
       type: 3}
   - Name: Div_Full
     Bifurcations:
-      ExitOne: 1
-      ExitTwo: 1
-      ExitThree: 1
-      ExitFour: 1
-      ExitFive: 1
+      Exit_1: 1
+      Exit_2: 1
+      Exit_3: 1
+      Exit_4: 1
+      Exit_5: 1
       End: 0
     DoubleTile: 0
+    DoubleTileBifurcations:
+      Exit_6: 0
+      Exit_7: 0
+      Exit_8: 0
+      Exit_9: 0
+      Exit_10: 0
+      Exit_11: 0
+      Exit_12: 0
+      Exit_13: 0
+      Exit_14: 0
+      Exit_15: 0
+      Exit_16: 0
+      Exit_17: 0
+      Exit_18: 0
+      Exit_19: 0
+      Exit_20: 0
+      Exit_21: 0
+      Exit_22: 0
     HexTile: {fileID: 868416664493438407, guid: 31fd78bd7dc347f4d833a409742e4fb4,
       type: 3}
   - Name: Div_OneFive
     Bifurcations:
-      ExitOne: 1
-      ExitTwo: 0
-      ExitThree: 0
-      ExitFour: 0
-      ExitFive: 1
+      Exit_1: 1
+      Exit_2: 0
+      Exit_3: 0
+      Exit_4: 0
+      Exit_5: 1
       End: 0
     DoubleTile: 0
+    DoubleTileBifurcations:
+      Exit_6: 0
+      Exit_7: 0
+      Exit_8: 0
+      Exit_9: 0
+      Exit_10: 0
+      Exit_11: 0
+      Exit_12: 0
+      Exit_13: 0
+      Exit_14: 0
+      Exit_15: 0
+      Exit_16: 0
+      Exit_17: 0
+      Exit_18: 0
+      Exit_19: 0
+      Exit_20: 0
+      Exit_21: 0
+      Exit_22: 0
     HexTile: {fileID: 4918003655088729709, guid: 6985219b425cc4948b191d2afc240d5d,
       type: 3}
   - Name: Div_OneTwoFourFive
     Bifurcations:
-      ExitOne: 1
-      ExitTwo: 1
-      ExitThree: 0
-      ExitFour: 1
-      ExitFive: 1
+      Exit_1: 1
+      Exit_2: 1
+      Exit_3: 0
+      Exit_4: 1
+      Exit_5: 1
       End: 0
     DoubleTile: 0
+    DoubleTileBifurcations:
+      Exit_6: 0
+      Exit_7: 0
+      Exit_8: 0
+      Exit_9: 0
+      Exit_10: 0
+      Exit_11: 0
+      Exit_12: 0
+      Exit_13: 0
+      Exit_14: 0
+      Exit_15: 0
+      Exit_16: 0
+      Exit_17: 0
+      Exit_18: 0
+      Exit_19: 0
+      Exit_20: 0
+      Exit_21: 0
+      Exit_22: 0
     HexTile: {fileID: 4918003655088729709, guid: 3ae612bcfd000114dac0b4a4d9b517aa,
       type: 3}
   - Name: Div_TwoFour
     Bifurcations:
-      ExitOne: 0
-      ExitTwo: 1
-      ExitThree: 0
-      ExitFour: 1
-      ExitFive: 0
+      Exit_1: 0
+      Exit_2: 1
+      Exit_3: 0
+      Exit_4: 1
+      Exit_5: 0
       End: 0
     DoubleTile: 0
+    DoubleTileBifurcations:
+      Exit_6: 0
+      Exit_7: 0
+      Exit_8: 0
+      Exit_9: 0
+      Exit_10: 0
+      Exit_11: 0
+      Exit_12: 0
+      Exit_13: 0
+      Exit_14: 0
+      Exit_15: 0
+      Exit_16: 0
+      Exit_17: 0
+      Exit_18: 0
+      Exit_19: 0
+      Exit_20: 0
+      Exit_21: 0
+      Exit_22: 0
     HexTile: {fileID: 6275168884179943000, guid: f20a21be7c6eb5a43adcb8a8c37aa008,
       type: 3}
   - Name: Div_TwoFourFive
     Bifurcations:
-      ExitOne: 0
-      ExitTwo: 1
-      ExitThree: 0
-      ExitFour: 1
-      ExitFive: 1
+      Exit_1: 0
+      Exit_2: 1
+      Exit_3: 0
+      Exit_4: 1
+      Exit_5: 1
       End: 0
     DoubleTile: 0
+    DoubleTileBifurcations:
+      Exit_6: 0
+      Exit_7: 0
+      Exit_8: 0
+      Exit_9: 0
+      Exit_10: 0
+      Exit_11: 0
+      Exit_12: 0
+      Exit_13: 0
+      Exit_14: 0
+      Exit_15: 0
+      Exit_16: 0
+      Exit_17: 0
+      Exit_18: 0
+      Exit_19: 0
+      Exit_20: 0
+      Exit_21: 0
+      Exit_22: 0
     HexTile: {fileID: 1900648322591344912, guid: e8222e25e06a84a48a3b012bae20daac,
       type: 3}
   - Name: Div_ThreeFourFive
     Bifurcations:
-      ExitOne: 0
-      ExitTwo: 0
-      ExitThree: 1
-      ExitFour: 1
-      ExitFive: 1
+      Exit_1: 0
+      Exit_2: 0
+      Exit_3: 1
+      Exit_4: 1
+      Exit_5: 1
       End: 0
     DoubleTile: 0
+    DoubleTileBifurcations:
+      Exit_6: 0
+      Exit_7: 0
+      Exit_8: 0
+      Exit_9: 0
+      Exit_10: 0
+      Exit_11: 0
+      Exit_12: 0
+      Exit_13: 0
+      Exit_14: 0
+      Exit_15: 0
+      Exit_16: 0
+      Exit_17: 0
+      Exit_18: 0
+      Exit_19: 0
+      Exit_20: 0
+      Exit_21: 0
+      Exit_22: 0
     HexTile: {fileID: 2303875216838103261, guid: 15a013cb912a8874da7b5e66694bd8dc,
       type: 3}
-  - Name: Double_Straight1
+  - Name: Double_Straight_1
     Bifurcations:
-      ExitOne: 0
-      ExitTwo: 0
-      ExitThree: 1
-      ExitFour: 0
-      ExitFive: 0
+      Exit_1: 0
+      Exit_2: 0
+      Exit_3: 0
+      Exit_4: 0
+      Exit_5: 0
       End: 0
     DoubleTile: 1
-    HexTile: {fileID: 2303875216838103261, guid: 15a013cb912a8874da7b5e66694bd8dc,
+    DoubleTileBifurcations:
+      Exit_6: 0
+      Exit_7: 0
+      Exit_8: 0
+      Exit_9: 0
+      Exit_10: 0
+      Exit_11: 0
+      Exit_12: 0
+      Exit_13: 0
+      Exit_14: 1
+      Exit_15: 0
+      Exit_16: 0
+      Exit_17: 0
+      Exit_18: 0
+      Exit_19: 0
+      Exit_20: 0
+      Exit_21: 0
+      Exit_22: 0
+    HexTile: {fileID: 4310394104581009709, guid: 43b307769efe01b49a7facb805e9933f,
       type: 3}
   m_PathList: []
   m_PathZero: 1
@@ -5243,4 +5690,3 @@ SceneRoots:
   - {fileID: 389476824}
   - {fileID: 1475012677}
   - {fileID: 1713491696}
-  - {fileID: 1467844808}
