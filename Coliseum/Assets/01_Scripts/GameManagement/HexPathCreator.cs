@@ -63,7 +63,7 @@ public class HexPathCreator : MonoBehaviour
                 BuildTrack(path, InitialTiles, m_PathStartPositions[i]);
             }
         }
-        InvokeRepeating("AutoGenerate", 0f, 0.1f);
+        //InvokeRepeating("AutoGenerate", 0f, 0.1f);
     }
     void Update()
     {
@@ -295,15 +295,26 @@ public class HexPathCreator : MonoBehaviour
     }
 
     public void BuildTrack(PathDetails Path, List<HexTileDetails> m_AvailablePaths, Vector3 NextTilePos)
-    {
-        List<PathDetails> NewPaths = new List<PathDetails>();
-
+    { 
         if (m_AvailablePaths.Count == 0 || Path.PathOrientation == HexOrientation.End)
         {
             Debug.Log("No hay caminos disponibles, fin del camino.");
             return;
         }
-     
+
+        float TileChance = Random.Range(0f, 1f);
+
+        foreach(HexTileDetails tile in m_HexTiles)
+        {
+            if (tile.m_Chance < TileChance)
+            {
+                m_AvailablePaths.Remove(tile);
+            }
+        }
+        if(m_AvailablePaths.Count == 0)
+        {
+            return;
+        }
         HexTileDetails Tile = m_AvailablePaths[Random.Range(0, m_AvailablePaths.Count)];
 
         if (Tile.DoubleTile)
@@ -663,6 +674,7 @@ public class HexPathCreator : MonoBehaviour
     public class HexTileDetails
     {
         public string Name;
+        public float m_Chance = 0.5f;
         public HexSingleTileBifurcation Bifurcations;
         public bool DoubleTile = false;
         public HexDoubleTileBifurcation DoubleTileBifurcations;
@@ -671,7 +683,8 @@ public class HexPathCreator : MonoBehaviour
     [System.Serializable]
     public class HexSingleTileBifurcation
     {
-        public bool Exit_1, Exit_2, Exit_3, Exit_4, Exit_5, End;
+        public bool Exit_1, Exit_2, Exit_3,
+            Exit_4, Exit_5, End;
     }
     [System.Serializable]
     public class HexDoubleTileBifurcation

@@ -3504,7 +3504,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1735057699}
-  - component: {fileID: 1735057698}
   - component: {fileID: 1735057700}
   - component: {fileID: 1735057701}
   m_Layer: 0
@@ -3514,56 +3513,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1735057698
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1735057697}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 83d0ad50eaf41fa49bf4b2d1aa2c07f5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_LastTilePosition: {x: 0, y: -1.55, z: 55}
-  m_Paths:
-  - Name: RightPlaza
-    PathType: 2
-    Tile: {fileID: 5635672438566557735, guid: f91d4669de2854f409206b87f0955cda, type: 3}
-  - Name: RightOne
-    PathType: 2
-    Tile: {fileID: 2987136760614265523, guid: 7652716bec8e10b42887553d25b7f3b8, type: 3}
-  - Name: RightTwo
-    PathType: 2
-    Tile: {fileID: 8369695486191793542, guid: 9d844de2f97aa7e4f88ee9ffe2135dd5, type: 3}
-  - Name: LeftPlaza
-    PathType: 1
-    Tile: {fileID: 4796539064769711096, guid: 34b73df011e9f534ea534e72f4de882c, type: 3}
-  - Name: LeftOne
-    PathType: 1
-    Tile: {fileID: 8369695486191793542, guid: 371c912d90134b3458915bed79b8d931, type: 3}
-  - Name: LeftTwo
-    PathType: 1
-    Tile: {fileID: 8369695486191793542, guid: f92d4e361af95794896b26675bce2acb, type: 3}
-  - Name: StraightPlaza
-    PathType: 0
-    Tile: {fileID: 6804672357335300688, guid: d7c72f9df2731ab4cab692a86770ea60, type: 3}
-  - Name: StraightOne
-    PathType: 0
-    Tile: {fileID: 6804672357335300688, guid: 3e90f519668f1cd4d86d3ecd600b59a3, type: 3}
-  - Name: StraightTwo
-    PathType: 0
-    Tile: {fileID: 6804672357335300688, guid: 85037278a82308841b2d125927f4a18d, type: 3}
-  - Name: EndPlaza
-    PathType: 3
-    Tile: {fileID: 6804672357335300688, guid: 0fdc015f82b2c7c4b9e93847e889a81e, type: 3}
-  - Name: EndOne
-    PathType: 3
-    Tile: {fileID: 6804672357335300688, guid: 507d3aad1b50f6843ac90ffbdb60b595, type: 3}
-  m_TileFather: {fileID: 1346119285}
-  orientacion: up
-  m_EnemySpawner: {fileID: 0}
 --- !u!4 &1735057699
 Transform:
   m_ObjectHideFlags: 0
@@ -3608,6 +3557,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HexTiles:
   - Name: CloseLeft_1
+    m_Chance: 1
     Bifurcations:
       Exit_1: 1
       Exit_2: 0
@@ -3637,6 +3587,7 @@ MonoBehaviour:
     HexTile: {fileID: 1724604541513878114, guid: bfe7d388c45f9a340ab0cd6746848c62,
       type: 3}
   - Name: CloseLeft_2
+    m_Chance: 1
     Bifurcations:
       Exit_1: 1
       Exit_2: 0
@@ -3666,6 +3617,7 @@ MonoBehaviour:
     HexTile: {fileID: 3236519894889363250, guid: 9dd18ceb200053649aad865e1ae8bc16,
       type: 3}
   - Name: CloseLeft_3
+    m_Chance: 1
     Bifurcations:
       Exit_1: 1
       Exit_2: 0
@@ -3695,6 +3647,7 @@ MonoBehaviour:
     HexTile: {fileID: 4310394104581009709, guid: f8b20012c859c5740bf6c903183d9b1d,
       type: 3}
   - Name: CloseRight_1
+    m_Chance: 1
     Bifurcations:
       Exit_1: 0
       Exit_2: 0
@@ -3724,6 +3677,7 @@ MonoBehaviour:
     HexTile: {fileID: 1724604541513878114, guid: cc5451492899b514abb0813ec862d7e5,
       type: 3}
   - Name: CloseRight_2
+    m_Chance: 1
     Bifurcations:
       Exit_1: 0
       Exit_2: 0
@@ -3753,6 +3707,7 @@ MonoBehaviour:
     HexTile: {fileID: 3236519894889363250, guid: daa412203fe95a942941db918dccfd0a,
       type: 3}
   - Name: CloseRight_3
+    m_Chance: 1
     Bifurcations:
       Exit_1: 0
       Exit_2: 0
@@ -3782,6 +3737,7 @@ MonoBehaviour:
     HexTile: {fileID: 4310394104581009709, guid: b79313b917825af4b8c6439a7fb29084,
       type: 3}
   - Name: End_1
+    m_Chance: 0.5
     Bifurcations:
       Exit_1: 0
       Exit_2: 0
@@ -3811,6 +3767,7 @@ MonoBehaviour:
     HexTile: {fileID: 8004503880869187092, guid: 689669926b7fc3341935fd9670b67cbf,
       type: 3}
   - Name: End_2
+    m_Chance: 0.5
     Bifurcations:
       Exit_1: 0
       Exit_2: 0
@@ -3840,6 +3797,7 @@ MonoBehaviour:
     HexTile: {fileID: 8280890478747456764, guid: a0fa02232f29b2f4f8646ede72ca57e0,
       type: 3}
   - Name: End_3
+    m_Chance: 0.5
     Bifurcations:
       Exit_1: 0
       Exit_2: 0
@@ -3869,6 +3827,7 @@ MonoBehaviour:
     HexTile: {fileID: 7510660563771722453, guid: 1accf300557af8f42b87f5368c877173,
       type: 3}
   - Name: LongLeft_1
+    m_Chance: 1
     Bifurcations:
       Exit_1: 0
       Exit_2: 1
@@ -3898,6 +3857,7 @@ MonoBehaviour:
     HexTile: {fileID: 1039170778232925723, guid: ec6edf822bc4a8d489fa88c7363ab794,
       type: 3}
   - Name: LongLeft_2
+    m_Chance: 1
     Bifurcations:
       Exit_1: 0
       Exit_2: 1
@@ -3927,6 +3887,7 @@ MonoBehaviour:
     HexTile: {fileID: 4877962098151580472, guid: 4485425b730dd4144a30f9b213f1c386,
       type: 3}
   - Name: LongLeft_3
+    m_Chance: 1
     Bifurcations:
       Exit_1: 0
       Exit_2: 1
@@ -3956,6 +3917,7 @@ MonoBehaviour:
     HexTile: {fileID: 7401218107390864005, guid: b9b6563e6e6ad1341bbe11db2c623888,
       type: 3}
   - Name: LongLeft_4
+    m_Chance: 1
     Bifurcations:
       Exit_1: 0
       Exit_2: 1
@@ -3985,6 +3947,7 @@ MonoBehaviour:
     HexTile: {fileID: 8539271684980000182, guid: ba5d079630f632d41ad04afa7ee83f25,
       type: 3}
   - Name: LongRight_1
+    m_Chance: 1
     Bifurcations:
       Exit_1: 0
       Exit_2: 0
@@ -4014,6 +3977,7 @@ MonoBehaviour:
     HexTile: {fileID: 1039170778232925723, guid: 920f8aec9007dc145bf9702a1f5a6b70,
       type: 3}
   - Name: LongRight_2
+    m_Chance: 1
     Bifurcations:
       Exit_1: 0
       Exit_2: 0
@@ -4043,6 +4007,7 @@ MonoBehaviour:
     HexTile: {fileID: 4877962098151580472, guid: 51c5659b5e852e445bbec13d791b43bc,
       type: 3}
   - Name: LongRight_3
+    m_Chance: 1
     Bifurcations:
       Exit_1: 0
       Exit_2: 0
@@ -4072,6 +4037,7 @@ MonoBehaviour:
     HexTile: {fileID: 7401218107390864005, guid: 4b9193f0aa7324f468bc35d28ba4db3e,
       type: 3}
   - Name: LongRight_4
+    m_Chance: 1
     Bifurcations:
       Exit_1: 0
       Exit_2: 0
@@ -4101,6 +4067,7 @@ MonoBehaviour:
     HexTile: {fileID: 8539271684980000182, guid: 88581bd7c0fa3804786c447e8ff8507e,
       type: 3}
   - Name: Straight_1
+    m_Chance: 1
     Bifurcations:
       Exit_1: 0
       Exit_2: 0
@@ -4130,6 +4097,7 @@ MonoBehaviour:
     HexTile: {fileID: 4962567121588490699, guid: 180878fc6a7201e4c9eb7bf8f44a044c,
       type: 3}
   - Name: Straight_2
+    m_Chance: 1
     Bifurcations:
       Exit_1: 0
       Exit_2: 0
@@ -4159,6 +4127,7 @@ MonoBehaviour:
     HexTile: {fileID: 7230534771081472712, guid: d2ff73632ae93344083e13553f31a21c,
       type: 3}
   - Name: Straight_3
+    m_Chance: 1
     Bifurcations:
       Exit_1: 0
       Exit_2: 0
@@ -4188,6 +4157,7 @@ MonoBehaviour:
     HexTile: {fileID: 6790089833013571467, guid: ee14dd0c39b6d104da5360ca81a283d1,
       type: 3}
   - Name: Straight_4
+    m_Chance: 1
     Bifurcations:
       Exit_1: 0
       Exit_2: 0
@@ -4217,6 +4187,7 @@ MonoBehaviour:
     HexTile: {fileID: 4641471824103506278, guid: 37770b34ba08e9047b3c04e92a8c2d61,
       type: 3}
   - Name: Straight_5
+    m_Chance: 1
     Bifurcations:
       Exit_1: 0
       Exit_2: 0
@@ -4246,6 +4217,7 @@ MonoBehaviour:
     HexTile: {fileID: 4641471824103506278, guid: d5d122edd5054384a87e1f0e4f8089ff,
       type: 3}
   - Name: Straight_6
+    m_Chance: 1
     Bifurcations:
       Exit_1: 0
       Exit_2: 0
@@ -4275,6 +4247,7 @@ MonoBehaviour:
     HexTile: {fileID: 4641471824103506278, guid: 7fe35146dd22fb245a6a6807fff6e618,
       type: 3}
   - Name: Div_Full
+    m_Chance: 0.1
     Bifurcations:
       Exit_1: 1
       Exit_2: 1
@@ -4304,6 +4277,7 @@ MonoBehaviour:
     HexTile: {fileID: 868416664493438407, guid: 31fd78bd7dc347f4d833a409742e4fb4,
       type: 3}
   - Name: Div_OneFive
+    m_Chance: 0.5
     Bifurcations:
       Exit_1: 1
       Exit_2: 0
@@ -4333,6 +4307,7 @@ MonoBehaviour:
     HexTile: {fileID: 4918003655088729709, guid: 6985219b425cc4948b191d2afc240d5d,
       type: 3}
   - Name: Div_OneTwoFourFive
+    m_Chance: 0.2
     Bifurcations:
       Exit_1: 1
       Exit_2: 1
@@ -4362,6 +4337,7 @@ MonoBehaviour:
     HexTile: {fileID: 4918003655088729709, guid: 3ae612bcfd000114dac0b4a4d9b517aa,
       type: 3}
   - Name: Div_TwoFour
+    m_Chance: 0.5
     Bifurcations:
       Exit_1: 0
       Exit_2: 1
@@ -4391,6 +4367,7 @@ MonoBehaviour:
     HexTile: {fileID: 6275168884179943000, guid: f20a21be7c6eb5a43adcb8a8c37aa008,
       type: 3}
   - Name: Div_TwoFourFive
+    m_Chance: 0.4
     Bifurcations:
       Exit_1: 0
       Exit_2: 1
@@ -4420,6 +4397,7 @@ MonoBehaviour:
     HexTile: {fileID: 1900648322591344912, guid: e8222e25e06a84a48a3b012bae20daac,
       type: 3}
   - Name: Div_ThreeFourFive
+    m_Chance: 0.4
     Bifurcations:
       Exit_1: 0
       Exit_2: 0
@@ -4449,6 +4427,7 @@ MonoBehaviour:
     HexTile: {fileID: 2303875216838103261, guid: 15a013cb912a8874da7b5e66694bd8dc,
       type: 3}
   - Name: Double_Straight_1
+    m_Chance: 0.05
     Bifurcations:
       Exit_1: 0
       Exit_2: 0
