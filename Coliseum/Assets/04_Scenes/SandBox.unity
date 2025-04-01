@@ -4456,6 +4456,66 @@ MonoBehaviour:
       Exit_22: 0
     HexTile: {fileID: 4310394104581009709, guid: 43b307769efe01b49a7facb805e9933f,
       type: 3}
+  - Name: Double_Turn4Left_1
+    m_Chance: 0.05
+    Bifurcations:
+      Exit_1: 0
+      Exit_2: 0
+      Exit_3: 0
+      Exit_4: 0
+      Exit_5: 0
+      End: 0
+    DoubleTile: 1
+    DoubleTileBifurcations:
+      Exit_6: 0
+      Exit_7: 0
+      Exit_8: 0
+      Exit_9: 1
+      Exit_10: 0
+      Exit_11: 0
+      Exit_12: 0
+      Exit_13: 0
+      Exit_14: 0
+      Exit_15: 0
+      Exit_16: 0
+      Exit_17: 0
+      Exit_18: 0
+      Exit_19: 0
+      Exit_20: 0
+      Exit_21: 0
+      Exit_22: 0
+    HexTile: {fileID: 7502994266355241207, guid: f629393496a2dcb438ff5cbac0e9019a,
+      type: 3}
+  - Name: Double_Turn4RIght_1
+    m_Chance: 0.05
+    Bifurcations:
+      Exit_1: 0
+      Exit_2: 0
+      Exit_3: 0
+      Exit_4: 0
+      Exit_5: 0
+      End: 0
+    DoubleTile: 1
+    DoubleTileBifurcations:
+      Exit_6: 0
+      Exit_7: 0
+      Exit_8: 0
+      Exit_9: 0
+      Exit_10: 0
+      Exit_11: 0
+      Exit_12: 0
+      Exit_13: 0
+      Exit_14: 0
+      Exit_15: 0
+      Exit_16: 0
+      Exit_17: 0
+      Exit_18: 0
+      Exit_19: 1
+      Exit_20: 0
+      Exit_21: 0
+      Exit_22: 0
+    HexTile: {fileID: 7502994266355241207, guid: e7553d4ba38249048b2bfa70583593e9,
+      type: 3}
   m_PathList: []
   m_PathZero: 1
   m_PathOne: 1

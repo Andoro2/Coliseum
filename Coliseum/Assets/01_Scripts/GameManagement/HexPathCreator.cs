@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Unity.VisualScripting;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -63,7 +64,7 @@ public class HexPathCreator : MonoBehaviour
                 BuildTrack(path, InitialTiles, m_PathStartPositions[i]);
             }
         }
-        //InvokeRepeating("AutoGenerate", 0f, 0.1f);
+        InvokeRepeating("AutoGenerate", 0f, 0.1f);
     }
     void Update()
     {
@@ -280,7 +281,7 @@ public class HexPathCreator : MonoBehaviour
 
         if (m_AvailableTracks.Count == 0)
         {
-            Debug.Log("No available tiles found, allowing ExitZero tiles.");
+            //Debug.Log("No available tiles found, allowing ExitZero tiles.");
 
             foreach (HexTileDetails tile in m_HexTiles)
             {
@@ -298,7 +299,7 @@ public class HexPathCreator : MonoBehaviour
     { 
         if (m_AvailablePaths.Count == 0 || Path.PathOrientation == HexOrientation.End)
         {
-            Debug.Log("No hay caminos disponibles, fin del camino.");
+            //Debug.Log("No hay caminos disponibles, fin del camino.");
             return;
         }
 
@@ -432,6 +433,8 @@ public class HexPathCreator : MonoBehaviour
     }
     private void UpdatePath(int HexTileBifurcation, PathDetails Path, GameObject GeneratedTile)
     {
+        if(HexTileBifurcation > 6) Path.m_PathNextPosition += UpdateNextTilePos(Path, HexTileBifurcation);
+
         if (HexTileBifurcation == 1
             || HexTileBifurcation == 6
             || HexTileBifurcation == 8
@@ -464,7 +467,7 @@ public class HexPathCreator : MonoBehaviour
             return;
         }
 
-        Path.m_PathNextPosition += UpdateNextTilePos(Path, HexTileBifurcation);
+        if (HexTileBifurcation < 6) Path.m_PathNextPosition += UpdateNextTilePos(Path, HexTileBifurcation);
 
         Path.m_NextTileChecker.transform.position = Path.m_PathNextPosition;
 
@@ -596,22 +599,7 @@ public class HexPathCreator : MonoBehaviour
     }
     private Vector3 UpdateNextTilePos(PathDetails PathOrientation, int BifurcationNumber)
     {
-        Debug.Log(BifurcationNumber);
         Vector3 NewPos = new Vector3();
-        List<Vector3> TileNewPos = new List<Vector3>
-        {
-            new Vector3(-15, 0, -10 * Mathf.Sqrt(3)), //  6  7
-            new Vector3(-30, 0,                   0), //  8
-            new Vector3(-30, 0,  10 * Mathf.Sqrt(3)), //  9 10
-            new Vector3(-30, 0,  15 * Mathf.Sqrt(3)), // 11
-            new Vector3(-15, 0,  25 * Mathf.Sqrt(3)), // 12 13
-            new Vector3(  0, 0,  60 * Mathf.Sqrt(3)), // 14
-            new Vector3( 15, 0,  25 * Mathf.Sqrt(3)), // 15 16
-            new Vector3( 30, 0,  15 * Mathf.Sqrt(3)), // 17
-            new Vector3( 30, 0,  10 * Mathf.Sqrt(3)), // 18 19
-            new Vector3( 30, 0,                   0), // 20
-            new Vector3( 15, 0, -10 * Mathf.Sqrt(3)), // 21 22
-        };
         if(BifurcationNumber < 6)
         {
             switch (PathOrientation.PathOrientation)
@@ -645,30 +633,340 @@ public class HexPathCreator : MonoBehaviour
             switch (PathOrientation.PathOrientation)
             {
                 case HexOrientation.Zero:
-                    NewPos.z -= (30 * Mathf.Sqrt(3));
+                    switch (BifurcationNumber)
+                    {
+                        case 6:
+                        case 7:
+                            NewPos += NextTileMovement(HexOrientation.Four);
+                            break;
+                        case 8:
+                            NewPos += NextTileMovement(HexOrientation.Five);
+                            NewPos += NextTileMovement(HexOrientation.Four);
+                            break;
+                        case 9:
+                        case 10:
+                            NewPos += NextTileMovement(HexOrientation.Five) * 2;
+                            break;
+                        case 11:
+                            NewPos += NextTileMovement(HexOrientation.Zero);
+                            NewPos += NextTileMovement(HexOrientation.Five) * 2;
+                            break;
+                        case 12:
+                        case 13:
+                            NewPos += NextTileMovement(HexOrientation.Zero) * 2;
+                            NewPos += NextTileMovement(HexOrientation.Five);
+                            break;
+                        case 14:
+                            NewPos += NextTileMovement(HexOrientation.Zero) * 3;
+                            break;
+                        case 15:
+                        case 16:
+                            NewPos += NextTileMovement(HexOrientation.Zero) * 2;
+                            NewPos += NextTileMovement(HexOrientation.One);
+                            break;
+                        case 17:
+                            NewPos += NextTileMovement(HexOrientation.Zero);
+                            NewPos += NextTileMovement(HexOrientation.One) * 2;
+                            break;
+                        case 18:
+                        case 19:
+                            NewPos += NextTileMovement(HexOrientation.One) * 2;
+                            break;
+                        case 20:
+                            NewPos += NextTileMovement(HexOrientation.One);
+                            NewPos += NextTileMovement(HexOrientation.Two);
+                            break;
+                        case 21:
+                        case 22:
+                            NewPos += NextTileMovement(HexOrientation.Two);
+                            break;
+                    }
                     break;
                 case HexOrientation.One:
-                    NewPos.x -= 45;
-                    NewPos.z -= (15 * Mathf.Sqrt(3));
+                    switch (BifurcationNumber)
+                    {
+                        case 6:
+                        case 7:
+                            NewPos += NextTileMovement(HexOrientation.Five);
+                            break;
+                        case 8:
+                            NewPos += NextTileMovement(HexOrientation.Zero);
+                            NewPos += NextTileMovement(HexOrientation.Five);
+                            break;
+                        case 9:
+                        case 10:
+                            NewPos += NextTileMovement(HexOrientation.Zero) * 2;
+                            break;
+                        case 11:
+                            NewPos += NextTileMovement(HexOrientation.One);
+                            NewPos += NextTileMovement(HexOrientation.Zero) * 2;
+                            break;
+                        case 12:
+                        case 13:
+                            NewPos += NextTileMovement(HexOrientation.One) * 2;
+                            NewPos += NextTileMovement(HexOrientation.Zero);
+                            break;
+                        case 14:
+                            NewPos += NextTileMovement(HexOrientation.One) * 3;
+                            break;
+                        case 15:
+                        case 16:
+                            NewPos += NextTileMovement(HexOrientation.One) * 2;
+                            NewPos += NextTileMovement(HexOrientation.Two);
+                            break;
+                        case 17:
+                            NewPos += NextTileMovement(HexOrientation.One);
+                            NewPos += NextTileMovement(HexOrientation.Two) * 2;
+                            break;
+                        case 18:
+                        case 19:
+                            NewPos += NextTileMovement(HexOrientation.Two) * 2;
+                            break;
+                        case 20:
+                            NewPos += NextTileMovement(HexOrientation.Two);
+                            NewPos += NextTileMovement(HexOrientation.Three);
+                            break;
+                        case 21:
+                        case 22:
+                            NewPos += NextTileMovement(HexOrientation.Three);
+                            break;
+                    }
                     break;
                 case HexOrientation.Two:
-                    NewPos.x -= 45;
-                    NewPos.z += (15 * Mathf.Sqrt(3));
+                    switch (BifurcationNumber)
+                    {
+                        case 6:
+                        case 7:
+                            NewPos += NextTileMovement(HexOrientation.Zero);
+                            break;
+                        case 8:
+                            NewPos += NextTileMovement(HexOrientation.One);
+                            NewPos += NextTileMovement(HexOrientation.Zero);
+                            break;
+                        case 9:
+                        case 10:
+                            NewPos += NextTileMovement(HexOrientation.One) * 2;
+                            break;
+                        case 11:
+                            NewPos += NextTileMovement(HexOrientation.Two);
+                            NewPos += NextTileMovement(HexOrientation.One) * 2;
+                            break;
+                        case 12:
+                        case 13:
+                            NewPos += NextTileMovement(HexOrientation.Two) * 2;
+                            NewPos += NextTileMovement(HexOrientation.One);
+                            break;
+                        case 14:
+                            NewPos += NextTileMovement(HexOrientation.Two) * 3;
+                            break;
+                        case 15:
+                        case 16:
+                            NewPos += NextTileMovement(HexOrientation.Two) * 2;
+                            NewPos += NextTileMovement(HexOrientation.Three);
+                            break;
+                        case 17:
+                            NewPos += NextTileMovement(HexOrientation.Two);
+                            NewPos += NextTileMovement(HexOrientation.Three) * 2;
+                            break;
+                        case 18:
+                        case 19:
+                            NewPos += NextTileMovement(HexOrientation.Three) * 2;
+                            break;
+                        case 20:
+                            NewPos += NextTileMovement(HexOrientation.Three);
+                            NewPos += NextTileMovement(HexOrientation.Four);
+                            break;
+                        case 21:
+                        case 22:
+                            NewPos += NextTileMovement(HexOrientation.Four);
+                            break;
+                    }
                     break;
                 case HexOrientation.Three:
-                    NewPos.z += (30 * Mathf.Sqrt(3));
+                    switch (BifurcationNumber)
+                    {
+                        case 6:
+                        case 7:
+                            NewPos += NextTileMovement(HexOrientation.One);
+                            break;
+                        case 8:
+                            NewPos += NextTileMovement(HexOrientation.Two);
+                            NewPos += NextTileMovement(HexOrientation.One);
+                            break;
+                        case 9:
+                        case 10:
+                            NewPos += NextTileMovement(HexOrientation.Two) * 2;
+                            break;
+                        case 11:
+                            NewPos += NextTileMovement(HexOrientation.Three);
+                            NewPos += NextTileMovement(HexOrientation.Two) * 2;
+                            break;
+                        case 12:
+                        case 13:
+                            NewPos += NextTileMovement(HexOrientation.Three) * 2;
+                            NewPos += NextTileMovement(HexOrientation.Two);
+                            break;
+                        case 14:
+                            NewPos += NextTileMovement(HexOrientation.Three) * 3;
+                            break;
+                        case 15:
+                        case 16:
+                            NewPos += NextTileMovement(HexOrientation.Three) * 2;
+                            NewPos += NextTileMovement(HexOrientation.Four);
+                            break;
+                        case 17:
+                            NewPos += NextTileMovement(HexOrientation.Three);
+                            NewPos += NextTileMovement(HexOrientation.Four) * 2;
+                            break;
+                        case 18:
+                        case 19:
+                            NewPos += NextTileMovement(HexOrientation.Four) * 2;
+                            break;
+                        case 20:
+                            NewPos += NextTileMovement(HexOrientation.Four);
+                            NewPos += NextTileMovement(HexOrientation.Five);
+                            break;
+                        case 21:
+                        case 22:
+                            NewPos += NextTileMovement(HexOrientation.Five);
+                            break;
+                    }
                     break;
                 case HexOrientation.Four:
-                    NewPos.x += 45;
-                    NewPos.z += (15 * Mathf.Sqrt(3));
+                    switch (BifurcationNumber)
+                    {
+                        case 6:
+                        case 7:
+                            NewPos += NextTileMovement(HexOrientation.Two);
+                            break;
+                        case 8:
+                            NewPos += NextTileMovement(HexOrientation.Three);
+                            NewPos += NextTileMovement(HexOrientation.Two);
+                            break;
+                        case 9:
+                        case 10:
+                            NewPos += NextTileMovement(HexOrientation.Three) * 2;
+                            break;
+                        case 11:
+                            NewPos += NextTileMovement(HexOrientation.Four);
+                            NewPos += NextTileMovement(HexOrientation.Three) * 2;
+                            break;
+                        case 12:
+                        case 13:
+                            NewPos += NextTileMovement(HexOrientation.Four) * 2;
+                            NewPos += NextTileMovement(HexOrientation.Three);
+                            break;
+                        case 14:
+                            NewPos += NextTileMovement(HexOrientation.Four) * 3;
+                            break;
+                        case 15:
+                        case 16:
+                            NewPos += NextTileMovement(HexOrientation.Four) * 2;
+                            NewPos += NextTileMovement(HexOrientation.Five);
+                            break;
+                        case 17:
+                            NewPos += NextTileMovement(HexOrientation.Four);
+                            NewPos += NextTileMovement(HexOrientation.Five) * 2;
+                            break;
+                        case 18:
+                        case 19:
+                            NewPos += NextTileMovement(HexOrientation.Five) * 2;
+                            break;
+                        case 20:
+                            NewPos += NextTileMovement(HexOrientation.Five);
+                            NewPos += NextTileMovement(HexOrientation.Zero);
+                            break;
+                        case 21:
+                        case 22:
+                            NewPos += NextTileMovement(HexOrientation.Zero);
+                            break;
+                    }
                     break;
                 case HexOrientation.Five:
-                    NewPos.x += 45;
-                    NewPos.z -= (15 * Mathf.Sqrt(3));
+                    switch (BifurcationNumber)
+                    {
+                        case 6:
+                        case 7:
+                            NewPos += NextTileMovement(HexOrientation.Three);
+                            break;
+                        case 8:
+                            NewPos += NextTileMovement(HexOrientation.Four);
+                            NewPos += NextTileMovement(HexOrientation.Three);
+                            break;
+                        case 9:
+                        case 10:
+                            NewPos += NextTileMovement(HexOrientation.Four) * 2;
+                            break;
+                        case 11:
+                            NewPos += NextTileMovement(HexOrientation.Five);
+                            NewPos += NextTileMovement(HexOrientation.Four) * 2;
+                            break;
+                        case 12:
+                        case 13:
+                            NewPos += NextTileMovement(HexOrientation.Five) * 2;
+                            NewPos += NextTileMovement(HexOrientation.Four);
+                            break;
+                        case 14:
+                            NewPos += NextTileMovement(HexOrientation.Five) * 3;
+                            break;
+                        case 15:
+                        case 16:
+                            NewPos += NextTileMovement(HexOrientation.Five) * 2;
+                            NewPos += NextTileMovement(HexOrientation.Zero);
+                            break;
+                        case 17:
+                            NewPos += NextTileMovement(HexOrientation.Five);
+                            NewPos += NextTileMovement(HexOrientation.Zero) * 2;
+                            break;
+                        case 18:
+                        case 19:
+                            NewPos += NextTileMovement(HexOrientation.Zero) * 2;
+                            break;
+                        case 20:
+                            NewPos += NextTileMovement(HexOrientation.Zero);
+                            NewPos += NextTileMovement(HexOrientation.One);
+                            break;
+                        case 21:
+                        case 22:
+                            NewPos += NextTileMovement(HexOrientation.One);
+                            break;
+                    }
                     break;
             }
         }
         return NewPos;
+
+        Vector3 NextTileMovement(HexOrientation Orientation)
+        {
+            Vector3 Movement = new Vector3();
+            switch (Orientation)
+            {
+                case HexOrientation.Zero:
+                    Movement.z -= (10 * Mathf.Sqrt(3));
+                    break;
+                case HexOrientation.One:
+                    Movement.x -= 15;
+                    Movement.z -= (5 * Mathf.Sqrt(3));
+                    break;
+                case HexOrientation.Two:
+                    Movement.x -= 15;
+                    Movement.z += (5 * Mathf.Sqrt(3));
+                    break;
+                case HexOrientation.Three:
+                    Movement.z += (10 * Mathf.Sqrt(3));
+                    break;
+                case HexOrientation.Four:
+                    Movement.x += 15;
+                    Movement.z += (5 * Mathf.Sqrt(3));
+                    break;
+                case HexOrientation.Five:
+                    Movement.x += 15;
+                    Movement.z -= (5 * Mathf.Sqrt(3));
+                    break;
+            }
+            return Movement;
+        }
+
     }
     [System.Serializable]
     public class HexTileDetails
