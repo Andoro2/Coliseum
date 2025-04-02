@@ -64,7 +64,7 @@ public class HexPathCreator : MonoBehaviour
                 BuildTrack(path, InitialTiles, m_PathStartPositions[i]);
             }
         }
-        InvokeRepeating("AutoGenerate", 0f, 0.1f);
+        //InvokeRepeating("AutoGenerate", 0f, 0.1f);
     }
     void Update()
     {

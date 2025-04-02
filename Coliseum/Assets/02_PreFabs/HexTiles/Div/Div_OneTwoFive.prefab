@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1940583125030702904}
   m_Layer: 0
-  m_Name: Div_TwoFourFive
+  m_Name: Div_OneTwoFive
   m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -41,6 +41,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1940583125030702904}
     m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: fbf8396f312b9a04d9346dcfbcdc13e0,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: -100
+      objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: fbf8396f312b9a04d9346dcfbcdc13e0,
         type: 3}
       propertyPath: m_LocalPosition.x

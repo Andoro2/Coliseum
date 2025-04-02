@@ -9,11 +9,12 @@ TagManager:
   - Turret
   - Ground
   - PathSelector
+  - Constructable
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Constructable
   - Water
   - UI
   - 

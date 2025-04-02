@@ -217,6 +217,11 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 427bae9dc434ac14d9ca1ed8703ef20e,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: b90800171f0ba3348a4ff7f2349a4a98, type: 2}
     - target: {fileID: 919132149155446097, guid: 427bae9dc434ac14d9ca1ed8703ef20e,
         type: 3}
       propertyPath: m_Name
@@ -224,8 +229,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 427bae9dc434ac14d9ca1ed8703ef20e,
         type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 427bae9dc434ac14d9ca1ed8703ef20e,
+        type: 3}
       propertyPath: m_TagString
-      value: Ground
+      value: Constructable
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
