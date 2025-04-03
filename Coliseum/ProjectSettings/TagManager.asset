@@ -10,6 +10,7 @@ TagManager:
   - Ground
   - PathSelector
   - Constructable
+  - PathBifurcation
   layers:
   - Default
   - TransparentFX
