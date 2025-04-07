@@ -476,6 +476,8 @@ public class HexPathCreator : MonoBehaviour
         Path.m_NextTileChecker.transform.rotation = Quaternion.Euler(0, yRotation, 0);
 
         GeneratedTile.gameObject.transform.SetParent(Path.m_Container.gameObject.transform);
+
+        GetComponent<EnemySpawner>().UpdatePathList(Path, GeneratedTile);
     }
     private int adjustRotation(PathDetails camino)
     {

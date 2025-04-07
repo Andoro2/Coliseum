@@ -9,12 +9,6 @@ public class EnemyMovement : MonoBehaviour
 {
     public float m_Health, m_Speed = 5f;
     public List<Transform> m_Path = new List<Transform>();
-    //public List<GameObject> m_PathSelectorFatherList = new List<GameObject>();
-
-    void Start()
-    {
-        
-    }
 
     void Update()
     {
@@ -37,10 +31,6 @@ public class EnemyMovement : MonoBehaviour
         if (other.CompareTag("PathSelector"))
         {
             AssignPath(other.gameObject);
-            /*if(!m_PathSelectorFatherList.Contains(other.gameObject.transform.parent.gameObject))
-            {
-                AssignPath(other.gameObject.transform.parent.gameObject);
-            }*/
         }
     }
 

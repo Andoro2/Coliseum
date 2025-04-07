@@ -3431,11 +3431,12 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1735057697}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 885e433c195c51a48bff196796c9e34e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_PathSpawns: []
   SpawnPoint: {fileID: 1024853286}
   m_EnemyTypes:
   - {fileID: 2365854645322114647, guid: 039dde88dfa2371408672f4b7bed873b, type: 3}

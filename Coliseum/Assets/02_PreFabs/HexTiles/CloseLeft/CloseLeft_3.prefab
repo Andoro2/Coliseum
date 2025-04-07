@@ -170,7 +170,7 @@ GameObject:
   - component: {fileID: 4094849724836598492}
   - component: {fileID: 6275620710169210098}
   m_Layer: 0
-  m_Name: Path
+  m_Name: Path0
   m_TagString: PathSelector
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -185,7 +185,7 @@ Transform:
   m_GameObject: {fileID: 6455367819204977557}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.5, z: -0, w: 0.8660254}
-  m_LocalPosition: {x: -7.5, y: 0, z: -4.33}
+  m_LocalPosition: {x: -7.5, y: 0.2, z: -4.33}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
