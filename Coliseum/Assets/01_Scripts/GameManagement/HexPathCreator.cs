@@ -148,6 +148,8 @@ public class HexPathCreator : MonoBehaviour
         path.m_NextTileChecker.name = "TileChecker_" + path.ID;
 
         path.m_PathNextPosition += UpdateNextTilePos(path, newOrientation);
+
+        GetComponent<EnemySpawner>().UpdatePathList(path, GeneratedTile);
     }    
     void AutoGenerate()
     {
@@ -462,6 +464,7 @@ public class HexPathCreator : MonoBehaviour
         {
             Path.PathOrientation = HexOrientation.End;
             GeneratedTile.gameObject.transform.SetParent(Path.m_Container.gameObject.transform);
+            GetComponent<EnemySpawner>().UpdatePathList(Path, GeneratedTile);
             Destroy(Path.m_NextTileChecker);
             m_PathList.Remove(Path);
             return;

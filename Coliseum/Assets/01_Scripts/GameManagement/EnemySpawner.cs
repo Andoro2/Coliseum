@@ -13,13 +13,17 @@ public class EnemySpawner : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        InvokeRepeating("SpawnEnemy", 1f, 2f);
+        //InvokeRepeating("SpawnEnemy", 1f, 2f);
     }
 
     // Update is called once per frame
     void Update()
     {
         //SpawnPoint = m_SpawnPoint;
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            SpawnEnemy();
+        }
     }
     void SpawnEnemy()
     {
@@ -35,14 +39,18 @@ public class EnemySpawner : MonoBehaviour
     }*/
     public void UpdatePathList(PathDetails path, GameObject tile)
     {
-        GameObject spwnP = tile.transform.Find("Path0").gameObject;
-        if (m_PathSpawns.Any(spwn => spwn.ID == path.ID)) // si ya existe el path
+        PathSpawn existente = m_PathSpawns.FirstOrDefault(spwn => spwn.ID == path.ID);
+
+        if (existente != null) // Ya existe el path
         {
-            m_PathSpawns.FirstOrDefault(p => p.ID == path.ID).m_PathSpawnPoint = spwnP;
+            Debug.Log("Existe el path: " + path.ID);
+            GameObject spwnP = GetNextAvailablePath(tile);
+            if (spwnP != null)
+                existente.m_PathSpawnPoint = spwnP;
         }
         else
         {
-            spwnP = GetNextAvailablePath(tile);
+            GameObject spwnP = GetNextAvailablePath(tile);
             if (spwnP != null)
             {
                 PathSpawn nuevo = new PathSpawn
@@ -51,6 +59,7 @@ public class EnemySpawner : MonoBehaviour
                     m_PathSpawnPoint = spwnP
                 };
                 m_PathSpawns.Add(nuevo);
+                Debug.Log("Nuevo path creado: " + nuevo.ID);
             }
         }
     }
@@ -65,7 +74,7 @@ public class EnemySpawner : MonoBehaviour
             {
                 GameObject posible = hijo.gameObject;
 
-                bool used = m_PathSpawns.Any(p => p.m_PathSpawnPoint == posible);
+                bool used = m_PathSpawns.Any(p => p.m_PathSpawnPoint.transform.position == posible.transform.position);
                 if (!used)
                     return posible;
             }

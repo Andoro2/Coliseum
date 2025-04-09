@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2992615812754193085}
   m_Layer: 0
   m_Name: Path (6)
-  m_TagString: PathBifurcation
+  m_TagString: PathSelector
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -104,7 +104,7 @@ GameObject:
   - component: {fileID: 6118426002734184014}
   m_Layer: 0
   m_Name: PathBif.1
-  m_TagString: PathBifurcation
+  m_TagString: PathSelector
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -136,7 +136,7 @@ GameObject:
   - component: {fileID: 1393168485650975559}
   m_Layer: 0
   m_Name: PathBif.2
-  m_TagString: PathBifurcation
+  m_TagString: PathSelector
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -232,7 +232,7 @@ GameObject:
   - component: {fileID: 6600953967236762841}
   m_Layer: 0
   m_Name: PathBif.2
-  m_TagString: PathBifurcation
+  m_TagString: PathSelector
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -264,7 +264,7 @@ GameObject:
   - component: {fileID: 312114436425251709}
   m_Layer: 0
   m_Name: PathBif.1
-  m_TagString: PathBifurcation
+  m_TagString: PathSelector
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -295,7 +295,7 @@ GameObject:
   m_Component:
   - component: {fileID: 98022388383526691}
   m_Layer: 0
-  m_Name: Path (7)
+  m_Name: Path (8)
   m_TagString: PathSelector
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -309,8 +309,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3367754053791376507}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0.25881916, z: -0, w: -0.9659258}
-  m_LocalPosition: {x: 4.3301888, y: 0, z: -7.4998913}
+  m_LocalRotation: {x: -0, y: -0.5, z: -0, w: 0.8660254}
+  m_LocalPosition: {x: 7.49989, y: 0, z: 4.3301907}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -327,7 +327,7 @@ GameObject:
   - component: {fileID: 5989561721674433963}
   m_Layer: 0
   m_Name: Path (6)
-  m_TagString: PathBifurcation
+  m_TagString: PathSelector
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -371,8 +371,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3668094054496022770}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0.25881916, z: -0, w: -0.9659258}
-  m_LocalPosition: {x: 8.660178, y: 0, z: 0.9998658}
+  m_LocalRotation: {x: -0, y: -0.5, z: -0, w: 0.8660254}
+  m_LocalPosition: {x: -0.9998679, y: 0, z: 8.660177}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -402,8 +402,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4064431210610168008}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0.25881916, z: -0, w: -0.9659258}
-  m_LocalPosition: {x: 6.0621023, y: 0, z: 2.4998665}
+  m_LocalRotation: {x: -0, y: -0.5, z: -0, w: 0.8660254}
+  m_LocalPosition: {x: -2.499868, y: 0, z: 6.062102}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -420,7 +420,7 @@ GameObject:
   - component: {fileID: 7469104790525812208}
   m_Layer: 0
   m_Name: Path (6)
-  m_TagString: PathBifurcation
+  m_TagString: PathSelector
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -484,7 +484,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6287256331296512695}
   m_Layer: 0
-  m_Name: Path (7)
+  m_Name: Path (8)
   m_TagString: PathSelector
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -548,7 +548,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8252201214807884407}
   m_Layer: 0
-  m_Name: Path (6)
+  m_Name: Path (7)
   m_TagString: PathSelector
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -593,8 +593,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5682794003937230764}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0.25881916, z: -0, w: -0.9659258}
-  m_LocalPosition: {x: 1.7320381, y: 0, z: -0.000022515655}
+  m_LocalRotation: {x: -0, y: -0.5, z: -0, w: 0.8660254}
+  m_LocalPosition: {x: 0.000022053719, y: 0, z: 1.7320381}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -655,8 +655,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7036381626350286495}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0.25881916, z: -0, w: -0.9659258}
-  m_LocalPosition: {x: 8.660191, y: 0, z: -0.000112473965}
+  m_LocalRotation: {x: -0, y: -0.5, z: -0, w: 0.8660254}
+  m_LocalPosition: {x: 0.00011014938, y: 0, z: 8.660191}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -751,7 +751,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -813,7 +813,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7938158402743660457}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0.25881916, z: -0, w: -0.9659258}
+  m_LocalRotation: {x: 0, y: 0.5, z: 0, w: 0.8660254}
   m_LocalPosition: {x: -7.5, y: 0.2, z: -4.33}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -828,7 +828,7 @@ Transform:
   - {fileID: 8038267650791901670}
   - {fileID: 98022388383526691}
   m_Father: {fileID: 5299562136841734143}
-  m_LocalEulerAnglesHint: {x: 0, y: 330, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 60, z: 0}
 --- !u!65 &270396698561462187
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -844,12 +844,12 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 2}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 2, y: 2, z: 1}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!1 &8051924488245857752
 GameObject:
   m_ObjectHideFlags: 0
@@ -861,7 +861,7 @@ GameObject:
   - component: {fileID: 8330073079190681422}
   m_Layer: 0
   m_Name: Path (6)
-  m_TagString: PathBifurcation
+  m_TagString: PathSelector
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -891,7 +891,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8038267650791901670}
   m_Layer: 0
-  m_Name: Path (6)
+  m_Name: Path (7)
   m_TagString: PathSelector
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -905,8 +905,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8423033018371821443}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0.25881916, z: -0, w: -0.9659258}
-  m_LocalPosition: {x: 5.196189, y: 0, z: -5.999936}
+  m_LocalRotation: {x: -0, y: -0.5, z: -0, w: 0.8660254}
+  m_LocalPosition: {x: 5.999934, y: 0, z: 5.1961904}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -936,8 +936,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8469433728316234217}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0.25881916, z: -0, w: -0.9659258}
-  m_LocalPosition: {x: 8.660191, y: 0, z: -0.000112473965}
+  m_LocalRotation: {x: -0, y: -0.5, z: -0, w: 0.8660254}
+  m_LocalPosition: {x: 0.00011014938, y: 0, z: 8.660191}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -967,7 +967,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8518648868802015129}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0.25881916, z: -0, w: -0.9659258}
+  m_LocalRotation: {x: -0, y: -0.5, z: -0, w: 0.8660254}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -998,8 +998,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8543286308951559702}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0.25881916, z: -0, w: -0.9659258}
-  m_LocalPosition: {x: 7.794141, y: 0, z: 2.4998436}
+  m_LocalRotation: {x: -0, y: -0.5, z: -0, w: 0.8660254}
+  m_LocalPosition: {x: -2.499846, y: 0, z: 7.79414}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
