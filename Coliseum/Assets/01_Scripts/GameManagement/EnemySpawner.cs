@@ -6,21 +6,20 @@ using static HexPathCreator;
 
 public class EnemySpawner : MonoBehaviour
 {
+    #region EnemySpawn 
     public List<PathSpawn> m_PathSpawns = new List<PathSpawn>();
-    //static GameObject m_SpawnPoint;
     public GameObject SpawnPoint;
     public List<GameObject> m_EnemyTypes = new List<GameObject>();
     // Start is called before the first frame update
     void Start()
     {
-        //InvokeRepeating("SpawnEnemy", 1f, 2f);
+        InvokeRepeating("SpawnEnemy", 1f, 2.5f);
     }
 
     // Update is called once per frame
     void Update()
     {
-        //SpawnPoint = m_SpawnPoint;
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.M))
         {
             SpawnEnemy();
         }
@@ -33,17 +32,14 @@ public class EnemySpawner : MonoBehaviour
             enemy.GetComponent<EnemyMovement>().AssignPath(spawnPoint.m_PathSpawnPoint);
         }
     }
-    /*public void SetNewSpawnPoint(GameObject NewSpawnPoint)
-    {
-        m_SpawnPoint = NewSpawnPoint;
-    }*/
+
     public void UpdatePathList(PathDetails path, GameObject tile)
     {
         PathSpawn existente = m_PathSpawns.FirstOrDefault(spwn => spwn.ID == path.ID);
 
         if (existente != null) // Ya existe el path
         {
-            Debug.Log("Existe el path: " + path.ID);
+            //Debug.Log("Existe el path: " + path.ID);
             GameObject spwnP = GetNextAvailablePath(tile);
             if (spwnP != null)
                 existente.m_PathSpawnPoint = spwnP;
@@ -59,7 +55,7 @@ public class EnemySpawner : MonoBehaviour
                     m_PathSpawnPoint = spwnP
                 };
                 m_PathSpawns.Add(nuevo);
-                Debug.Log("Nuevo path creado: " + nuevo.ID);
+                //Debug.Log("Nuevo path creado: " + nuevo.ID);
             }
         }
     }
@@ -87,4 +83,39 @@ public class EnemySpawner : MonoBehaviour
         public string ID = "path_";
         public GameObject m_PathSpawnPoint;
     }
+    #endregion
+
+    #region Elemental System
+
+    public enum Types
+    {
+        Normal,
+        Fire,
+        Ice,
+        Wind,
+        Tech,
+        Earth,
+        Blood,
+        Lightning
+    }
+    public static class Type
+    {
+        public static Types Element = Types.Normal;
+    }
+
+    public enum States
+    {
+        Null,
+        Slow,
+        Stun,
+        Burn,
+        Wet,
+        Blood
+    }
+    public static class Stage
+    {
+        public static States Element = States.Null;
+    }
+
+    #endregion
 }

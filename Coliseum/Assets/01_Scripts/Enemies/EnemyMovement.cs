@@ -7,9 +7,9 @@ using System.Linq;
 
 public class EnemyMovement : MonoBehaviour
 {
-    public float m_Health, m_Speed = 5f;
+    public float m_Speed = 5f;
     public List<Transform> m_Path = new List<Transform>();
-
+    public List<GameObject> m_TurretsTargetedBy = new List<GameObject>();
     void Update()
     {
         if (m_Path.Count > 0)
@@ -34,7 +34,18 @@ public class EnemyMovement : MonoBehaviour
         }
         if (other.CompareTag("Finish"))
         {
+            foreach(GameObject turret in m_TurretsTargetedBy)
+            {
+                if (turret.GetComponent<InRangeManager>().enemiesInRange.Contains(gameObject))
+                {
+                    turret.GetComponent<InRangeManager>().RemoveFromList(gameObject);
+                }
+            }
             Destroy(gameObject);
+        }
+        if (other.CompareTag("Turret"))
+        {
+            m_TurretsTargetedBy.Add(other.gameObject);
         }
     }
 
@@ -42,18 +53,12 @@ public class EnemyMovement : MonoBehaviour
     {
         m_Path.Clear();
 
-        //GameObject m_PathSelectorFather = PathSelector.gameObject.transform.parent.gameObject;
-
-        //m_PathSelectorFatherList.Add(m_PathSelectorFather);
-
-
         for (int i = 0; i < PathSelector.transform.childCount; i++)
         {
             GameObject child = PathSelector.transform.GetChild(i).gameObject;
 
             if(child.CompareTag("PathBifurcation"))
             {
-                // elegir aleatoriamente un hijo y añadir los paths
                 GameObject pathBifurcationChosen = child.transform.GetChild(Random.Range(0, child.transform.childCount)).gameObject;
 
                 for (int m = 0; m < pathBifurcationChosen.transform.childCount; m++)
@@ -73,11 +78,4 @@ public class EnemyMovement : MonoBehaviour
 
         m_Path = new List<Transform>(uniqueChildren);
     }
-    /*private void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("Turret"))
-        {
-            other.GetComponent<Ballista>().EnemyLeavesRange(gameObject);
-        }
-    }*/
 }
