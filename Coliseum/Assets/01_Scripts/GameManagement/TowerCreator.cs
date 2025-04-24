@@ -5,12 +5,16 @@ using UnityEngine.UIElements;
 
 public class TowerCreator : MonoBehaviour
 {
-    public GameObject m_TurretSketch, m_TurretBuilt;
+    public GameObject m_TurretSketch, m_TurretToBuild;
     private GameObject InstancedSketch;
     public LayerMask BuildableLayer;
     public Material WrongPlacement, CorrectPlacement;
 
     public bool OnGround = false, OverTowers = false;
+    void Start()
+    {
+
+    }
     void Update()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -45,7 +49,12 @@ public class TowerCreator : MonoBehaviour
 
             if (Input.GetMouseButtonDown(0) && OnGround && !OverTowers && InstancedSketch != null)
             {
-                Instantiate(m_TurretBuilt, targetPos, Quaternion.identity);
+                Instantiate(m_TurretToBuild, targetPos, Quaternion.identity);
+                if(!Input.GetKey(KeyCode.LeftShift))
+                {
+                    Destroy(InstancedSketch);
+                    GetComponent<TowerCreator>().enabled = false;
+                }
             }
         }
         else
@@ -55,6 +64,11 @@ public class TowerCreator : MonoBehaviour
                 Destroy(InstancedSketch);
                 InstancedSketch = null;
             }
+        }
+        if (Input.GetMouseButtonDown(1))
+        {
+            if(InstancedSketch != null) Destroy(InstancedSketch);
+            GetComponent<TowerCreator>().enabled = false;
         }
 
         Vector3 GridAdjust(Vector3 hitPos)
@@ -78,6 +92,11 @@ public class TowerCreator : MonoBehaviour
 
             return new Vector3(xFinal, 2f, zFinal);
         }
+    }
+    public void SetTowerToBuild(GameObject thisTurret)
+    {
+        Debug.Log("Torreta asignada");
+        m_TurretToBuild = thisTurret;
     }
     public bool CheckIsOverlapWithTowers(Transform tower)
     {
