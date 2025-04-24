@@ -11,6 +11,8 @@ TagManager:
   - PathSelector
   - Constructable
   - PathBifurcation
+  - Buildable
+  - CreateTileCanvas
   layers:
   - Default
   - TransparentFX

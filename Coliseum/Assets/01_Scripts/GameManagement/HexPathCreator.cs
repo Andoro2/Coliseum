@@ -61,6 +61,8 @@ public class HexPathCreator : MonoBehaviour
 
                 m_PathList.Add(path);
 
+                path.m_NextTileChecker.transform.Find("Canvas").GetComponent<TileCreateButton>().SetTheWay(path);
+
                 BuildTrack(path, InitialTiles, m_PathStartPositions[i]);
             }
         }
@@ -149,6 +151,8 @@ public class HexPathCreator : MonoBehaviour
 
         path.m_PathNextPosition += UpdateNextTilePos(path, newOrientation);
 
+        path.m_NextTileChecker.transform.Find("Canvas").GetComponent<TileCreateButton>().SetTheWay(path);
+
         GetComponent<EnemySpawner>().UpdatePathList(path, GeneratedTile);
     }    
     void AutoGenerate()
@@ -171,6 +175,8 @@ public class HexPathCreator : MonoBehaviour
 
         Transform NextTileChecker = Track.m_NextTileChecker.transform, 
             DoubleTileChecker = NextTileChecker.transform.Find("DoubleTileChecker").transform;
+
+        NextTileChecker.Find("Canvas").GetComponent<TileCreateButton>().SetTheWay(Track);
 
         bool DoubleTileFits = true;
 

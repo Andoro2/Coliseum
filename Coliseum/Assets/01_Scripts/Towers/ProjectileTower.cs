@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class ProjectileTower : MonoBehaviour
 {
-    public float m_Damage, m_ElementalDamage;
+    public float m_Damage, m_BaseDamage, m_ElementalDamage;
     public EnemySpawner.Types m_ProjectileElement = EnemySpawner.Types.Normal;
     public float m_ShootPerMinute = 30f,
         m_Range = 1000f;
+    private int m_Level;
 
     public float m_ShootTimer = 0f;
-    private GameObject RangeMesh;
     public GameObject m_Projectile,
         m_ShootPoint;
 
@@ -20,13 +20,19 @@ public class ProjectileTower : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        RangeMesh = transform.GetChild(1).gameObject;
         m_ShootTimer = 60f / m_ShootPerMinute;
+        //m_Level = GetComponent<TowerStats>().m_Level;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(m_Level!= GetComponent<TowerStats>().m_Level)
+        {
+            m_Level = GetComponent<TowerStats>().m_Level;
+            IncreaseDamage();
+        }
+
         if (m_ShootTimer > 0) m_ShootTimer -= Time.deltaTime;
 
         UpdateEnemyList();
@@ -73,17 +79,9 @@ public class ProjectileTower : MonoBehaviour
         }
 
     }
-    public void IncreaseRange()
+    public void IncreaseDamage()
     {
-        RangeMesh.transform.localScale = new Vector3(
-        transform.localScale.x + 250f,
-        transform.localScale.y + 250f,
-        transform.localScale.z
-);
-    }
-    public void IncreaseDamage(float ExtraDamage)
-    {
-        m_Damage+= ExtraDamage;
+        m_Damage = m_BaseDamage * m_Level;
     }
     void UpdateEnemyList()
     {
