@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TowerStats : MonoBehaviour
 {
-    public int m_Level = 1;
+    public int m_Level = 1, m_Cost;
     private int leveles;
     public GameObject m_RangeMesh;
     // Start is called before the first frame update

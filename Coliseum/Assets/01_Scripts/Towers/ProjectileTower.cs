@@ -36,7 +36,7 @@ public class ProjectileTower : MonoBehaviour
         if (m_ShootTimer > 0) m_ShootTimer -= Time.deltaTime;
 
         UpdateEnemyList();
-        m_Target = SetTarget();
+        if(m_Target == null) m_Target = SetTarget();
 
         if (m_Target != null)
         {
@@ -67,9 +67,16 @@ public class ProjectileTower : MonoBehaviour
         {
             m_EnemiesInRange.Sort((enemy1, enemy2) =>
             {
-                float distanceToEnemy1 = Vector3.Distance(transform.position, enemy1.transform.position);
-                float distanceToEnemy2 = Vector3.Distance(transform.position, enemy2.transform.position);
-                return distanceToEnemy1.CompareTo(distanceToEnemy2);
+                if(enemy1 != null && enemy2 != null)
+                {
+                    float distanceToEnemy1 = Vector3.Distance(transform.position, enemy1.transform.position);
+                    float distanceToEnemy2 = Vector3.Distance(transform.position, enemy2.transform.position);
+                    return distanceToEnemy1.CompareTo(distanceToEnemy2);
+                }
+                else
+                {
+                    return 0;
+                }
             });
             return m_EnemiesInRange[0];
         }

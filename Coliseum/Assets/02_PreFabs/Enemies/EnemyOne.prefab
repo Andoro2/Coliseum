@@ -174,9 +174,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35aff42ae73b7be438f8d4c0d79c564e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Speed: 25
+  m_Speed: 15
   m_Path:
   - {fileID: 0}
+  m_TurretsTargetedBy: []
 --- !u!54 &2756676106246347585
 Rigidbody:
   m_ObjectHideFlags: 0

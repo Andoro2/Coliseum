@@ -11,8 +11,8 @@ TagManager:
   - PathSelector
   - Constructable
   - PathBifurcation
-  - Buildable
   - CreateTileCanvas
+  - TurretRange
   layers:
   - Default
   - TransparentFX

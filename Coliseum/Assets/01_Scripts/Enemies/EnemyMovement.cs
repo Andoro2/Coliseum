@@ -43,7 +43,7 @@ public class EnemyMovement : MonoBehaviour
             }
             Destroy(gameObject);
         }
-        if (other.CompareTag("Turret"))
+        if (other.CompareTag("TurretRange"))
         {
             m_TurretsTargetedBy.Add(other.gameObject);
         }

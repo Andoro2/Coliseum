@@ -5,6 +5,7 @@ using UnityEngine;
 public class EnemyManager : MonoBehaviour
 {
     public float m_Health = 5f;
+    public int m_Value = 50;
     public EnemySpawner.Types EnemyType = EnemySpawner.Types.Normal;
     public float m_ResistanceFire,
         m_ResistanceIce,
@@ -45,6 +46,9 @@ public class EnemyManager : MonoBehaviour
                 turret.GetComponent<InRangeManager>().RemoveFromList(gameObject);
             }
         }
+
+        GameObject.FindWithTag("GameController").transform.GetComponent<GameManager>().GetPaid(m_Value);
+
         Destroy(gameObject);
     }
     public void TakeDamage(float Damage, float ElementalDamage, EnemySpawner.Types Elemento)

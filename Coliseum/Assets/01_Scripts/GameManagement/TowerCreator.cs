@@ -24,7 +24,7 @@ public class TowerCreator : MonoBehaviour
         {
 
             Vector3 targetPos = GridAdjust(hit.point);
-
+            targetPos += Vector3.down;
             if(InstancedSketch == null)
             {
                 InstancedSketch = Instantiate(m_TurretSketch, targetPos, Quaternion.identity);
@@ -47,9 +47,13 @@ public class TowerCreator : MonoBehaviour
                 InstancedSketch.transform.position = targetPos;
             }
 
-            if (Input.GetMouseButtonDown(0) && OnGround && !OverTowers && InstancedSketch != null)
+            if (Input.GetMouseButtonDown(0) && OnGround && !OverTowers && InstancedSketch != null
+                && GetComponent<GameManager>().m_Currency >= m_TurretToBuild.GetComponent<TowerStats>().m_Cost)
             {
                 Instantiate(m_TurretToBuild, targetPos, Quaternion.identity);
+
+                GetComponent<GameManager>().SpendMoney(m_TurretToBuild.GetComponent<TowerStats>().m_Cost);
+
                 if(!Input.GetKey(KeyCode.LeftShift))
                 {
                     Destroy(InstancedSketch);
@@ -95,7 +99,7 @@ public class TowerCreator : MonoBehaviour
     }
     public void SetTowerToBuild(GameObject thisTurret)
     {
-        Debug.Log("Torreta asignada");
+        //Debug.Log("Torreta asignada");
         m_TurretToBuild = thisTurret;
     }
     public bool CheckIsOverlapWithTowers(Transform tower)
@@ -118,7 +122,7 @@ public class TowerCreator : MonoBehaviour
     }
     public bool CheckIsOnGround(GameObject TowerSketch)
     {
-        float checkRadius = 0.5f;
+        float checkRadius = 0.05f;
         foreach (Transform child in TowerSketch.transform.GetChild(1))
         {
             bool inTerrain = false;
