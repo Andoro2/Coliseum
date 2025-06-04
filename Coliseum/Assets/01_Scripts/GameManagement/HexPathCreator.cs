@@ -6,6 +6,8 @@ using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using static TileElementAsigned;
+using static UnityEngine.Rendering.DebugUI;
 
 public class HexPathCreator : MonoBehaviour
 {
@@ -18,6 +20,7 @@ public class HexPathCreator : MonoBehaviour
     public bool m_PathZero, m_PathOne, m_PathTwo, m_PathThree, m_PathFour, m_PathFive;
 
     public GameObject m_TileContainer, m_PathHolder, m_NextTileChecker;
+
 
     void Start()
     {
@@ -356,6 +359,8 @@ public class HexPathCreator : MonoBehaviour
         }
 
         GameObject GeneratedTile = Instantiate(Tile.HexTile, NextTilePos, Quaternion.identity);
+
+        GeneratedTile.GetComponent<TileElementAsigned>().AssignElement(TileElementsData[Random.Range(0, TileElementsData.Count)]);
 
         float yRotation = adjustRotation(Path) % 360;
         GeneratedTile.transform.rotation = Quaternion.Euler(0, yRotation, 0);
@@ -1026,6 +1031,14 @@ public class HexPathCreator : MonoBehaviour
         }
 
         return true; // No hay colisión, se puede colocar tile
+    }
+    public List<ElementData> TileElementsData = new List<ElementData>();
+    [System.Serializable]
+    public class ElementData
+    {
+        public string Name;
+        public TileElements Element = TileElements.Null;
+        public Material TileMat;
     }
     void ReloadScene()
     {

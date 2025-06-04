@@ -6074,7 +6074,97 @@ MonoBehaviour:
       Exit_22: 0
     HexTile: {fileID: 4641471824103506278, guid: 7fe35146dd22fb245a6a6807fff6e618,
       type: 3}
-  - Name: Div_Full
+  - Name: Straight_7
+    m_Chance: 1
+    Bifurcations:
+      Exit_1: 0
+      Exit_2: 0
+      Exit_3: 1
+      Exit_4: 0
+      Exit_5: 0
+      End: 0
+    DoubleTile: 0
+    DoubleTileBifurcations:
+      Exit_6: 0
+      Exit_7: 0
+      Exit_8: 0
+      Exit_9: 0
+      Exit_10: 0
+      Exit_11: 0
+      Exit_12: 0
+      Exit_13: 0
+      Exit_14: 0
+      Exit_15: 0
+      Exit_16: 0
+      Exit_17: 0
+      Exit_18: 0
+      Exit_19: 0
+      Exit_20: 0
+      Exit_21: 0
+      Exit_22: 0
+    HexTile: {fileID: 4641471824103506278, guid: d8f808be900d19e4e8418f0ce684e8e9,
+      type: 3}
+  - Name: Straight_8
+    m_Chance: 1
+    Bifurcations:
+      Exit_1: 0
+      Exit_2: 0
+      Exit_3: 1
+      Exit_4: 0
+      Exit_5: 0
+      End: 0
+    DoubleTile: 0
+    DoubleTileBifurcations:
+      Exit_6: 0
+      Exit_7: 0
+      Exit_8: 0
+      Exit_9: 0
+      Exit_10: 0
+      Exit_11: 0
+      Exit_12: 0
+      Exit_13: 0
+      Exit_14: 0
+      Exit_15: 0
+      Exit_16: 0
+      Exit_17: 0
+      Exit_18: 0
+      Exit_19: 0
+      Exit_20: 0
+      Exit_21: 0
+      Exit_22: 0
+    HexTile: {fileID: 4641471824103506278, guid: 52e67269561abdb459386ef976463771,
+      type: 3}
+  - Name: Div_Full_1
+    m_Chance: 0.1
+    Bifurcations:
+      Exit_1: 1
+      Exit_2: 1
+      Exit_3: 1
+      Exit_4: 1
+      Exit_5: 1
+      End: 0
+    DoubleTile: 0
+    DoubleTileBifurcations:
+      Exit_6: 0
+      Exit_7: 0
+      Exit_8: 0
+      Exit_9: 0
+      Exit_10: 0
+      Exit_11: 0
+      Exit_12: 0
+      Exit_13: 0
+      Exit_14: 0
+      Exit_15: 0
+      Exit_16: 0
+      Exit_17: 0
+      Exit_18: 0
+      Exit_19: 0
+      Exit_20: 0
+      Exit_21: 0
+      Exit_22: 0
+    HexTile: {fileID: 868416664493438407, guid: 9ebcfe65ee73e134189950b4e1944c27,
+      type: 3}
+  - Name: Div_Full_2
     m_Chance: 0.1
     Bifurcations:
       Exit_1: 1
@@ -6103,6 +6193,36 @@ MonoBehaviour:
       Exit_21: 0
       Exit_22: 0
     HexTile: {fileID: 868416664493438407, guid: 31fd78bd7dc347f4d833a409742e4fb4,
+      type: 3}
+  - Name: Div_OneFour
+    m_Chance: 0.5
+    Bifurcations:
+      Exit_1: 1
+      Exit_2: 0
+      Exit_3: 0
+      Exit_4: 1
+      Exit_5: 0
+      End: 0
+    DoubleTile: 0
+    DoubleTileBifurcations:
+      Exit_6: 0
+      Exit_7: 0
+      Exit_8: 0
+      Exit_9: 0
+      Exit_10: 0
+      Exit_11: 0
+      Exit_12: 0
+      Exit_13: 0
+      Exit_14: 0
+      Exit_15: 0
+      Exit_16: 0
+      Exit_17: 0
+      Exit_18: 0
+      Exit_19: 0
+      Exit_20: 0
+      Exit_21: 0
+      Exit_22: 0
+    HexTile: {fileID: 4918003655088729709, guid: ae1d32578a5f63247a95c8704fb1a6d4,
       type: 3}
   - Name: Div_OneFive
     m_Chance: 0.5
@@ -6253,6 +6373,36 @@ MonoBehaviour:
       Exit_21: 0
       Exit_22: 0
     HexTile: {fileID: 6275168884179943000, guid: f20a21be7c6eb5a43adcb8a8c37aa008,
+      type: 3}
+  - Name: Div_TwoFive
+    m_Chance: 0.5
+    Bifurcations:
+      Exit_1: 0
+      Exit_2: 1
+      Exit_3: 0
+      Exit_4: 0
+      Exit_5: 1
+      End: 0
+    DoubleTile: 0
+    DoubleTileBifurcations:
+      Exit_6: 0
+      Exit_7: 0
+      Exit_8: 0
+      Exit_9: 0
+      Exit_10: 0
+      Exit_11: 0
+      Exit_12: 0
+      Exit_13: 0
+      Exit_14: 0
+      Exit_15: 0
+      Exit_16: 0
+      Exit_17: 0
+      Exit_18: 0
+      Exit_19: 0
+      Exit_20: 0
+      Exit_21: 0
+      Exit_22: 0
+    HexTile: {fileID: 4918003655088729709, guid: 61ce3c31eef22b84db2e519c3e3f0d9c,
       type: 3}
   - Name: Div_TwoFourFive
     m_Chance: 0.4
@@ -6405,17 +6555,33 @@ MonoBehaviour:
     HexTile: {fileID: 7502994266355241207, guid: e7553d4ba38249048b2bfa70583593e9,
       type: 3}
   m_PathList: []
-  m_PathZero: 0
-  m_PathOne: 0
-  m_PathTwo: 0
+  m_PathZero: 1
+  m_PathOne: 1
+  m_PathTwo: 1
   m_PathThree: 1
-  m_PathFour: 0
-  m_PathFive: 0
+  m_PathFour: 1
+  m_PathFive: 1
   m_TileContainer: {fileID: 1475012676}
   m_PathHolder: {fileID: 8783467024682310486, guid: 5242b96533405874f8255c6680f94379,
     type: 3}
   m_NextTileChecker: {fileID: 2171034749813684662, guid: f9e1e4a0ea57a2c41a52d56e2e07c778,
     type: 3}
+  TileElementsData:
+  - Name: Null
+    Element: 0
+    TileMat: {fileID: 2100000, guid: eab844a9eb81b214593310c7214cfca2, type: 2}
+  - Name: Fire
+    Element: 1
+    TileMat: {fileID: 2100000, guid: 578741d82646fa344837706b5fde3a1f, type: 2}
+  - Name: Ice
+    Element: 2
+    TileMat: {fileID: 2100000, guid: 96144ee7f88f9f44d8e398eddc5124a3, type: 2}
+  - Name: Lightning
+    Element: 3
+    TileMat: {fileID: 2100000, guid: 768cf239da76065459c62df1ae04a99b, type: 2}
+  - Name: Water
+    Element: 4
+    TileMat: {fileID: 2100000, guid: fef64a8f5979a214881e4b84f5626490, type: 2}
 --- !u!114 &1735057702
 MonoBehaviour:
   m_ObjectHideFlags: 0

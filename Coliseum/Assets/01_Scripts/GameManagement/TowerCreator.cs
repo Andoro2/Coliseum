@@ -37,11 +37,11 @@ public class TowerCreator : MonoBehaviour
 
                 if (!OnGround || OverTowers)
                 {
-                    InstancedSketch.transform.GetChild(0).GetComponent<Renderer>().material = WrongPlacement;
+                    InstancedSketch.transform.GetChild(0).transform.GetChild(1).GetComponent<Renderer>().material = WrongPlacement;
                 }
                 else
                 {
-                    InstancedSketch.transform.GetChild(0).GetComponent<Renderer>().material = CorrectPlacement;
+                    InstancedSketch.transform.GetChild(0).transform.GetChild(1).GetComponent<Renderer>().material = CorrectPlacement;
                 }
 
                 InstancedSketch.transform.position = targetPos;

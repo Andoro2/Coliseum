@@ -9,7 +9,7 @@ public class SteamIntegration : MonoBehaviour
     {
         try
         {
-            Steamworks.SteamClient.Init(2152161);//game id
+            Steamworks.SteamClient.Init(3703620);//game id
             PrintYourName();
         }
         catch (System.Exception e)
