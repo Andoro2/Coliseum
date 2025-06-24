@@ -17,7 +17,13 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if(int.Parse(m_WavelTMP.text) != m_Wave)
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            Debug.Break(); // Pauses the editor if in Play Mode
+        }
+
+
+        if (int.Parse(m_WavelTMP.text) != m_Wave)
         {
             m_WavelTMP.text = "" + m_Wave;
         }
