@@ -41,6 +41,11 @@ public class EnemyMovement : MonoBehaviour
                     turret.GetComponent<InRangeManager>().RemoveFromList(gameObject);
                 }
             }
+
+
+            Debug.Log("DED");
+            GameObject.FindWithTag("GameController").GetComponent<GameManager>().TakeDamage(1);
+
             Destroy(gameObject);
         }
         if (other.CompareTag("TurretRange"))

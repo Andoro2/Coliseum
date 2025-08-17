@@ -81,4 +81,9 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        
+    }
+
 }

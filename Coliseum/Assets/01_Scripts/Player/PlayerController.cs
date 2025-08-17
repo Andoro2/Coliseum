@@ -68,42 +68,45 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if (isPC)
+        if (GameObject.FindWithTag("MainCamera").gameObject.transform.parent.GetComponent<CameraFollow>().FollowPlayer)
         {
-            RaycastHit hit;
-            Ray ray = Camera.main.ScreenPointToRay(m_MouseLook);
-
-            if(Physics.Raycast(ray, out hit))
+            if (isPC)
             {
-                m_RotationTarget = hit.point;
-            }
+                RaycastHit hit;
+                Ray ray = Camera.main.ScreenPointToRay(m_MouseLook);
 
-            movePlayerWithAim();
-        }
-        else
-        {
-            if(m_JoystickLook.x == 0 && m_JoystickLook.y == 0)
-            {
-                playerMovement();
+                if(Physics.Raycast(ray, out hit))
+                {
+                    m_RotationTarget = hit.point;
+                }
+
+                movePlayerWithAim();
             }
             else
             {
-                movePlayerWithAim();
+                if(m_JoystickLook.x == 0 && m_JoystickLook.y == 0)
+                {
+                    playerMovement();
+                }
+                else
+                {
+                    movePlayerWithAim();
+                }
             }
-        }
 
-        if (DI.m_Interact)
-        {
-            m_InteractionTMP.text = DI.m_InteractionType;
-        }
-        else
-        {
-            m_InteractionTMP.text = "";
-        }
+            if (DI.m_Interact)
+            {
+                m_InteractionTMP.text = DI.m_InteractionType;
+            }
+            else
+            {
+                m_InteractionTMP.text = "";
+            }
 
-        if (transform.position.y < -5f)
-        {
-            transform.position = m_RespawnFromFall.position;
+            if (transform.position.y < -5f)
+            {
+                transform.position = m_RespawnFromFall.position;
+            }
         }
     }
 

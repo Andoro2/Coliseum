@@ -5,14 +5,23 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public int m_Currency = 500, m_Wave = 1;
+    public enum GameStates { Fighting, Building }
+    public GameStates m_State = GameStates.Fighting;
+    public GameObject m_FightingUI, m_BuildingUI;
+
+    private GameObject m_MainCam;
+
+    public int m_BaseHealth = 20, m_Currency = 500, m_Wave = 1;
     public bool IsFighting;
-    public TextMeshProUGUI m_WavelTMP, m_CurrencyTMP;
+    public TextMeshProUGUI m_HealthTMP, m_WavelTMP, m_CurrencyTMP;
     private List<GameObject> tileCanvases = new List<GameObject>();
     void Start()
     {
         m_WavelTMP.text = "" + m_Wave;
         m_CurrencyTMP.text = "" + m_Currency;
+
+        m_MainCam = GameObject.FindWithTag("MainCamera");
+
     }
 
     void Update()
@@ -22,7 +31,10 @@ public class GameManager : MonoBehaviour
             Debug.Break(); // Pauses the editor if in Play Mode
         }
 
-
+        if (int.Parse(m_HealthTMP.text) != m_BaseHealth)
+        {
+            m_HealthTMP.text = "" + m_BaseHealth;
+        }
         if (int.Parse(m_WavelTMP.text) != m_Wave)
         {
             m_WavelTMP.text = "" + m_Wave;
@@ -31,6 +43,34 @@ public class GameManager : MonoBehaviour
         {
             m_CurrencyTMP.text = "" + m_Currency;
         }
+
+        #region Mode change
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            if(m_State== GameStates.Building)
+            {
+                GameObject.FindWithTag("MainCamera").gameObject.transform.parent.GetComponent<CameraFollow>().FollowPlayer = true;
+                m_State = GameStates.Fighting;
+            }
+            else
+            {
+                GameObject.FindWithTag("MainCamera").gameObject.transform.parent.GetComponent<CameraFollow>().FollowPlayer = false;
+                m_State = GameStates.Building;
+            }
+        }
+        switch (m_State)
+        {
+            case GameStates.Building:
+                //m_FightingUI.SetActive(false);
+                m_BuildingUI.SetActive(true);
+                break;
+            case GameStates.Fighting:
+                //m_FightingUI.SetActive(true);
+                m_BuildingUI.SetActive(false);
+                break;
+        }
+        #endregion
+
         #region Tile cretion buttons
         GameObject[] foundObjects = GameObject.FindGameObjectsWithTag("CreateTileCanvas");
 
@@ -56,6 +96,14 @@ public class GameManager : MonoBehaviour
             }
         }
         #endregion
+    }
+    public void TakeDamage(int dmg)
+    {
+        m_BaseHealth -= dmg;
+    }
+    public void HealDamage(int heal)
+    {
+        m_BaseHealth += heal;
     }
     public void GetPaid(int money)
     {
