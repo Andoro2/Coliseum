@@ -1,12 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using TMPro;
 using Unity.VisualScripting;
+using static HexPathCreator;
 
 public class PlayerController : MonoBehaviour
 {
+    public float m_MaxHealth, m_CurrentHealth, m_CurrentExp;
+    public int m_Level = 0;
+    public List<LevelAttributes> m_LevelsArray;
+
+    public Slider m_HealthSlider, m_ExpSlider;
+
     public float m_Speed;
     private Vector2 m_PlayerMovement,
         m_MouseLook, m_JoystickLook;
@@ -26,6 +34,7 @@ public class PlayerController : MonoBehaviour
 
     public Transform m_RespawnFromFall;
 
+    #region Movement
     public void OnMove(InputAction.CallbackContext context)
     {
         m_PlayerMovement = context.ReadValue<Vector2>();
@@ -58,9 +67,18 @@ public class PlayerController : MonoBehaviour
     {
         if (DI.m_Interact && context.performed) Interact();
     }
+    #endregion
     void Start()
     {
         DI = GetComponentInChildren<DetectInteraction>();
+
+        m_CurrentHealth = m_MaxHealth;
+
+        m_HealthSlider.maxValue = m_LevelsArray[m_Level].m_MaxHealth;
+        m_HealthSlider.value = m_LevelsArray[m_Level].m_MaxHealth;
+
+        m_ExpSlider.minValue = 0;
+        m_ExpSlider.maxValue = m_LevelsArray[m_Level].m_ExpToAdvance;
 
         m_InteractionTMP = transform.Find("InteractionCanvas").Find("Text").GetComponent<TMP_Text>();
         m_InteractionTMP.text = "";
@@ -68,7 +86,15 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if (GameObject.FindWithTag("MainCamera").gameObject.transform.parent.GetComponent<CameraFollow>().FollowPlayer)
+        m_HealthSlider.value = m_CurrentHealth;
+        m_ExpSlider.value = m_CurrentExp;
+
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            ObtainExp(10f);
+        }
+
+            if (GameObject.FindWithTag("MainCamera").gameObject.transform.parent.GetComponent<CameraFollow>().FollowPlayer)
         {
             if (isPC)
             {
@@ -193,7 +219,6 @@ public class PlayerController : MonoBehaviour
 
         transform.Translate(movement * m_Speed * Time.deltaTime, Space.World);
     }
-
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Respawn"))
@@ -201,4 +226,30 @@ public class PlayerController : MonoBehaviour
             m_RespawnFromFall = other.transform;
         }
     }
+
+    #region Level managing
+    [System.Serializable]
+    public class LevelAttributes
+    {
+        public int m_Level;
+        public float m_MaxHealth, m_ExpToAdvance;
+    }
+    public void ObtainExp(float exp)
+    {
+        m_CurrentExp += exp;
+
+        if(m_CurrentExp >= m_LevelsArray[m_Level].m_ExpToAdvance && m_Level + 1 < m_LevelsArray.Count)
+        {
+            m_Level++;
+
+            m_HealthSlider.maxValue = m_LevelsArray[m_Level].m_MaxHealth;
+            m_HealthSlider.value = m_LevelsArray[m_Level].m_MaxHealth;
+
+            m_CurrentHealth = m_LevelsArray[m_Level].m_MaxHealth;
+
+            m_ExpSlider.minValue = m_LevelsArray[m_Level - 1].m_ExpToAdvance;
+            m_ExpSlider.maxValue = m_LevelsArray[m_Level].m_ExpToAdvance;
+        }
+    }
+    #endregion
 }

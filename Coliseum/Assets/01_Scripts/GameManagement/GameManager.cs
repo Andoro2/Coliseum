@@ -50,11 +50,13 @@ public class GameManager : MonoBehaviour
             if(m_State== GameStates.Building)
             {
                 GameObject.FindWithTag("MainCamera").gameObject.transform.parent.GetComponent<CameraFollow>().FollowPlayer = true;
+                GameObject.FindWithTag("MainCamera").gameObject.transform.parent.gameObject.transform.rotation = Quaternion.identity;
                 m_State = GameStates.Fighting;
             }
             else
             {
                 GameObject.FindWithTag("MainCamera").gameObject.transform.parent.GetComponent<CameraFollow>().FollowPlayer = false;
+
                 m_State = GameStates.Building;
             }
         }

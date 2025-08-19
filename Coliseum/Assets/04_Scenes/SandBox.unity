@@ -277,11 +277,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c51409c94caf524aa87b6f961ce32e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_MaxHealth: 100
+  m_CurrentHealth: 100
+  m_CurrentExp: 0
+  m_Level: 0
+  m_LevelsArray:
+  - m_Level: 0
+    m_MaxHealth: 100
+    m_ExpToAdvance: 50
+  - m_Level: 1
+    m_MaxHealth: 150
+    m_ExpToAdvance: 150
+  - m_Level: 2
+    m_MaxHealth: 200
+    m_ExpToAdvance: 500
+  - m_Level: 3
+    m_MaxHealth: 250
+    m_ExpToAdvance: 1000
+  - m_Level: 4
+    m_MaxHealth: 300
+    m_ExpToAdvance: 1500
+  m_HealthSlider: {fileID: 1776090084}
+  m_ExpSlider: {fileID: 2027407710}
   m_Speed: 10
   isPC: 0
   dashSpeed: 45
   dashDuration: 0.2
-  m_RespawnFromFall: {fileID: 0}
+  m_RespawnFromFall: {fileID: 615501330}
 --- !u!114 &97386000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2630,6 +2652,12 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1483399670}
   m_SourcePrefab: {fileID: 100100000, guid: 486c58c9cadc5ef4aab69a9307e4d8ee, type: 3}
+--- !u!4 &615501330 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 583231747780518223, guid: 1fdad5febb5944f4b99cd3b66a409c62,
+    type: 3}
+  m_PrefabInstance: {fileID: 1452033662543379025}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &639371846
 GameObject:
   m_ObjectHideFlags: 0
@@ -8630,8 +8658,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 350, y: 115}
-  m_SizeDelta: {x: 325, y: 50}
+  m_AnchoredPosition: {x: 365, y: 126}
+  m_SizeDelta: {x: 355, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2027407710
 MonoBehaviour:

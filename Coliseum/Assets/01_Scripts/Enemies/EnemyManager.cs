@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EnemyManager : MonoBehaviour
 {
     public float m_Health = 5f;
-    public int m_Value = 50;
+    public Slider m_HealthSlider;
+    public int m_Value = 50, m_ExpValue = 10;
     public EnemySpawner.Types EnemyType = EnemySpawner.Types.Normal;
     public float m_ResistanceFire,
         m_ResistanceIce,
@@ -19,12 +21,15 @@ public class EnemyManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        m_HealthSlider.maxValue = m_Health;
+        m_HealthSlider.value = m_Health;
     }
 
     // Update is called once per frame
     void Update()
     {
+        m_HealthSlider.value = m_Health;
+
         if(m_Health <= 0)
         {
             Death();
@@ -48,6 +53,8 @@ public class EnemyManager : MonoBehaviour
         }
 
         GameObject.FindWithTag("GameController").transform.GetComponent<GameManager>().GetPaid(m_Value);
+
+        GameObject.FindWithTag("Player").GetComponent<PlayerController>().ObtainExp(m_ExpValue);
 
         Destroy(gameObject);
     }
