@@ -2,18 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Unity.Netcode;
 using UnityEngine.InputSystem;
 using TMPro;
 using Unity.VisualScripting;
 using static HexPathCreator;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : NetworkBehaviour
 {
     public float m_MaxHealth, m_CurrentHealth, m_CurrentExp;
     public int m_Level = 0;
     public List<LevelAttributes> m_LevelsArray;
 
     public Slider m_HealthSlider, m_ExpSlider;
+    public TMP_Text m_HPCurrent, m_HPMax;
 
     public float m_Speed;
     private Vector2 m_PlayerMovement,
@@ -33,6 +35,7 @@ public class PlayerController : MonoBehaviour
     private DetectInteraction DI;
 
     public Transform m_RespawnFromFall;
+    private GameObject CharUI;
 
     #region Movement
     public void OnMove(InputAction.CallbackContext context)
@@ -72,6 +75,13 @@ public class PlayerController : MonoBehaviour
     {
         DI = GetComponentInChildren<DetectInteraction>();
 
+        CharUI = GameObject.FindWithTag("UICanvas").gameObject.transform.GetChild(0).gameObject.transform.GetChild(0).gameObject;
+        m_ExpSlider = CharUI.transform.GetChild(0).GetComponent<Slider>();
+        m_HealthSlider = CharUI.transform.GetChild(1).GetComponent<Slider>();
+        m_HPCurrent = CharUI.transform.GetChild(3).gameObject.transform.GetChild(0).GetComponent<TMP_Text>();
+        m_HPMax = CharUI.transform.GetChild(3).gameObject.transform.GetChild(1).GetComponent<TMP_Text>();
+
+
         m_CurrentHealth = m_MaxHealth;
 
         m_HealthSlider.maxValue = m_LevelsArray[m_Level].m_MaxHealth;
@@ -79,6 +89,9 @@ public class PlayerController : MonoBehaviour
 
         m_ExpSlider.minValue = 0;
         m_ExpSlider.maxValue = m_LevelsArray[m_Level].m_ExpToAdvance;
+
+        m_HPCurrent.text = m_CurrentHealth.ToString();
+        m_HPMax.text = "/" + m_CurrentHealth;
 
         m_InteractionTMP = transform.Find("InteractionCanvas").Find("Text").GetComponent<TMP_Text>();
         m_InteractionTMP.text = "";
@@ -88,6 +101,7 @@ public class PlayerController : MonoBehaviour
     {
         m_HealthSlider.value = m_CurrentHealth;
         m_ExpSlider.value = m_CurrentExp;
+        m_HPCurrent.text = m_CurrentHealth.ToString();
 
         if (Input.GetKeyDown(KeyCode.X))
         {
@@ -245,10 +259,13 @@ public class PlayerController : MonoBehaviour
             m_HealthSlider.maxValue = m_LevelsArray[m_Level].m_MaxHealth;
             m_HealthSlider.value = m_LevelsArray[m_Level].m_MaxHealth;
 
+            m_MaxHealth = m_LevelsArray[m_Level].m_MaxHealth;
             m_CurrentHealth = m_LevelsArray[m_Level].m_MaxHealth;
 
             m_ExpSlider.minValue = m_LevelsArray[m_Level - 1].m_ExpToAdvance;
             m_ExpSlider.maxValue = m_LevelsArray[m_Level].m_ExpToAdvance;
+
+            m_HPMax.text = "/" + m_LevelsArray[m_Level].m_MaxHealth;
         }
     }
     #endregion

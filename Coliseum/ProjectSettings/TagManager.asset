@@ -14,6 +14,7 @@ TagManager:
   - CreateTileCanvas
   - TurretRange
   - Base
+  - UICanvas
   layers:
   - Default
   - TransparentFX
