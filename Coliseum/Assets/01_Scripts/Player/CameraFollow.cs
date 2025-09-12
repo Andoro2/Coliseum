@@ -10,10 +10,16 @@ public class CameraFollow : MonoBehaviour
     public Vector3 offset;
     private Vector3 velocity = Vector3.zero;
 
+    void Start()
+    {
+        //target = GameObject.FindWithTag("Player").gameObject.transform;
+    }
     void Update()
     {
-        if(target != null && FollowPlayer)
-        {
+        //if(target == null && GameObject.FindWithTag("Player").gameObject != null) target = GameObject.FindWithTag("Player").gameObject.transform;
+
+        if (target != null && FollowPlayer)
+            {
             Vector3 targetPos = target.position + offset;
 
             transform.position = Vector3.SmoothDamp(transform.position, targetPos, ref velocity, smoothTime);
@@ -27,6 +33,7 @@ public class CameraFollow : MonoBehaviour
     public float rotationSpeed = 100f;
     void Movement()
     {
+        // Movimiento vertical (W/S)
         if (Input.GetKey(KeyCode.W))
         {
             transform.Translate(Vector3.forward * moveSpeed * Time.deltaTime);

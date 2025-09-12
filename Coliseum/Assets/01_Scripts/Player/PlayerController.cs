@@ -10,11 +10,17 @@ using static HexPathCreator;
 
 public class PlayerController : NetworkBehaviour
 {
+    public enum GameStates { Fighting, Building }
+    public GameStates m_State = GameStates.Fighting;
+    private GameObject m_FightingUI, m_BuildingUI,
+        m_MainCam;
+
+
     public float m_MaxHealth, m_CurrentHealth, m_CurrentExp;
     public int m_Level = 0;
     public List<LevelAttributes> m_LevelsArray;
 
-    public Slider m_HealthSlider, m_ExpSlider;
+    private Slider m_HealthSlider, m_ExpSlider;
     public TMP_Text m_HPCurrent, m_HPMax;
 
     public float m_Speed;
@@ -34,24 +40,47 @@ public class PlayerController : NetworkBehaviour
     private TMP_Text m_InteractionTMP;
     private DetectInteraction DI;
 
-    public Transform m_RespawnFromFall;
-    private GameObject CharUI;
+    public Vector3 m_RespawnFromFall = new Vector3(0,10f,0);
 
+    /*private void Awake()
+    {
+        m_MainCam = GameObject.FindWithTag("MainCamera").gameObject;
+        m_MainCam.GetComponent<CameraFollow>().target = transform;
+    }*/
     #region Movement
     public void OnMove(InputAction.CallbackContext context)
     {
+        if (!IsOwner) {
+            return;
+        }
+
         m_PlayerMovement = context.ReadValue<Vector2>();
     }
     public void OnMouseLook(InputAction.CallbackContext context)
     {
+        if (!IsOwner)
+        {
+            return;
+        }
+
         m_MouseLook = context.ReadValue<Vector2>();
     }
     public void OnJoystickLook(InputAction.CallbackContext context)
     {
+        if (!IsOwner)
+        {
+            return;
+        }
+
         m_JoystickLook = context.ReadValue<Vector2>();
     }
     public void OnChangeMode(InputAction.CallbackContext context)
     {
+        if (!IsOwner)
+        {
+            return;
+        }
+
         if (context.performed)
         {
             bool changeMode = context.ReadValueAsButton();
@@ -64,22 +93,36 @@ public class PlayerController : NetworkBehaviour
     }
     public void Dash(InputAction.CallbackContext context)
     {
+        if (!IsOwner)
+        {
+            return;
+        }
+
         if (context.performed) StartCoroutine(DashCoroutine());
     }
     public void Interact(InputAction.CallbackContext context)
     {
+        if (!IsOwner)
+        {
+            return;
+        }
+
         if (DI.m_Interact && context.performed) Interact();
     }
     #endregion
     void Start()
     {
+        m_MainCam = GameObject.FindWithTag("MainCamera").gameObject;
+
         DI = GetComponentInChildren<DetectInteraction>();
 
-        CharUI = GameObject.FindWithTag("UICanvas").gameObject.transform.GetChild(0).gameObject.transform.GetChild(0).gameObject;
-        m_ExpSlider = CharUI.transform.GetChild(0).GetComponent<Slider>();
-        m_HealthSlider = CharUI.transform.GetChild(1).GetComponent<Slider>();
-        m_HPCurrent = CharUI.transform.GetChild(3).gameObject.transform.GetChild(0).GetComponent<TMP_Text>();
-        m_HPMax = CharUI.transform.GetChild(3).gameObject.transform.GetChild(1).GetComponent<TMP_Text>();
+        m_BuildingUI = GameObject.FindWithTag("UICanvas").gameObject.transform.GetChild(1).gameObject;
+
+        m_FightingUI = GameObject.FindWithTag("UICanvas").gameObject.transform.GetChild(0).gameObject.transform.GetChild(0).gameObject;
+        m_ExpSlider = m_FightingUI.transform.GetChild(0).GetComponent<Slider>();
+        m_HealthSlider = m_FightingUI.transform.GetChild(1).GetComponent<Slider>();
+        m_HPCurrent = m_FightingUI.transform.GetChild(3).gameObject.transform.GetChild(0).GetComponent<TMP_Text>();
+        m_HPMax = m_FightingUI.transform.GetChild(3).gameObject.transform.GetChild(1).GetComponent<TMP_Text>();
 
 
         m_CurrentHealth = m_MaxHealth;
@@ -103,13 +146,47 @@ public class PlayerController : NetworkBehaviour
         m_ExpSlider.value = m_CurrentExp;
         m_HPCurrent.text = m_CurrentHealth.ToString();
 
+        #region Mode change
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            if (m_State == GameStates.Building)
+            {
+                m_MainCam.transform.parent.GetComponent<CameraFollow>().FollowPlayer = true;
+                m_MainCam.transform.parent.gameObject.transform.rotation = Quaternion.identity;
+                m_State = GameStates.Fighting;
+            }
+            else
+            {
+                m_MainCam.transform.parent.GetComponent<CameraFollow>().FollowPlayer = false;
+
+                m_State = GameStates.Building;
+            }
+        }
+        switch (m_State)
+        {
+            case GameStates.Building:
+                //m_FightingUI.SetActive(false);
+                m_BuildingUI.SetActive(true);
+                break;
+            case GameStates.Fighting:
+                //m_FightingUI.SetActive(true);
+                m_BuildingUI.SetActive(false);
+                break;
+        }
+        #endregion
+
         if (Input.GetKeyDown(KeyCode.X))
         {
             ObtainExp(10f);
         }
 
-            if (GameObject.FindWithTag("MainCamera").gameObject.transform.parent.GetComponent<CameraFollow>().FollowPlayer)
+        if (m_MainCam.transform.parent.GetComponent<CameraFollow>().FollowPlayer)
         {
+            if (!IsOwner)
+            {
+                return;
+            }
+
             if (isPC)
             {
                 RaycastHit hit;
@@ -145,7 +222,7 @@ public class PlayerController : NetworkBehaviour
 
             if (transform.position.y < -5f)
             {
-                transform.position = m_RespawnFromFall.position;
+                transform.position = m_RespawnFromFall;
             }
         }
     }
@@ -233,13 +310,13 @@ public class PlayerController : NetworkBehaviour
 
         transform.Translate(movement * m_Speed * Time.deltaTime, Space.World);
     }
-    private void OnTriggerEnter(Collider other)
+    /*private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Respawn"))
         {
             m_RespawnFromFall = other.transform;
         }
-    }
+    }*/
 
     #region Level managing
     [System.Serializable]

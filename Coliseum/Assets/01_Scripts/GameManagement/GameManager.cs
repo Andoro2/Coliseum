@@ -5,9 +5,9 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public enum GameStates { Fighting, Building }
-    public GameStates m_State = GameStates.Fighting;
-    public GameObject m_FightingUI, m_BuildingUI;
+    //public enum GameStates { Fighting, Building }
+    //public GameStates m_State = GameStates.Fighting;
+    //public GameObject m_FightingUI, m_BuildingUI;
 
     private GameObject m_MainCam;
 
@@ -43,8 +43,8 @@ public class GameManager : MonoBehaviour
         {
             m_CurrencyTMP.text = "" + m_Currency;
         }
-
-        #region Mode change
+        
+        /*#region Mode change
         if (Input.GetKeyDown(KeyCode.Tab))
         {
             if(m_State== GameStates.Building)
@@ -71,7 +71,7 @@ public class GameManager : MonoBehaviour
                 m_BuildingUI.SetActive(false);
                 break;
         }
-        #endregion
+        #endregion*/
 
         #region Tile cretion buttons
         GameObject[] foundObjects = GameObject.FindGameObjectsWithTag("CreateTileCanvas");

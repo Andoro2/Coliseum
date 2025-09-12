@@ -563,6 +563,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c51409c94caf524aa87b6f961ce32e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_State: 0
   m_MaxHealth: 100
   m_CurrentHealth: 100
   m_CurrentExp: 0
@@ -583,15 +584,13 @@ MonoBehaviour:
   - m_Level: 4
     m_MaxHealth: 300
     m_ExpToAdvance: 1500
-  m_HealthSlider: {fileID: 1776090084}
-  m_ExpSlider: {fileID: 2027407710}
   m_HPCurrent: {fileID: 1281286164}
   m_HPMax: {fileID: 318839235}
   m_Speed: 10
   isPC: 0
   dashSpeed: 45
   dashDuration: 0.2
-  m_RespawnFromFall: {fileID: 615501330}
+  m_RespawnFromFall: {x: 0, y: 10, z: 0}
 --- !u!114 &97386000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3989,12 +3988,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!4 &615501330 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 583231747780518223, guid: 1fdad5febb5944f4b99cd3b66a409c62,
-    type: 3}
-  m_PrefabInstance: {fileID: 1452033662543379025}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &620981999
 GameObject:
   m_ObjectHideFlags: 0
@@ -10403,7 +10396,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1735057697}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 885e433c195c51a48bff196796c9e34e, type: 3}
   m_Name: 
@@ -11657,9 +11650,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65dfa2d3dc833054d95da54f64c82d4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_State: 0
-  m_FightingUI: {fileID: 1938562117}
-  m_BuildingUI: {fileID: 1062800345}
   m_BaseHealth: 40
   m_Currency: 1500
   m_Wave: 1
@@ -14560,10 +14550,10 @@ SceneRoots:
   m_Roots:
   - {fileID: 832575519}
   - {fileID: 1444945326}
-  - {fileID: 504479875}
   - {fileID: 1735057699}
   - {fileID: 284914701}
   - {fileID: 410087041}
+  - {fileID: 504479875}
   - {fileID: 468731928}
   - {fileID: 1346119286}
   - {fileID: 97385998}
