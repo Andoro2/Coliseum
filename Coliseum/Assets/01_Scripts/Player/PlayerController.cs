@@ -42,6 +42,8 @@ public class PlayerController : NetworkBehaviour
 
     public Vector3 m_RespawnFromFall = new Vector3(0,10f,0);
 
+    private Animator m_Anim;
+
     /*private void Awake()
     {
         m_MainCam = GameObject.FindWithTag("MainCamera").gameObject;
@@ -50,36 +52,25 @@ public class PlayerController : NetworkBehaviour
     #region Movement
     public void OnMove(InputAction.CallbackContext context)
     {
-        if (!IsOwner) {
-            return;
-        }
+        if (!IsOwner) return;
 
         m_PlayerMovement = context.ReadValue<Vector2>();
     }
     public void OnMouseLook(InputAction.CallbackContext context)
     {
-        if (!IsOwner)
-        {
-            return;
-        }
+        if (!IsOwner) return;
 
         m_MouseLook = context.ReadValue<Vector2>();
     }
     public void OnJoystickLook(InputAction.CallbackContext context)
     {
-        if (!IsOwner)
-        {
-            return;
-        }
+        if (!IsOwner) return;
 
         m_JoystickLook = context.ReadValue<Vector2>();
     }
     public void OnChangeMode(InputAction.CallbackContext context)
     {
-        if (!IsOwner)
-        {
-            return;
-        }
+        if (!IsOwner) return;
 
         if (context.performed)
         {
@@ -93,19 +84,13 @@ public class PlayerController : NetworkBehaviour
     }
     public void Dash(InputAction.CallbackContext context)
     {
-        if (!IsOwner)
-        {
-            return;
-        }
+        if (!IsOwner) return;
 
         if (context.performed) StartCoroutine(DashCoroutine());
     }
     public void Interact(InputAction.CallbackContext context)
     {
-        if (!IsOwner)
-        {
-            return;
-        }
+        if (!IsOwner) return;
 
         if (DI.m_Interact && context.performed) Interact();
     }
@@ -113,6 +98,7 @@ public class PlayerController : NetworkBehaviour
     void Start()
     {
         m_MainCam = GameObject.FindWithTag("MainCamera").gameObject;
+        m_Anim = transform.GetChild(0).transform.GetChild(0).transform.GetComponent<Animator>();
 
         DI = GetComponentInChildren<DetectInteraction>();
 
@@ -149,6 +135,8 @@ public class PlayerController : NetworkBehaviour
         #region Mode change
         if (Input.GetKeyDown(KeyCode.Tab))
         {
+            if (!IsOwner) return;
+
             if (m_State == GameStates.Building)
             {
                 m_MainCam.transform.parent.GetComponent<CameraFollow>().FollowPlayer = true;
@@ -166,10 +154,12 @@ public class PlayerController : NetworkBehaviour
         {
             case GameStates.Building:
                 //m_FightingUI.SetActive(false);
+                m_Anim.SetBool("Building", true);
                 m_BuildingUI.SetActive(true);
                 break;
             case GameStates.Fighting:
                 //m_FightingUI.SetActive(true);
+                m_Anim.SetBool("Building", false);
                 m_BuildingUI.SetActive(false);
                 break;
         }
@@ -182,10 +172,7 @@ public class PlayerController : NetworkBehaviour
 
         if (m_MainCam.transform.parent.GetComponent<CameraFollow>().FollowPlayer)
         {
-            if (!IsOwner)
-            {
-                return;
-            }
+            if (!IsOwner) return;
 
             if (isPC)
             {
@@ -235,6 +222,8 @@ public class PlayerController : NetworkBehaviour
     {
         isDashing = true;
 
+        m_Anim.SetTrigger("Dash");
+
         if (m_PlayerMovement != Vector2.zero)
         {
             dashDirection = new Vector3(m_PlayerMovement.x, 0f, m_PlayerMovement.y).normalized;
@@ -276,8 +265,9 @@ public class PlayerController : NetworkBehaviour
         if (movement != Vector3.zero)
         {
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(movement), 0.15f);
-
+            m_Anim.SetBool("Running", true);
         }
+        else m_Anim.SetBool("Running", false);
 
         transform.Translate(movement * m_Speed * Time.deltaTime, Space.World);
     }
@@ -309,6 +299,9 @@ public class PlayerController : NetworkBehaviour
         Vector3 movement = new Vector3(m_PlayerMovement.x, 0f, m_PlayerMovement.y);
 
         transform.Translate(movement * m_Speed * Time.deltaTime, Space.World);
+
+        if (movement != Vector3.zero) m_Anim.SetBool("Running", true);
+        else m_Anim.SetBool("Running", false);
     }
     /*private void OnTriggerEnter(Collider other)
     {
