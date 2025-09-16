@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using Unity.Netcode;
 
-public class GameManager : MonoBehaviour
+public class GameManager : NetworkBehaviour
 {
     //public enum GameStates { Fighting, Building }
     //public GameStates m_State = GameStates.Fighting;
@@ -21,7 +22,6 @@ public class GameManager : MonoBehaviour
         m_CurrencyTMP.text = "" + m_Currency;
 
         m_MainCam = GameObject.FindWithTag("MainCamera");
-
     }
 
     void Update()
@@ -33,14 +33,17 @@ public class GameManager : MonoBehaviour
 
         if (int.Parse(m_HealthTMP.text) != m_BaseHealth)
         {
+            if (!IsServer) return;
             m_HealthTMP.text = "" + m_BaseHealth;
         }
         if (int.Parse(m_WavelTMP.text) != m_Wave)
         {
+            if (!IsServer) return;
             m_WavelTMP.text = "" + m_Wave;
         }
         if (int.Parse(m_CurrencyTMP.text) != m_Currency)
         {
+            if (!IsServer) return;
             m_CurrencyTMP.text = "" + m_Currency;
         }
         
@@ -101,22 +104,38 @@ public class GameManager : MonoBehaviour
     }
     public void TakeDamage(int dmg)
     {
+        if (!IsServer) return;
+
         m_BaseHealth -= dmg;
     }
     public void HealDamage(int heal)
     {
+        if (!IsServer) return;
+
         m_BaseHealth += heal;
     }
     public void GetPaid(int money)
     {
+        if (!IsServer) return;
+
         m_Currency += money;
     }
     public void SpendMoney(int money)
     {
+        if (!IsServer) return;
+
         m_Currency -= money;
     }
     public void NextWave()
     {
+        if (!IsServer) return;
+
         m_Wave++;
+    }
+
+    public static GameManager Instance { get; private set; }
+    private void Awake()
+    {
+        Instance = this;
     }
 }

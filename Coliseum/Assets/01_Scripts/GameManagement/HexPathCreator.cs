@@ -5,11 +5,13 @@ using System.Linq;
 using Unity.VisualScripting;
 //using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using Unity.Netcode;
 using UnityEngine.SceneManagement;
 using static TileElementAsigned;
-using static UnityEngine.Rendering.DebugUI;
+//using static UnityEngine.Rendering.DebugUI;
+//using UnityEditor.Experimental.GraphView;
 
-public class HexPathCreator : MonoBehaviour
+public class HexPathCreator : NetworkBehaviour
 {
     public enum HexOrientation { Zero, One, Two, Three, Four, Five, End }
     public List<HexTileDetails> m_HexTiles = new List<HexTileDetails>();
@@ -22,9 +24,12 @@ public class HexPathCreator : MonoBehaviour
     public GameObject m_TileContainer, m_PathHolder, m_NextTileChecker;
 
 
+    private bool flag = false;
+    private GameObject LastTileCretaedAUX;
+    private List<HexTileDetails> m_TheTiles = new List<HexTileDetails>();
     void Start()
     {
-        List<Vector3> m_PathStartPositions = new List<Vector3>
+        /*List<Vector3> m_PathStartPositions = new List<Vector3>
         {
             new Vector3(0, 0, -StartPathValues.y),                      //path zero
             new Vector3(-StartPathValues.x, 0, -StartPathValues.y / 2), //path one
@@ -45,6 +50,8 @@ public class HexPathCreator : MonoBehaviour
 
         for (int i = 0; i < paths.Length; i++)
         {
+            if (!IsServer) return;
+
             if (paths[i])
             {
                 PathDetails path = new PathDetails();
@@ -68,17 +75,93 @@ public class HexPathCreator : MonoBehaviour
 
                 BuildTrack(path, InitialTiles, m_PathStartPositions[i]);
             }
-        }
+        }*/
         //InvokeRepeating("AutoGenerate", 0f, 0.1f);
+    }
+    public void DoSomethingWithDelay()
+    {
+        Debug.Log("WAIT");
+        StartCoroutine(WaitAndExecute());
+    }
+
+    private IEnumerator WaitAndExecute()
+    {
+        yield return new WaitForSeconds(5f);
+    }
+    public void StartingTiles(bool flagUpStops)
+    {
+        if (!IsServer) return;
+        //DoSomethingWithDelay();
+        if (!flagUpStops)
+        {
+            List<Vector3> m_PathStartPositions = new List<Vector3>
+            {
+                new Vector3(0, 0, -StartPathValues.y),                      //path zero
+                new Vector3(-StartPathValues.x, 0, -StartPathValues.y / 2), //path one
+                new Vector3(-StartPathValues.x, 0, StartPathValues.y / 2),  //path two
+                new Vector3(0, 0, StartPathValues.y),                       //path three
+                new Vector3(StartPathValues.x, 0, StartPathValues.y / 2),   //path four
+                new Vector3(StartPathValues.x, 0, -StartPathValues.y / 2)   //path five
+            };
+
+            
+            bool[] paths = { m_PathZero, m_PathOne, m_PathTwo, m_PathThree, m_PathFour, m_PathFive };
+
+            HexOrientation[] beginningPathsOrientations = { HexOrientation.Zero, HexOrientation.One, HexOrientation.Two,
+                HexOrientation.Three, HexOrientation.Four, HexOrientation.Five };
+
+            for (int i = 0; i < paths.Length; i++)
+            {
+                //List<HexTileDetails> InitialTiles = new List<HexTileDetails>();
+                m_TheTiles.AddRange(m_HexTiles.Where(p => !p.Bifurcations.Exit_1 && p.Bifurcations.Exit_2 && !p.Bifurcations.Exit_3 && !p.Bifurcations.Exit_4 && !p.Bifurcations.Exit_5 && !p.Bifurcations.End && !p.DoubleTile));
+                m_TheTiles.AddRange(m_HexTiles.Where(p => !p.Bifurcations.Exit_1 && !p.Bifurcations.Exit_2 && p.Bifurcations.Exit_3 && !p.Bifurcations.Exit_4 && !p.Bifurcations.Exit_5 && !p.Bifurcations.End && !p.DoubleTile));
+                m_TheTiles.AddRange(m_HexTiles.Where(p => !p.Bifurcations.Exit_1 && !p.Bifurcations.Exit_2 && !p.Bifurcations.Exit_3 && p.Bifurcations.Exit_4 && !p.Bifurcations.Exit_5 && !p.Bifurcations.End && !p.DoubleTile));
+
+                if (paths[i])
+                {
+                    PathDetails path = new PathDetails();
+                    path.ID = path.ID + m_PathList.Count();
+                    path.PathOrientation = beginningPathsOrientations[i];
+                    path.m_PathNextPosition = m_PathStartPositions[i];
+
+
+                    GameObject PathContainer = Instantiate(m_PathHolder, path.m_PathNextPosition, Quaternion.identity);
+                    path.m_Container = PathContainer;
+
+                    int yRotation = adjustRotation(path.PathOrientation) % 360;
+                    path.m_NextTileChecker = Instantiate(m_NextTileChecker, m_PathStartPositions[i], Quaternion.Euler(0, yRotation, 0));
+                    path.m_NextTileChecker.name = "TileChecker_" + path.ID;
+
+                    PathContainer.name = path.ID;
+
+                    m_PathList.Add(path);
+
+                    path.m_NextTileChecker.transform.Find("Canvas").GetComponent<TileCreateButton>().SetTheWay(path);
+
+                    BuildTrack(path, m_TheTiles, m_PathStartPositions[i]);
+                }
+            }
+            //m_TheTiles.Clear();
+        }
+        else return;
+
+        flag = true;
     }
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            StartingTiles(flag); //create the starting tiles
+        }
+
         if (Input.GetKeyDown(KeyCode.R))
         {
             ReloadScene();
         }
         if (Input.GetKeyDown(KeyCode.Space) && m_PathList.Count > 0)
         {
+            if (!IsServer) return;
+
             int SelectedPath = Random.Range(0, m_PathList.Count);
             while (!m_PathList[SelectedPath].m_PathActive)
             {
@@ -148,7 +231,7 @@ public class HexPathCreator : MonoBehaviour
 
         path.m_NextTileChecker = Instantiate(PrevPath.m_NextTileChecker, GeneratedTile.transform.position + UpdateNextTilePos(path, newOrientation), Quaternion.identity);
 
-        float yRotation = (adjustRotation(path) + 360) % 360;
+        float yRotation = (adjustRotation(path.PathOrientation) + 360) % 360;
         path.m_NextTileChecker.transform.rotation = Quaternion.Euler(0, yRotation, 0);
         path.m_NextTileChecker.name = "TileChecker_" + path.ID;
 
@@ -172,7 +255,7 @@ public class HexPathCreator : MonoBehaviour
     }
     public void SelectTiles(PathDetails Track)
     {
-        List<HexTileDetails> m_AvailableTracks = new List<HexTileDetails>();
+        //List<HexTileDetails> m_AvailableTracks = new List<HexTileDetails>();
 
         HashSet<int> m_AvailableExits = new HashSet<int>();
 
@@ -286,11 +369,11 @@ public class HexPathCreator : MonoBehaviour
 
             if (tileExits.IsSubsetOf(m_AvailableExits) && tileExits.Count > 0)
             {
-                m_AvailableTracks.Add(tile);
+                m_TheTiles.Add(tile);
             }
         }
 
-        if (m_AvailableTracks.Count == 0)
+        if (m_TheTiles.Count == 0)
         {
             //Debug.Log("No available tiles found, allowing ExitZero tiles.");
 
@@ -298,16 +381,36 @@ public class HexPathCreator : MonoBehaviour
             {
                 if (tile.Bifurcations.End)
                 {
-                    m_AvailableTracks.Add(tile);
+                    m_TheTiles.Add(tile);
                 }
             }
         }
 
-        BuildTrack(Track, m_AvailableTracks, Track.m_PathNextPosition);
+        BuildTrack(Track, m_TheTiles, Track.m_PathNextPosition);
     }
+    [ServerRpc(RequireOwnership = false)]
+    private void SpawnNewTileServerRpc(int TileIndex, Vector3 NextTilePosition, HexOrientation PathOrientation)
+    {
+        GameObject GeneratedTile = Instantiate(m_TheTiles[TileIndex].HexTile, NextTilePosition, Quaternion.identity);
+        m_TheTiles.Clear();
+        LastTileCretaedAUX = GeneratedTile;
 
+        int ElementIndex = Random.Range(0, TileElementsData.Count);
+        GeneratedTile.GetComponent<TileElementAsigned>().AssignElement(TileElementsData[ElementIndex]);
+
+        float yRotation = adjustRotation(PathOrientation) % 360;
+        GeneratedTile.transform.rotation = Quaternion.Euler(0, yRotation, 0);
+
+        NetworkObject TileNetworkObject = GeneratedTile.GetComponent<NetworkObject>();
+        TileNetworkObject.Spawn(true);
+
+        var tileAssigned = TileNetworkObject.GetComponent<TileElementAsigned>();
+        tileAssigned.AssignElementClientRpc(ElementIndex);
+        //TileNetworkObject.GetComponent<TileElementAsigned>().AssignElement(TileElementsData[ElementIndex]);
+    }
     public void BuildTrack(PathDetails Path, List<HexTileDetails> m_AvailablePaths, Vector3 NextTilePos)
-    { 
+    {
+        //Debug.Log("khé");
         if (m_AvailablePaths.Count == 0 || Path.PathOrientation == HexOrientation.End)
         {
             //Debug.Log("No hay caminos disponibles, fin del camino.");
@@ -327,7 +430,9 @@ public class HexPathCreator : MonoBehaviour
         {
             return;
         }
-        HexTileDetails Tile = m_AvailablePaths[Random.Range(0, m_AvailablePaths.Count)];
+
+        int SelectedTile = Random.Range(0, m_AvailablePaths.Count);
+        HexTileDetails Tile = m_AvailablePaths[SelectedTile];
 
         if (Tile.DoubleTile)
         {
@@ -357,13 +462,43 @@ public class HexPathCreator : MonoBehaviour
                     break;
             }
         }
+        
+        SpawnNewTileServerRpc(SelectedTile, NextTilePos, Path.PathOrientation);
+        /*
+         * GENERACIÓ DEL TILE
+         * GENERACIÓ DEL TILE
+         * GENERACIÓ DEL TILE
+         * GENERACIÓ DEL TILE
+         * GENERACIÓ DEL TILE
+         * GENERACIÓ DEL TILE
+         * GENERACIÓ DEL TILE
+         * GENERACIÓ DEL TILE
+         * GENERACIÓ DEL TILE
+         * GENERACIÓ DEL TILE
+         * GENERACIÓ DEL TILE
+         * GENERACIÓ DEL TILE
+         * GENERACIÓ DEL TILE
+         * */
+        //GameObject GeneratedTile = Instantiate(Tile.HexTile, NextTilePos, Quaternion.identity);
+        /*
+         * GENERACIÓ DEL TILE
+         * GENERACIÓ DEL TILE
+         * GENERACIÓ DEL TILE
+         * GENERACIÓ DEL TILE
+         * GENERACIÓ DEL TILE
+         * GENERACIÓ DEL TILE
+         * GENERACIÓ DEL TILE
+         * GENERACIÓ DEL TILE
+         * GENERACIÓ DEL TILE
+         * GENERACIÓ DEL TILE
+         * GENERACIÓ DEL TILE
+         * */
+        //GeneratedTile.GetComponent<TileElementAsigned>().AssignElement(TileElementsData[Random.Range(0, TileElementsData.Count)]);
 
-        GameObject GeneratedTile = Instantiate(Tile.HexTile, NextTilePos, Quaternion.identity);
+        //float yRotation = adjustRotation(Path.PathOrientation) % 360;
+        //GeneratedTile.transform.rotation = Quaternion.Euler(0, yRotation, 0);
 
-        GeneratedTile.GetComponent<TileElementAsigned>().AssignElement(TileElementsData[Random.Range(0, TileElementsData.Count)]);
-
-        float yRotation = adjustRotation(Path) % 360;
-        GeneratedTile.transform.rotation = Quaternion.Euler(0, yRotation, 0);
+        
 
         int bifurcation = 0;
         if (CheckDivisions(Tile) > 1)
@@ -399,7 +534,7 @@ public class HexPathCreator : MonoBehaviour
 
             if (lastBifurcation != 0) // bifurcation type end
             {
-                UpdatePath(lastBifurcation, Path, GeneratedTile);
+                UpdatePath(lastBifurcation, Path, LastTileCretaedAUX);
             }
         }
         else
@@ -432,21 +567,21 @@ public class HexPathCreator : MonoBehaviour
                 if (Tile.DoubleTileBifurcations.Exit_22) bifurcation = 22;
             }
 
-            UpdatePath(bifurcation, Path, GeneratedTile);
+            UpdatePath(bifurcation, Path, LastTileCretaedAUX);
         }
         int NewPather(int bifurcation, int lastBifurcation)
         {
             if (lastBifurcation == 0) return bifurcation;
             else
             {
-                PathBifurcation(Path, bifurcation, GeneratedTile);
+                PathBifurcation(Path, bifurcation, LastTileCretaedAUX);
                 return lastBifurcation;
             }
         }
     }
     private void UpdatePath(int HexTileBifurcation, PathDetails Path, GameObject GeneratedTile)
     {
-        if(HexTileBifurcation > 6) Path.m_PathNextPosition += UpdateNextTilePos(Path, HexTileBifurcation);
+        if (HexTileBifurcation > 6) Path.m_PathNextPosition += UpdateNextTilePos(Path, HexTileBifurcation);
 
         if (HexTileBifurcation == 1
             || HexTileBifurcation == 6
@@ -474,7 +609,7 @@ public class HexPathCreator : MonoBehaviour
         if (HexTileBifurcation == 0)
         {
             Path.PathOrientation = HexOrientation.End;
-            GeneratedTile.gameObject.transform.SetParent(Path.m_Container.gameObject.transform);
+            //GeneratedTile.gameObject.transform.SetParent(Path.m_Container.gameObject.transform);
             GetComponent<EnemySpawner>().UpdatePathList(Path, GeneratedTile);
             Destroy(Path.m_NextTileChecker);
             m_PathList.Remove(Path);
@@ -485,18 +620,18 @@ public class HexPathCreator : MonoBehaviour
 
         Path.m_NextTileChecker.transform.position = Path.m_PathNextPosition;
 
-        float yRotation = adjustRotation(Path) % 360;
+        float yRotation = adjustRotation(Path.PathOrientation) % 360;
 
         Path.m_NextTileChecker.transform.rotation = Quaternion.Euler(0, yRotation, 0);
 
-        GeneratedTile.gameObject.transform.SetParent(Path.m_Container.gameObject.transform);
+        //GeneratedTile.gameObject.transform.SetParent(Path.m_Container.gameObject.transform);
 
         GetComponent<EnemySpawner>().UpdatePathList(Path, GeneratedTile);
     }
-    private int adjustRotation(PathDetails camino)
+    private int adjustRotation(HexOrientation camino)
     {
         int rotation = 0;
-        switch (camino.PathOrientation)
+        switch (camino)
         {
             case HexOrientation.Zero:
                 rotation = 180;
@@ -548,6 +683,7 @@ public class HexPathCreator : MonoBehaviour
 
         return exitCount;
     }
+    #region Tile turns
     private HexOrientation LongTurnRight(HexOrientation currentOrientation)
     {
         switch (currentOrientation)
@@ -984,6 +1120,7 @@ public class HexPathCreator : MonoBehaviour
         }
 
     }
+    #endregion
     [System.Serializable]
     public class HexTileDetails
     {

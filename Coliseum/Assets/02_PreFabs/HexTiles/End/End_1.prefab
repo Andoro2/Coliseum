@@ -160,6 +160,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5804179662784639304}
   - component: {fileID: 2088742822655193306}
+  - component: {fileID: 5742494208731266799}
   m_Layer: 0
   m_Name: End_1
   m_TagString: Ground
@@ -197,6 +198,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TileElement: 0
+--- !u!114 &5742494208731266799
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8004503880869187092}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 951099334
+  AlwaysReplicateAsRoot: 0
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!1001 &969064731836960797
 PrefabInstance:
   m_ObjectHideFlags: 0

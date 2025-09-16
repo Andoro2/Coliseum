@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Netcode;
 using System.Linq;
 using static HexPathCreator;
 
-public class EnemySpawner : MonoBehaviour
+public class EnemySpawner : NetworkBehaviour
 {
     #region EnemySpawn 
     public List<PathSpawn> m_PathSpawns = new List<PathSpawn>();

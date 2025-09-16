@@ -74,6 +74,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5668608522785131048}
   - component: {fileID: 8211983429464757489}
+  - component: {fileID: -1506660368008374484}
   m_Layer: 0
   m_Name: CloseRight_1
   m_TagString: Ground
@@ -111,6 +112,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TileElement: 0
+--- !u!114 &-1506660368008374484
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1724604541513878114}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 951099334
+  AlwaysReplicateAsRoot: 0
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!1 &3145573496083897063
 GameObject:
   m_ObjectHideFlags: 0

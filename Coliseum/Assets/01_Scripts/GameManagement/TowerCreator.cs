@@ -1,9 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Netcode;
 using UnityEngine.UIElements;
 
-public class TowerCreator : MonoBehaviour
+public class TowerCreator : NetworkBehaviour
 {
     public GameObject m_TurretSketch, m_TurretToBuild;
     private GameObject InstancedSketch;
