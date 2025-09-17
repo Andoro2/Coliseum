@@ -29,6 +29,8 @@ public class HexPathCreator : NetworkBehaviour
     private List<HexTileDetails> m_TheTiles = new List<HexTileDetails>();
     void Start()
     {
+        StaticTileElementsData = TileElementsData;
+
         /*List<Vector3> m_PathStartPositions = new List<Vector3>
         {
             new Vector3(0, 0, -StartPathValues.y),                      //path zero
@@ -395,8 +397,8 @@ public class HexPathCreator : NetworkBehaviour
         m_TheTiles.Clear();
         LastTileCretaedAUX = GeneratedTile;
 
-        int ElementIndex = Random.Range(0, TileElementsData.Count);
-        GeneratedTile.GetComponent<TileElementAsigned>().AssignElement(TileElementsData[ElementIndex]);
+        int ElementIndex = Random.Range(0, StaticTileElementsData.Count);
+        GeneratedTile.GetComponent<TileElementAsigned>().AssignElement(StaticTileElementsData[ElementIndex]);
 
         float yRotation = adjustRotation(PathOrientation) % 360;
         GeneratedTile.transform.rotation = Quaternion.Euler(0, yRotation, 0);
@@ -404,8 +406,10 @@ public class HexPathCreator : NetworkBehaviour
         NetworkObject TileNetworkObject = GeneratedTile.GetComponent<NetworkObject>();
         TileNetworkObject.Spawn(true);
 
-        var tileAssigned = TileNetworkObject.GetComponent<TileElementAsigned>();
-        tileAssigned.AssignElementClientRpc(ElementIndex);
+        //var tileAssigned = TileNetworkObject.GetComponent<TileElementAsigned>();
+
+        TileNetworkObject.GetComponent<TileElementAsigned>().AssignElementClientRpc(ElementIndex);
+        
         //TileNetworkObject.GetComponent<TileElementAsigned>().AssignElement(TileElementsData[ElementIndex]);
     }
     public void BuildTrack(PathDetails Path, List<HexTileDetails> m_AvailablePaths, Vector3 NextTilePos)
@@ -431,8 +435,8 @@ public class HexPathCreator : NetworkBehaviour
             return;
         }
 
-        int SelectedTile = Random.Range(0, m_AvailablePaths.Count);
-        HexTileDetails Tile = m_AvailablePaths[SelectedTile];
+        int SelectedTileIndex = Random.Range(0, m_AvailablePaths.Count);
+        HexTileDetails Tile = m_AvailablePaths[SelectedTileIndex];
 
         if (Tile.DoubleTile)
         {
@@ -463,7 +467,7 @@ public class HexPathCreator : NetworkBehaviour
             }
         }
         
-        SpawnNewTileServerRpc(SelectedTile, NextTilePos, Path.PathOrientation);
+        SpawnNewTileServerRpc(SelectedTileIndex, NextTilePos, Path.PathOrientation);
         /*
          * GENERACIÓ DEL TILE
          * GENERACIÓ DEL TILE
@@ -497,8 +501,6 @@ public class HexPathCreator : NetworkBehaviour
 
         //float yRotation = adjustRotation(Path.PathOrientation) % 360;
         //GeneratedTile.transform.rotation = Quaternion.Euler(0, yRotation, 0);
-
-        
 
         int bifurcation = 0;
         if (CheckDivisions(Tile) > 1)
@@ -1170,6 +1172,7 @@ public class HexPathCreator : NetworkBehaviour
         return true; // No hay colisión, se puede colocar tile
     }
     public List<ElementData> TileElementsData = new List<ElementData>();
+    public static List<ElementData> StaticTileElementsData = new List<ElementData>();
     [System.Serializable]
     public class ElementData
     {

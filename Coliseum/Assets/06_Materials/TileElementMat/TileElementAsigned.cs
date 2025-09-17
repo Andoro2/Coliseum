@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 //using UnityEditor.UIElements;
 using UnityEngine;
-using Unity.Netcode;
 using static HexPathCreator;
 
 public class TileElementAsigned : NetworkBehaviour
@@ -18,8 +18,12 @@ public class TileElementAsigned : NetworkBehaviour
     }
 
     [ClientRpc]
-    public void AssignElementClientRpc(int elementIndex)
+    public void AssignElementClientRpc(int MaterialIndex)
     {
         //AssignElement(TileElementsData[elementIndex]);
+
+        TileElement = HexPathCreator.StaticTileElementsData[MaterialIndex].Element;
+
+        transform.GetChild(0).GetChild(0).GetComponent<MeshRenderer>().material = HexPathCreator.StaticTileElementsData[MaterialIndex].TileMat;
     }
 }

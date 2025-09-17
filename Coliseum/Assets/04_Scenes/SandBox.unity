@@ -11740,7 +11740,7 @@ MonoBehaviour:
     HexTile: {fileID: 2303875216838103261, guid: 15a013cb912a8874da7b5e66694bd8dc,
       type: 3}
   - Name: Double_Straight_1
-    m_Chance: 0.05
+    m_Chance: 0.5
     Bifurcations:
       Exit_1: 0
       Exit_2: 0
