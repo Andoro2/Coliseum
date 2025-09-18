@@ -33,17 +33,14 @@ public class GameManager : NetworkBehaviour
 
         if (int.Parse(m_HealthTMP.text) != m_BaseHealth)
         {
-            if (!IsServer) return;
             m_HealthTMP.text = "" + m_BaseHealth;
         }
         if (int.Parse(m_WavelTMP.text) != m_Wave)
         {
-            if (!IsServer) return;
             m_WavelTMP.text = "" + m_Wave;
         }
         if (int.Parse(m_CurrencyTMP.text) != m_Currency)
         {
-            if (!IsServer) return;
             m_CurrencyTMP.text = "" + m_Currency;
         }
         
@@ -104,32 +101,22 @@ public class GameManager : NetworkBehaviour
     }
     public void TakeDamage(int dmg)
     {
-        if (!IsServer) return;
-
         m_BaseHealth -= dmg;
     }
     public void HealDamage(int heal)
     {
-        if (!IsServer) return;
-
         m_BaseHealth += heal;
     }
     public void GetPaid(int money)
     {
-        if (!IsServer) return;
-
         m_Currency += money;
     }
     public void SpendMoney(int money)
     {
-        if (!IsServer) return;
-
         m_Currency -= money;
     }
     public void NextWave()
     {
-        if (!IsServer) return;
-
         m_Wave++;
     }
 

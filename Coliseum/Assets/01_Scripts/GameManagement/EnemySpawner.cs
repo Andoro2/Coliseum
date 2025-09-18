@@ -9,29 +9,50 @@ public class EnemySpawner : NetworkBehaviour
 {
     #region EnemySpawn 
     public List<PathSpawn> m_PathSpawns = new List<PathSpawn>();
+    public static List<PathSpawn> m_StaticPathSpawns = new List<PathSpawn>();
     public GameObject SpawnPoint;
     public List<GameObject> m_EnemyTypes = new List<GameObject>();
     // Start is called before the first frame update
     void Start()
     {
-        InvokeRepeating("SpawnEnemy", 1f, 2.5f);
+        if(m_PathSpawns.Count > 0) InvokeRepeating("SpawnEnemyServerRpc", 1f, 2.5f);
     }
 
     // Update is called once per frame
     void Update()
     {
+        m_StaticPathSpawns = m_PathSpawns;
         if (Input.GetKeyDown(KeyCode.M))
         {
-            SpawnEnemy();
+            if (m_PathSpawns.Count > 0) SpawnEnemyServerRpc();
         }
     }
-    void SpawnEnemy()
+    [ServerRpc(RequireOwnership = false)]
+    void SpawnEnemyServerRpc()
     {
-        foreach (PathSpawn spawnPoint in m_PathSpawns)
+        for (int p = 0; p < m_PathSpawns.Count; p++)
         {
-            GameObject enemy = Instantiate(m_EnemyTypes[0], spawnPoint.m_PathSpawnPoint.transform.position, Quaternion.identity);
-            enemy.GetComponent<EnemyMovement>().AssignPath(spawnPoint.m_PathSpawnPoint);
+            GameObject enemy = Instantiate(m_EnemyTypes[Random.Range(0, m_EnemyTypes.Count)], m_PathSpawns[p].m_PathSpawnPoint.transform.position, Quaternion.identity);
+            enemy.GetComponent<EnemyMovement>().AssignPath(m_PathSpawns[p].m_PathSpawnPoint);
+
+
+            NetworkObject EnemyNetworkObject = enemy.GetComponent<NetworkObject>();
+            EnemyNetworkObject.Spawn(true);
+            EnemyNetworkObject.GetComponent<EnemyMovement>().AssignPathClientRpc(p);
+
         }
+
+        /*foreach (PathSpawn spawnPoint in m_PathSpawns)
+        {
+            GameObject enemy = Instantiate(m_EnemyTypes[Random.Range(0,m_EnemyTypes.Count)], spawnPoint.m_PathSpawnPoint.transform.position, Quaternion.identity);
+            enemy.GetComponent<EnemyMovement>().AssignPath(spawnPoint.m_PathSpawnPoint);
+
+
+            NetworkObject EnemyNetworkObject = enemy.GetComponent<NetworkObject>();
+            EnemyNetworkObject.Spawn(true);
+            //EnemyNetworkObject.GetComponent<EnemyMovement>().AssignPathClientRpc(int pathIndex);
+        }*/
+
     }
 
     public void UpdatePathList(PathDetails path, GameObject tile)
@@ -56,7 +77,6 @@ public class EnemySpawner : NetworkBehaviour
                     m_PathSpawnPoint = spwnP
                 };
                 m_PathSpawns.Add(nuevo);
-                //Debug.Log("Nuevo path creado: " + nuevo.ID);
             }
         }
     }

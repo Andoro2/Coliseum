@@ -529,7 +529,7 @@ GameObject:
   - component: {fileID: 97386003}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -994,7 +994,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &149061718
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2197,6 +2197,24 @@ MonoBehaviour:
       SourcePrefabToOverride: {fileID: 0}
       SourceHashToOverride: 0
       OverridingTargetPrefab: {fileID: 0}
+    - Override: 0
+      Prefab: {fileID: 2365854645322114647, guid: 039dde88dfa2371408672f4b7bed873b,
+        type: 3}
+      SourcePrefabToOverride: {fileID: 0}
+      SourceHashToOverride: 0
+      OverridingTargetPrefab: {fileID: 0}
+    - Override: 0
+      Prefab: {fileID: 2365854645322114647, guid: 1e40f70f90218e942af8e2c5dc2f3aac,
+        type: 3}
+      SourcePrefabToOverride: {fileID: 0}
+      SourceHashToOverride: 0
+      OverridingTargetPrefab: {fileID: 0}
+    - Override: 0
+      Prefab: {fileID: 2365854645322114647, guid: 15e3d604e3841f64f9a698a90c7c682a,
+        type: 3}
+      SourcePrefabToOverride: {fileID: 0}
+      SourceHashToOverride: 0
+      OverridingTargetPrefab: {fileID: 0}
     TickRate: 30
     ClientConnectionBufferTimeout: 10
     ConnectionApproval: 0
@@ -2789,7 +2807,7 @@ GameObject:
   - component: {fileID: 364000400}
   m_Layer: 0
   m_Name: Cube
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3139,7 +3157,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &403395879
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3974,6 +3992,7 @@ GameObject:
   m_Component:
   - component: {fileID: 504479875}
   - component: {fileID: 504479876}
+  - component: {fileID: 504479877}
   m_Layer: 0
   m_Name: MainCam
   m_TagString: Untagged
@@ -4010,11 +4029,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   FollowPlayer: 1
-  target: {fileID: 97385998}
+  target: {fileID: 0}
   smoothTime: 0.3
   offset: {x: 0, y: 15, z: -8.5}
   moveSpeed: 25
   rotationSpeed: 100
+--- !u!114 &504479877
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 504479874}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 2027546083
+  AlwaysReplicateAsRoot: 0
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!1 &508058434
 GameObject:
   m_ObjectHideFlags: 0
@@ -4754,7 +4789,7 @@ GameObject:
   - component: {fileID: 743214665}
   m_Layer: 0
   m_Name: MeshPlaceHolder
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4826,7 +4861,7 @@ GameObject:
   - component: {fileID: 749451459}
   m_Layer: 5
   m_Name: InteractionCanvas
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5138,7 +5173,7 @@ GameObject:
   - component: {fileID: 851500533}
   m_Layer: 5
   m_Name: Text
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6982,7 +7017,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1247694274
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7347,7 +7382,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1256762373
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8263,7 +8298,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1455099882
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8914,6 +8949,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1050200236044561886, guid: 039dde88dfa2371408672f4b7bed873b,
+        type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 2136235038
+      objectReference: {fileID: 0}
     - target: {fileID: 2365854645322114647, guid: 039dde88dfa2371408672f4b7bed873b,
         type: 3}
       propertyPath: m_Name
@@ -9430,7 +9470,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1598378990
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10637,7 +10677,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1735057697}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 885e433c195c51a48bff196796c9e34e, type: 3}
   m_Name: 
@@ -10646,6 +10686,8 @@ MonoBehaviour:
   SpawnPoint: {fileID: 1024853286}
   m_EnemyTypes:
   - {fileID: 2365854645322114647, guid: 039dde88dfa2371408672f4b7bed873b, type: 3}
+  - {fileID: 2365854645322114647, guid: 1e40f70f90218e942af8e2c5dc2f3aac, type: 3}
+  - {fileID: 2365854645322114647, guid: 15e3d604e3841f64f9a698a90c7c682a, type: 3}
 --- !u!114 &1735057701
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14021,7 +14063,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2079215592
 RectTransform:
   m_ObjectHideFlags: 0
@@ -14158,7 +14200,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2084433065
 RectTransform:
   m_ObjectHideFlags: 0
@@ -14551,7 +14593,7 @@ GameObject:
   - component: {fileID: 2129572545}
   m_Layer: 0
   m_Name: Cylinder
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -14806,11 +14848,11 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 832575519}
+  - {fileID: 504479875}
   - {fileID: 1444945326}
   - {fileID: 1735057699}
   - {fileID: 284914701}
   - {fileID: 410087041}
-  - {fileID: 504479875}
   - {fileID: 468731928}
   - {fileID: 1346119286}
   - {fileID: 97385998}

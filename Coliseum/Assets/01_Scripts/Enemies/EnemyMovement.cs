@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
+using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEngine;
-using System.Linq;
+using static EnemySpawner;
 
-public class EnemyMovement : MonoBehaviour
+public class EnemyMovement : NetworkBehaviour
 {
     public float m_Speed = 5f;
     public List<Transform> m_Path = new List<Transform>();
@@ -53,7 +55,38 @@ public class EnemyMovement : MonoBehaviour
             m_TurretsTargetedBy.Add(other.gameObject);
         }
     }
+    [ClientRpc]
+    public void AssignPathClientRpc(int pathIndex)
+    {
+        List<PathSpawn> PathSpawns = new List<PathSpawn>();
+        PathSpawns = m_StaticPathSpawns;
+        m_Path.Clear();
 
+        for (int i = 0; i < PathSpawns[pathIndex].m_PathSpawnPoint.transform.childCount; i++)
+        {
+            GameObject child = PathSpawns[pathIndex].m_PathSpawnPoint.transform.GetChild(i).gameObject;
+
+            if (child.CompareTag("PathBifurcation"))
+            {
+                GameObject pathBifurcationChosen = child.transform.GetChild(Random.Range(0, child.transform.childCount)).gameObject;
+
+                for (int m = 0; m < pathBifurcationChosen.transform.childCount; m++)
+                {
+                    GameObject childBif = pathBifurcationChosen.transform.GetChild(m).gameObject;
+
+                    m_Path.Add(childBif.transform);
+                }
+            }
+            else
+            {
+                m_Path.Add(child.gameObject.transform);
+            }
+        }
+
+        HashSet<Transform> uniqueChildren = new HashSet<Transform>(m_Path);
+
+        m_Path = new List<Transform>(uniqueChildren);
+    }
     public void AssignPath(GameObject PathSelector)
     {
         m_Path.Clear();

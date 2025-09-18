@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
+using static TileElementAsigned;
 
-public class CameraFollow : MonoBehaviour
+public class CameraFollow : NetworkBehaviour
 {
     public bool FollowPlayer = false;
     public Transform target;
@@ -12,11 +14,31 @@ public class CameraFollow : MonoBehaviour
 
     void Start()
     {
-        //target = GameObject.FindWithTag("Player").gameObject.transform;
+        target = null;
+        transform.position = Vector3.zero;
+    }
+    //[ClientRpc]
+    public void AssignTarget()//ClientRpc()
+    {
+        //target = GameObject.FindObjectWithTag("Player").gameObject.transform;
+
+        //List<Object> players = new List<GameObject>(GameObject.FindGameObjectsWithTag("Player"));
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+
+        foreach (GameObject p in players)
+        {
+            NetworkObject netObj = p.GetComponent<NetworkObject>();
+
+            if (netObj != null && netObj.IsOwner)
+            {
+                target = p.transform;
+            }
+        }
+        
     }
     void Update()
     {
-        //if(target == null && GameObject.FindWithTag("Player").gameObject != null) target = GameObject.FindWithTag("Player").gameObject.transform;
+        if (target == null) AssignTarget();// ClientRpc(); 
 
         if (target != null && FollowPlayer)
             {

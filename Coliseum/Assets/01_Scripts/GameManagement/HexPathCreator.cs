@@ -406,11 +406,7 @@ public class HexPathCreator : NetworkBehaviour
         NetworkObject TileNetworkObject = GeneratedTile.GetComponent<NetworkObject>();
         TileNetworkObject.Spawn(true);
 
-        //var tileAssigned = TileNetworkObject.GetComponent<TileElementAsigned>();
-
         TileNetworkObject.GetComponent<TileElementAsigned>().AssignElementClientRpc(ElementIndex);
-        
-        //TileNetworkObject.GetComponent<TileElementAsigned>().AssignElement(TileElementsData[ElementIndex]);
     }
     public void BuildTrack(PathDetails Path, List<HexTileDetails> m_AvailablePaths, Vector3 NextTilePos)
     {
@@ -468,39 +464,6 @@ public class HexPathCreator : NetworkBehaviour
         }
         
         SpawnNewTileServerRpc(SelectedTileIndex, NextTilePos, Path.PathOrientation);
-        /*
-         * GENERACIÓ DEL TILE
-         * GENERACIÓ DEL TILE
-         * GENERACIÓ DEL TILE
-         * GENERACIÓ DEL TILE
-         * GENERACIÓ DEL TILE
-         * GENERACIÓ DEL TILE
-         * GENERACIÓ DEL TILE
-         * GENERACIÓ DEL TILE
-         * GENERACIÓ DEL TILE
-         * GENERACIÓ DEL TILE
-         * GENERACIÓ DEL TILE
-         * GENERACIÓ DEL TILE
-         * GENERACIÓ DEL TILE
-         * */
-        //GameObject GeneratedTile = Instantiate(Tile.HexTile, NextTilePos, Quaternion.identity);
-        /*
-         * GENERACIÓ DEL TILE
-         * GENERACIÓ DEL TILE
-         * GENERACIÓ DEL TILE
-         * GENERACIÓ DEL TILE
-         * GENERACIÓ DEL TILE
-         * GENERACIÓ DEL TILE
-         * GENERACIÓ DEL TILE
-         * GENERACIÓ DEL TILE
-         * GENERACIÓ DEL TILE
-         * GENERACIÓ DEL TILE
-         * GENERACIÓ DEL TILE
-         * */
-        //GeneratedTile.GetComponent<TileElementAsigned>().AssignElement(TileElementsData[Random.Range(0, TileElementsData.Count)]);
-
-        //float yRotation = adjustRotation(Path.PathOrientation) % 360;
-        //GeneratedTile.transform.rotation = Quaternion.Euler(0, yRotation, 0);
 
         int bifurcation = 0;
         if (CheckDivisions(Tile) > 1)
