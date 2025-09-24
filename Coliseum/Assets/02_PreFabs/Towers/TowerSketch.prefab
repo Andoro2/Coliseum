@@ -111,6 +111,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2019719522895300503}
   - component: {fileID: 6752455037182129475}
+  - component: {fileID: -6458798724233829151}
   m_Layer: 0
   m_Name: TowerSketch
   m_TagString: Untagged
@@ -164,6 +165,22 @@ MonoBehaviour:
   Element_1: {fileID: 4322246122046084035}
   Element_2: {fileID: 7073962398080939876}
   Element_3: {fileID: 2411843801113435273}
+--- !u!114 &-6458798724233829151
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2282135650313546438}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 951099334
+  AlwaysReplicateAsRoot: 0
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!1 &2441666972930569916
 GameObject:
   m_ObjectHideFlags: 0
@@ -923,7 +940,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: b6f53ef368bb83343aaa9dd30b756adb, type: 2}
+      objectReference: {fileID: 2100000, guid: 6770d141f4f7fba43a79d4b93f02c2c7, type: 2}
     - target: {fileID: 919132149155446097, guid: 079583b87fdaf0944af5ad638b782c57,
         type: 3}
       propertyPath: m_Name
@@ -1033,7 +1050,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: b6f53ef368bb83343aaa9dd30b756adb, type: 2}
+      objectReference: {fileID: 2100000, guid: 6770d141f4f7fba43a79d4b93f02c2c7, type: 2}
     - target: {fileID: 919132149155446097, guid: c5b8ad5081bc10948911835a278f0810,
         type: 3}
       propertyPath: m_Name

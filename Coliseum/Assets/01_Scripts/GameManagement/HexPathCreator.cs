@@ -1,11 +1,12 @@
+using Steamworks.ServerList;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Unity.Netcode;
 using Unity.VisualScripting;
 //using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-using Unity.Netcode;
 using UnityEngine.SceneManagement;
 using static TileElementAsigned;
 //using static UnityEngine.Rendering.DebugUI;
@@ -21,8 +22,8 @@ public class HexPathCreator : NetworkBehaviour
     private Vector2 StartPathValues = new Vector2(45, 30 * Mathf.Sqrt(3));
     public bool m_PathZero, m_PathOne, m_PathTwo, m_PathThree, m_PathFour, m_PathFive;
 
-    public GameObject m_TileContainer, m_PathHolder, m_NextTileChecker;
-
+    public GameObject m_TileContainer, m_PathHolder;
+    public NetworkObject m_NextTileChecker;
 
     private bool flag = false;
     private GameObject LastTileCretaedAUX;
@@ -122,23 +123,31 @@ public class HexPathCreator : NetworkBehaviour
                 if (paths[i])
                 {
                     PathDetails path = new PathDetails();
+
                     path.ID = path.ID + m_PathList.Count();
                     path.PathOrientation = beginningPathsOrientations[i];
                     path.m_PathNextPosition = m_PathStartPositions[i];
 
+                    m_PathList.Add(path);
 
                     GameObject PathContainer = Instantiate(m_PathHolder, path.m_PathNextPosition, Quaternion.identity);
                     path.m_Container = PathContainer;
 
-                    int yRotation = adjustRotation(path.PathOrientation) % 360;
+                    float yRotation = AdjustRotation(path.PathOrientation) % 360;
+
+                    //SpawnTileCheckerServerRpc(i, m_PathStartPositions[i], yRotation);
                     path.m_NextTileChecker = Instantiate(m_NextTileChecker, m_PathStartPositions[i], Quaternion.Euler(0, yRotation, 0));
                     path.m_NextTileChecker.name = "TileChecker_" + path.ID;
 
                     PathContainer.name = path.ID;
 
-                    m_PathList.Add(path);
+                    //Debug.Log("Antes: " + path.m_NextTileChecker.gameObject.transform.Find("Canvas").GetComponent<TileCreateButton>().m_ThisWay.ID);
+                    //path.m_NextTileChecker.transform.Find("Canvas").GetComponent<TileCreateButton>().SetTheWayServerRpc(i);
+                    //Debug.Log("Después: " + path.m_NextTileChecker.gameObject.transform.Find("Canvas").GetComponent<TileCreateButton>().m_ThisWay.ID);
+                    GameObject TileButton = path.m_NextTileChecker.gameObject.transform.Find("Canvas").gameObject;
+                    TileButton.GetComponent<TileCreateButton>().m_ThisWay = path;
 
-                    path.m_NextTileChecker.transform.Find("Canvas").GetComponent<TileCreateButton>().SetTheWay(path);
+                    TileCheckerServerRpc(i);
 
                     BuildTrack(path, m_TheTiles, m_PathStartPositions[i]);
                 }
@@ -232,14 +241,23 @@ public class HexPathCreator : NetworkBehaviour
         }
 
         path.m_NextTileChecker = Instantiate(PrevPath.m_NextTileChecker, GeneratedTile.transform.position + UpdateNextTilePos(path, newOrientation), Quaternion.identity);
+        
+        int pathIndex = m_PathList.IndexOf(path);
+        float yRotation = (AdjustRotation(path.PathOrientation) + 360) % 360;
+        //SpawnTileCheckerServerRpc(pathIndex, GeneratedTile.transform.position + UpdateNextTilePos(path, newOrientation), yRotation);
 
-        float yRotation = (adjustRotation(path.PathOrientation) + 360) % 360;
         path.m_NextTileChecker.transform.rotation = Quaternion.Euler(0, yRotation, 0);
         path.m_NextTileChecker.name = "TileChecker_" + path.ID;
 
         path.m_PathNextPosition += UpdateNextTilePos(path, newOrientation);
 
-        path.m_NextTileChecker.transform.Find("Canvas").GetComponent<TileCreateButton>().SetTheWay(path);
+        //Debug.Log("Antes: " + path.m_NextTileChecker.gameObject.transform.Find("Canvas").GetComponent<TileCreateButton>().m_ThisWay.ID);
+        //path.m_NextTileChecker.gameObject.transform.Find("Canvas").GetComponent<TileCreateButton>().SetTheWayServerRpc(pathIndex);
+        //Debug.Log("Después: " + path.m_NextTileChecker.gameObject.transform.Find("Canvas").GetComponent<TileCreateButton>().m_ThisWay.ID);
+        GameObject TileButton = path.m_NextTileChecker.gameObject.transform.Find("Canvas").gameObject;
+        TileButton.GetComponent<TileCreateButton>().m_ThisWay = path;
+
+        TileCheckerServerRpc(pathIndex);
 
         GetComponent<EnemySpawner>().UpdatePathList(path, GeneratedTile);
     }    
@@ -261,10 +279,11 @@ public class HexPathCreator : NetworkBehaviour
 
         HashSet<int> m_AvailableExits = new HashSet<int>();
 
-        Transform NextTileChecker = Track.m_NextTileChecker.transform, 
-            DoubleTileChecker = NextTileChecker.transform.Find("DoubleTileChecker").transform;
+        Transform NextTileChecker = Track.m_NextTileChecker.gameObject.transform, 
+            DoubleTileChecker = NextTileChecker.gameObject.transform.Find("DoubleTileChecker").transform;
 
-        NextTileChecker.Find("Canvas").GetComponent<TileCreateButton>().SetTheWay(Track);
+        //int pathIndex = m_PathList.IndexOf(Track);
+        //NextTileChecker.Find("Canvas").GetComponent<TileCreateButton>().SetTheWayServerRpc(pathIndex);
 
         bool DoubleTileFits = true;
 
@@ -390,29 +409,14 @@ public class HexPathCreator : NetworkBehaviour
 
         BuildTrack(Track, m_TheTiles, Track.m_PathNextPosition);
     }
-    [ServerRpc(RequireOwnership = false)]
-    private void SpawnNewTileServerRpc(int TileIndex, Vector3 NextTilePosition, HexOrientation PathOrientation)
-    {
-        GameObject GeneratedTile = Instantiate(m_TheTiles[TileIndex].HexTile, NextTilePosition, Quaternion.identity);
-        m_TheTiles.Clear();
-        LastTileCretaedAUX = GeneratedTile;
-
-        int ElementIndex = Random.Range(0, StaticTileElementsData.Count);
-        GeneratedTile.GetComponent<TileElementAsigned>().AssignElement(StaticTileElementsData[ElementIndex]);
-
-        float yRotation = adjustRotation(PathOrientation) % 360;
-        GeneratedTile.transform.rotation = Quaternion.Euler(0, yRotation, 0);
-
-        NetworkObject TileNetworkObject = GeneratedTile.GetComponent<NetworkObject>();
-        TileNetworkObject.Spawn(true);
-
-        TileNetworkObject.GetComponent<TileElementAsigned>().AssignElementClientRpc(ElementIndex);
-    }
+    
     public void BuildTrack(PathDetails Path, List<HexTileDetails> m_AvailablePaths, Vector3 NextTilePos)
     {
         //Debug.Log("khé");
         if (m_AvailablePaths.Count == 0 || Path.PathOrientation == HexOrientation.End)
         {
+            int pathIndex = m_PathList.IndexOf(Path);
+            DestroyTileCheckerServerRpc(pathIndex);
             //Debug.Log("No hay caminos disponibles, fin del camino.");
             return;
         }
@@ -544,6 +548,43 @@ public class HexPathCreator : NetworkBehaviour
             }
         }
     }
+    [ServerRpc(RequireOwnership = false)]
+    private void SpawnNewTileServerRpc(int TileIndex, Vector3 NextTilePosition, HexOrientation PathOrientation)
+    {
+        GameObject GeneratedTile = Instantiate(m_TheTiles[TileIndex].HexTile, NextTilePosition, Quaternion.identity);
+        m_TheTiles.Clear();
+        LastTileCretaedAUX = GeneratedTile;
+
+        int ElementIndex = Random.Range(0, StaticTileElementsData.Count);
+        GeneratedTile.GetComponent<TileElementAsigned>().AssignElement(StaticTileElementsData[ElementIndex]);
+
+        float yRotation = AdjustRotation(PathOrientation) % 360;
+        GeneratedTile.transform.rotation = Quaternion.Euler(0, yRotation, 0);
+
+        NetworkObject TileNetworkObject = GeneratedTile.GetComponent<NetworkObject>();
+        TileNetworkObject.Spawn(true);
+
+        TileNetworkObject.GetComponent<TileElementAsigned>().AssignElementClientRpc(ElementIndex);
+    }
+    /*[ServerRpc(RequireOwnership = false)]
+    private void SpawnTileCheckerServerRpc(int pathIndex, Vector3 tileCheckPosition, float tileCheckYRotation)
+    {
+        NetworkObject NextTileChecker = Instantiate(m_NextTileChecker, tileCheckPosition, Quaternion.Euler(0, tileCheckYRotation, 0));
+        m_PathList[pathIndex].m_NextTileChecker = NextTileChecker;
+        //path.m_NextTileChecker = Instantiate(m_NextTileChecker, m_PathStartPositions[i], Quaternion.Euler(0, yRotation, 0));
+        m_PathList[pathIndex].m_NextTileChecker.name = "TileChecker_" + m_PathList[pathIndex].ID;
+    }*/
+    [ServerRpc(RequireOwnership = false)]
+    private void DestroyTileCheckerServerRpc(int pathIndex)
+    {
+        Destroy(m_PathList[pathIndex].m_NextTileChecker.gameObject);
+    }
+    [ServerRpc(RequireOwnership = false)]
+    private void TileCheckerServerRpc(int pathIndex)
+    {
+        GameObject TileButton = m_PathList[pathIndex].m_NextTileChecker.gameObject.transform.Find("Canvas").gameObject;
+        TileButton.GetComponent<TileCreateButton>().m_ThisWay = m_PathList[pathIndex];
+    }
     private void UpdatePath(int HexTileBifurcation, PathDetails Path, GameObject GeneratedTile)
     {
         if (HexTileBifurcation > 6) Path.m_PathNextPosition += UpdateNextTilePos(Path, HexTileBifurcation);
@@ -576,7 +617,7 @@ public class HexPathCreator : NetworkBehaviour
             Path.PathOrientation = HexOrientation.End;
             //GeneratedTile.gameObject.transform.SetParent(Path.m_Container.gameObject.transform);
             GetComponent<EnemySpawner>().UpdatePathList(Path, GeneratedTile);
-            Destroy(Path.m_NextTileChecker);
+            DestroyTileCheckerServerRpc(m_PathList.IndexOf(Path));
             m_PathList.Remove(Path);
             return;
         }
@@ -585,7 +626,7 @@ public class HexPathCreator : NetworkBehaviour
 
         Path.m_NextTileChecker.transform.position = Path.m_PathNextPosition;
 
-        float yRotation = adjustRotation(Path.PathOrientation) % 360;
+        float yRotation = AdjustRotation(Path.PathOrientation) % 360;
 
         Path.m_NextTileChecker.transform.rotation = Quaternion.Euler(0, yRotation, 0);
 
@@ -593,7 +634,7 @@ public class HexPathCreator : NetworkBehaviour
 
         GetComponent<EnemySpawner>().UpdatePathList(Path, GeneratedTile);
     }
-    private int adjustRotation(HexOrientation camino)
+    private int AdjustRotation(HexOrientation camino)
     {
         int rotation = 0;
         switch (camino)
@@ -1117,7 +1158,8 @@ public class HexPathCreator : NetworkBehaviour
         public bool m_PathActive = true;
         public HexOrientation PathOrientation = HexOrientation.Zero;
         public Vector3 m_PathNextPosition;
-        public GameObject m_Container, m_NextTileChecker;
+        public GameObject m_Container;
+        public NetworkObject m_NextTileChecker;
     }
     public bool CheckPosition(Vector3 position)
     {

@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
-public class TileCreateButton : MonoBehaviour
+public class TileCreateButton : NetworkBehaviour
 {
     public HexPathCreator.PathDetails m_ThisWay;
     public HexPathCreator HexPath;
@@ -18,9 +19,14 @@ public class TileCreateButton : MonoBehaviour
         HexPath.SelectTiles(m_ThisWay);
         papu.GetComponent<GameManager>().NextWave();
     }
-    public void SetTheWay(HexPathCreator.PathDetails theWay)
+
+    public void SetTheWay(HexPathCreator.PathDetails way)
     {
-        m_ThisWay = theWay;
+        m_ThisWay = way;
     }
     //SelectTiles(m_PathList[SelectedPath]);
 }
+//NetworkObject NextTileChecker = Instantiate(m_NextTileChecker, tileCheckPosition, Quaternion.Euler(0, tileCheckYRotation, 0));
+//m_PathList[pathIndex].m_NextTileChecker = NextTileChecker;
+//path.m_NextTileChecker = Instantiate(m_NextTileChecker, m_PathStartPositions[i], Quaternion.Euler(0, yRotation, 0));
+//m_PathList[pathIndex].m_NextTileChecker.name = "TileChecker_" + m_PathList[pathIndex].ID;

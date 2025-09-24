@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+//using Unity.Netcode;
 public class SetTowerToBuild : MonoBehaviour
 {
     public GameObject m_Tugget, m_GameController;
@@ -16,5 +16,12 @@ public class SetTowerToBuild : MonoBehaviour
     {
         TurretMaker.enabled = true;
         TurretMaker.SetTowerToBuild(m_Tugget);
+        //SetTurretToBuildTurretServerRpc();
     }
+    /*[ServerRpc(RequireOwnership = false)]
+    private void SetTurretToBuildTurretServerRpc()
+    {
+        TurretMaker.enabled = true;
+        TurretMaker.SetTowerToBuild(m_Tugget);
+    }*/
 }

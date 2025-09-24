@@ -1958,6 +1958,12 @@ MonoBehaviour:
       type: 3}
     NetworkPrefabs:
     - Override: 0
+      Prefab: {fileID: 2171034749813684662, guid: f9e1e4a0ea57a2c41a52d56e2e07c778,
+        type: 3}
+      SourcePrefabToOverride: {fileID: 0}
+      SourceHashToOverride: 0
+      OverridingTargetPrefab: {fileID: 0}
+    - Override: 0
       Prefab: {fileID: 1724604541513878114, guid: bfe7d388c45f9a340ab0cd6746848c62,
         type: 3}
       SourcePrefabToOverride: {fileID: 0}
@@ -2102,6 +2108,18 @@ MonoBehaviour:
       SourceHashToOverride: 0
       OverridingTargetPrefab: {fileID: 0}
     - Override: 0
+      Prefab: {fileID: 8280890478747456764, guid: fd4695a6384a5e747ab984006ee87295,
+        type: 3}
+      SourcePrefabToOverride: {fileID: 0}
+      SourceHashToOverride: 0
+      OverridingTargetPrefab: {fileID: 0}
+    - Override: 0
+      Prefab: {fileID: 8280890478747456764, guid: 8bb66aa54264c40439d68da64afa8b18,
+        type: 3}
+      SourcePrefabToOverride: {fileID: 0}
+      SourceHashToOverride: 0
+      OverridingTargetPrefab: {fileID: 0}
+    - Override: 0
       Prefab: {fileID: 1039170778232925723, guid: ec6edf822bc4a8d489fa88c7363ab794,
         type: 3}
       SourcePrefabToOverride: {fileID: 0}
@@ -2126,6 +2144,18 @@ MonoBehaviour:
       SourceHashToOverride: 0
       OverridingTargetPrefab: {fileID: 0}
     - Override: 0
+      Prefab: {fileID: 8539271684980000182, guid: 54cd5948682756743828f6ec0527528e,
+        type: 3}
+      SourcePrefabToOverride: {fileID: 0}
+      SourceHashToOverride: 0
+      OverridingTargetPrefab: {fileID: 0}
+    - Override: 0
+      Prefab: {fileID: 1039170778232925723, guid: b6df118a293077e42b44c786bc7f65f5,
+        type: 3}
+      SourcePrefabToOverride: {fileID: 0}
+      SourceHashToOverride: 0
+      OverridingTargetPrefab: {fileID: 0}
+    - Override: 0
       Prefab: {fileID: 1039170778232925723, guid: 920f8aec9007dc145bf9702a1f5a6b70,
         type: 3}
       SourcePrefabToOverride: {fileID: 0}
@@ -2145,6 +2175,18 @@ MonoBehaviour:
       OverridingTargetPrefab: {fileID: 0}
     - Override: 0
       Prefab: {fileID: 8539271684980000182, guid: 88581bd7c0fa3804786c447e8ff8507e,
+        type: 3}
+      SourcePrefabToOverride: {fileID: 0}
+      SourceHashToOverride: 0
+      OverridingTargetPrefab: {fileID: 0}
+    - Override: 0
+      Prefab: {fileID: 8539271684980000182, guid: edd88aa2e3c1a17448892bb2a2df6d84,
+        type: 3}
+      SourcePrefabToOverride: {fileID: 0}
+      SourceHashToOverride: 0
+      OverridingTargetPrefab: {fileID: 0}
+    - Override: 0
+      Prefab: {fileID: 1039170778232925723, guid: 8e88907b45078be4cb705d422155b944,
         type: 3}
       SourcePrefabToOverride: {fileID: 0}
       SourceHashToOverride: 0
@@ -2198,6 +2240,36 @@ MonoBehaviour:
       SourceHashToOverride: 0
       OverridingTargetPrefab: {fileID: 0}
     - Override: 0
+      Prefab: {fileID: 4641471824103506278, guid: c3049df2d7c0eed4c856697ba116d133,
+        type: 3}
+      SourcePrefabToOverride: {fileID: 0}
+      SourceHashToOverride: 0
+      OverridingTargetPrefab: {fileID: 0}
+    - Override: 0
+      Prefab: {fileID: 4641471824103506278, guid: 1091112c0177a7b42918511cfbcd02c1,
+        type: 3}
+      SourcePrefabToOverride: {fileID: 0}
+      SourceHashToOverride: 0
+      OverridingTargetPrefab: {fileID: 0}
+    - Override: 0
+      Prefab: {fileID: 4641471824103506278, guid: aa43a4f430b8a5e4c855cd5ac5786f61,
+        type: 3}
+      SourcePrefabToOverride: {fileID: 0}
+      SourceHashToOverride: 0
+      OverridingTargetPrefab: {fileID: 0}
+    - Override: 0
+      Prefab: {fileID: 4641471824103506278, guid: acc7c84b1a1d0fa42bada3384628ec6c,
+        type: 3}
+      SourcePrefabToOverride: {fileID: 0}
+      SourceHashToOverride: 0
+      OverridingTargetPrefab: {fileID: 0}
+    - Override: 0
+      Prefab: {fileID: 4641471824103506278, guid: dc303ba34a21dfd4696aa32d9b8f5e8f,
+        type: 3}
+      SourcePrefabToOverride: {fileID: 0}
+      SourceHashToOverride: 0
+      OverridingTargetPrefab: {fileID: 0}
+    - Override: 0
       Prefab: {fileID: 4310394104581009709, guid: 4c361c1062340d14a828d5573fa8e211,
         type: 3}
       SourcePrefabToOverride: {fileID: 0}
@@ -2229,6 +2301,24 @@ MonoBehaviour:
       OverridingTargetPrefab: {fileID: 0}
     - Override: 0
       Prefab: {fileID: 2365854645322114647, guid: 1e40f70f90218e942af8e2c5dc2f3aac,
+        type: 3}
+      SourcePrefabToOverride: {fileID: 0}
+      SourceHashToOverride: 0
+      OverridingTargetPrefab: {fileID: 0}
+    - Override: 0
+      Prefab: {fileID: 2282135650313546438, guid: b78689f563779874c84933e50183ec19,
+        type: 3}
+      SourcePrefabToOverride: {fileID: 0}
+      SourceHashToOverride: 0
+      OverridingTargetPrefab: {fileID: 0}
+    - Override: 0
+      Prefab: {fileID: 1948653996950279330, guid: 0e5a75dbc2915464fb752829fa16b028,
+        type: 3}
+      SourcePrefabToOverride: {fileID: 0}
+      SourceHashToOverride: 0
+      OverridingTargetPrefab: {fileID: 0}
+    - Override: 0
+      Prefab: {fileID: 573596426422493728, guid: 1fdad5febb5944f4b99cd3b66a409c62,
         type: 3}
       SourcePrefabToOverride: {fileID: 0}
       SourceHashToOverride: 0
@@ -10809,6 +10899,66 @@ MonoBehaviour:
       Exit_22: 0
     HexTile: {fileID: 4310394104581009709, guid: f8b20012c859c5740bf6c903183d9b1d,
       type: 3}
+  - Name: CloseLeft_4
+    m_Chance: 1
+    Bifurcations:
+      Exit_1: 1
+      Exit_2: 0
+      Exit_3: 0
+      Exit_4: 0
+      Exit_5: 0
+      End: 0
+    DoubleTile: 0
+    DoubleTileBifurcations:
+      Exit_6: 0
+      Exit_7: 0
+      Exit_8: 0
+      Exit_9: 0
+      Exit_10: 0
+      Exit_11: 0
+      Exit_12: 0
+      Exit_13: 0
+      Exit_14: 0
+      Exit_15: 0
+      Exit_16: 0
+      Exit_17: 0
+      Exit_18: 0
+      Exit_19: 0
+      Exit_20: 0
+      Exit_21: 0
+      Exit_22: 0
+    HexTile: {fileID: 4310394104581009709, guid: 724cc50165371cd4394576c986afb086,
+      type: 3}
+  - Name: CloseLeft_5
+    m_Chance: 1
+    Bifurcations:
+      Exit_1: 1
+      Exit_2: 0
+      Exit_3: 0
+      Exit_4: 0
+      Exit_5: 0
+      End: 0
+    DoubleTile: 0
+    DoubleTileBifurcations:
+      Exit_6: 0
+      Exit_7: 0
+      Exit_8: 0
+      Exit_9: 0
+      Exit_10: 0
+      Exit_11: 0
+      Exit_12: 0
+      Exit_13: 0
+      Exit_14: 0
+      Exit_15: 0
+      Exit_16: 0
+      Exit_17: 0
+      Exit_18: 0
+      Exit_19: 0
+      Exit_20: 0
+      Exit_21: 0
+      Exit_22: 0
+    HexTile: {fileID: 4310394104581009709, guid: 9e83da146fe700f4386c88460ce17cbf,
+      type: 3}
   - Name: CloseRight_1
     m_Chance: 1
     Bifurcations:
@@ -10899,8 +11049,68 @@ MonoBehaviour:
       Exit_22: 0
     HexTile: {fileID: 4310394104581009709, guid: b79313b917825af4b8c6439a7fb29084,
       type: 3}
+  - Name: CloseRight_4
+    m_Chance: 1
+    Bifurcations:
+      Exit_1: 0
+      Exit_2: 0
+      Exit_3: 0
+      Exit_4: 0
+      Exit_5: 1
+      End: 0
+    DoubleTile: 0
+    DoubleTileBifurcations:
+      Exit_6: 0
+      Exit_7: 0
+      Exit_8: 0
+      Exit_9: 0
+      Exit_10: 0
+      Exit_11: 0
+      Exit_12: 0
+      Exit_13: 0
+      Exit_14: 0
+      Exit_15: 0
+      Exit_16: 0
+      Exit_17: 0
+      Exit_18: 0
+      Exit_19: 0
+      Exit_20: 0
+      Exit_21: 0
+      Exit_22: 0
+    HexTile: {fileID: 4310394104581009709, guid: c9ec80deb878e3447aa607e33e842657,
+      type: 3}
+  - Name: CloseRight_5
+    m_Chance: 1
+    Bifurcations:
+      Exit_1: 0
+      Exit_2: 0
+      Exit_3: 0
+      Exit_4: 0
+      Exit_5: 1
+      End: 0
+    DoubleTile: 0
+    DoubleTileBifurcations:
+      Exit_6: 0
+      Exit_7: 0
+      Exit_8: 0
+      Exit_9: 0
+      Exit_10: 0
+      Exit_11: 0
+      Exit_12: 0
+      Exit_13: 0
+      Exit_14: 0
+      Exit_15: 0
+      Exit_16: 0
+      Exit_17: 0
+      Exit_18: 0
+      Exit_19: 0
+      Exit_20: 0
+      Exit_21: 0
+      Exit_22: 0
+    HexTile: {fileID: 4310394104581009709, guid: f2b4cfb3ad1f58b4d9b2ad3f3770f5ad,
+      type: 3}
   - Name: End_1
-    m_Chance: 0.5
+    m_Chance: 0.75
     Bifurcations:
       Exit_1: 0
       Exit_2: 0
@@ -10930,7 +11140,7 @@ MonoBehaviour:
     HexTile: {fileID: 8004503880869187092, guid: 689669926b7fc3341935fd9670b67cbf,
       type: 3}
   - Name: End_2
-    m_Chance: 0.5
+    m_Chance: 0.75
     Bifurcations:
       Exit_1: 0
       Exit_2: 0
@@ -10960,7 +11170,7 @@ MonoBehaviour:
     HexTile: {fileID: 8280890478747456764, guid: a0fa02232f29b2f4f8646ede72ca57e0,
       type: 3}
   - Name: End_3
-    m_Chance: 0.5
+    m_Chance: 0.75
     Bifurcations:
       Exit_1: 0
       Exit_2: 0
@@ -10988,6 +11198,66 @@ MonoBehaviour:
       Exit_21: 0
       Exit_22: 0
     HexTile: {fileID: 7510660563771722453, guid: 1accf300557af8f42b87f5368c877173,
+      type: 3}
+  - Name: End_4
+    m_Chance: 0.75
+    Bifurcations:
+      Exit_1: 0
+      Exit_2: 0
+      Exit_3: 0
+      Exit_4: 0
+      Exit_5: 0
+      End: 1
+    DoubleTile: 0
+    DoubleTileBifurcations:
+      Exit_6: 0
+      Exit_7: 0
+      Exit_8: 0
+      Exit_9: 0
+      Exit_10: 0
+      Exit_11: 0
+      Exit_12: 0
+      Exit_13: 0
+      Exit_14: 0
+      Exit_15: 0
+      Exit_16: 0
+      Exit_17: 0
+      Exit_18: 0
+      Exit_19: 0
+      Exit_20: 0
+      Exit_21: 0
+      Exit_22: 0
+    HexTile: {fileID: 8280890478747456764, guid: fd4695a6384a5e747ab984006ee87295,
+      type: 3}
+  - Name: End_5
+    m_Chance: 0.75
+    Bifurcations:
+      Exit_1: 0
+      Exit_2: 0
+      Exit_3: 0
+      Exit_4: 0
+      Exit_5: 0
+      End: 1
+    DoubleTile: 0
+    DoubleTileBifurcations:
+      Exit_6: 0
+      Exit_7: 0
+      Exit_8: 0
+      Exit_9: 0
+      Exit_10: 0
+      Exit_11: 0
+      Exit_12: 0
+      Exit_13: 0
+      Exit_14: 0
+      Exit_15: 0
+      Exit_16: 0
+      Exit_17: 0
+      Exit_18: 0
+      Exit_19: 0
+      Exit_20: 0
+      Exit_21: 0
+      Exit_22: 0
+    HexTile: {fileID: 8280890478747456764, guid: 8bb66aa54264c40439d68da64afa8b18,
       type: 3}
   - Name: LongLeft_1
     m_Chance: 1
@@ -11109,6 +11379,66 @@ MonoBehaviour:
       Exit_22: 0
     HexTile: {fileID: 8539271684980000182, guid: ba5d079630f632d41ad04afa7ee83f25,
       type: 3}
+  - Name: LongLeft_5
+    m_Chance: 1
+    Bifurcations:
+      Exit_1: 0
+      Exit_2: 1
+      Exit_3: 0
+      Exit_4: 0
+      Exit_5: 0
+      End: 0
+    DoubleTile: 0
+    DoubleTileBifurcations:
+      Exit_6: 0
+      Exit_7: 0
+      Exit_8: 0
+      Exit_9: 0
+      Exit_10: 0
+      Exit_11: 0
+      Exit_12: 0
+      Exit_13: 0
+      Exit_14: 0
+      Exit_15: 0
+      Exit_16: 0
+      Exit_17: 0
+      Exit_18: 0
+      Exit_19: 0
+      Exit_20: 0
+      Exit_21: 0
+      Exit_22: 0
+    HexTile: {fileID: 8539271684980000182, guid: 54cd5948682756743828f6ec0527528e,
+      type: 3}
+  - Name: LongLeft_6
+    m_Chance: 1
+    Bifurcations:
+      Exit_1: 0
+      Exit_2: 1
+      Exit_3: 0
+      Exit_4: 0
+      Exit_5: 0
+      End: 0
+    DoubleTile: 0
+    DoubleTileBifurcations:
+      Exit_6: 0
+      Exit_7: 0
+      Exit_8: 0
+      Exit_9: 0
+      Exit_10: 0
+      Exit_11: 0
+      Exit_12: 0
+      Exit_13: 0
+      Exit_14: 0
+      Exit_15: 0
+      Exit_16: 0
+      Exit_17: 0
+      Exit_18: 0
+      Exit_19: 0
+      Exit_20: 0
+      Exit_21: 0
+      Exit_22: 0
+    HexTile: {fileID: 1039170778232925723, guid: b6df118a293077e42b44c786bc7f65f5,
+      type: 3}
   - Name: LongRight_1
     m_Chance: 1
     Bifurcations:
@@ -11228,6 +11558,66 @@ MonoBehaviour:
       Exit_21: 0
       Exit_22: 0
     HexTile: {fileID: 8539271684980000182, guid: 88581bd7c0fa3804786c447e8ff8507e,
+      type: 3}
+  - Name: LongRight_5
+    m_Chance: 1
+    Bifurcations:
+      Exit_1: 0
+      Exit_2: 0
+      Exit_3: 0
+      Exit_4: 1
+      Exit_5: 0
+      End: 0
+    DoubleTile: 0
+    DoubleTileBifurcations:
+      Exit_6: 0
+      Exit_7: 0
+      Exit_8: 0
+      Exit_9: 0
+      Exit_10: 0
+      Exit_11: 0
+      Exit_12: 0
+      Exit_13: 0
+      Exit_14: 0
+      Exit_15: 0
+      Exit_16: 0
+      Exit_17: 0
+      Exit_18: 0
+      Exit_19: 1
+      Exit_20: 0
+      Exit_21: 0
+      Exit_22: 0
+    HexTile: {fileID: 8539271684980000182, guid: edd88aa2e3c1a17448892bb2a2df6d84,
+      type: 3}
+  - Name: LongRight_6
+    m_Chance: 1
+    Bifurcations:
+      Exit_1: 0
+      Exit_2: 0
+      Exit_3: 0
+      Exit_4: 1
+      Exit_5: 0
+      End: 0
+    DoubleTile: 0
+    DoubleTileBifurcations:
+      Exit_6: 0
+      Exit_7: 0
+      Exit_8: 0
+      Exit_9: 0
+      Exit_10: 0
+      Exit_11: 0
+      Exit_12: 0
+      Exit_13: 0
+      Exit_14: 0
+      Exit_15: 0
+      Exit_16: 0
+      Exit_17: 0
+      Exit_18: 0
+      Exit_19: 1
+      Exit_20: 0
+      Exit_21: 0
+      Exit_22: 0
+    HexTile: {fileID: 1039170778232925723, guid: 8e88907b45078be4cb705d422155b944,
       type: 3}
   - Name: Straight_1
     m_Chance: 1
@@ -11468,6 +11858,156 @@ MonoBehaviour:
       Exit_21: 0
       Exit_22: 0
     HexTile: {fileID: 4641471824103506278, guid: 52e67269561abdb459386ef976463771,
+      type: 3}
+  - Name: Straight_9
+    m_Chance: 1
+    Bifurcations:
+      Exit_1: 0
+      Exit_2: 0
+      Exit_3: 1
+      Exit_4: 0
+      Exit_5: 0
+      End: 0
+    DoubleTile: 0
+    DoubleTileBifurcations:
+      Exit_6: 0
+      Exit_7: 0
+      Exit_8: 0
+      Exit_9: 0
+      Exit_10: 0
+      Exit_11: 0
+      Exit_12: 0
+      Exit_13: 0
+      Exit_14: 0
+      Exit_15: 0
+      Exit_16: 0
+      Exit_17: 0
+      Exit_18: 0
+      Exit_19: 0
+      Exit_20: 0
+      Exit_21: 0
+      Exit_22: 0
+    HexTile: {fileID: 4641471824103506278, guid: c3049df2d7c0eed4c856697ba116d133,
+      type: 3}
+  - Name: Straight_10
+    m_Chance: 1
+    Bifurcations:
+      Exit_1: 0
+      Exit_2: 0
+      Exit_3: 1
+      Exit_4: 0
+      Exit_5: 0
+      End: 0
+    DoubleTile: 0
+    DoubleTileBifurcations:
+      Exit_6: 0
+      Exit_7: 0
+      Exit_8: 0
+      Exit_9: 0
+      Exit_10: 0
+      Exit_11: 0
+      Exit_12: 0
+      Exit_13: 0
+      Exit_14: 0
+      Exit_15: 0
+      Exit_16: 0
+      Exit_17: 0
+      Exit_18: 0
+      Exit_19: 0
+      Exit_20: 0
+      Exit_21: 0
+      Exit_22: 0
+    HexTile: {fileID: 4641471824103506278, guid: 1091112c0177a7b42918511cfbcd02c1,
+      type: 3}
+  - Name: Straight_11
+    m_Chance: 1
+    Bifurcations:
+      Exit_1: 0
+      Exit_2: 0
+      Exit_3: 1
+      Exit_4: 0
+      Exit_5: 0
+      End: 0
+    DoubleTile: 0
+    DoubleTileBifurcations:
+      Exit_6: 0
+      Exit_7: 0
+      Exit_8: 0
+      Exit_9: 0
+      Exit_10: 0
+      Exit_11: 0
+      Exit_12: 0
+      Exit_13: 0
+      Exit_14: 0
+      Exit_15: 0
+      Exit_16: 0
+      Exit_17: 0
+      Exit_18: 0
+      Exit_19: 0
+      Exit_20: 0
+      Exit_21: 0
+      Exit_22: 0
+    HexTile: {fileID: 4641471824103506278, guid: aa43a4f430b8a5e4c855cd5ac5786f61,
+      type: 3}
+  - Name: Straight_12
+    m_Chance: 1
+    Bifurcations:
+      Exit_1: 0
+      Exit_2: 0
+      Exit_3: 1
+      Exit_4: 0
+      Exit_5: 0
+      End: 0
+    DoubleTile: 0
+    DoubleTileBifurcations:
+      Exit_6: 0
+      Exit_7: 0
+      Exit_8: 0
+      Exit_9: 0
+      Exit_10: 0
+      Exit_11: 0
+      Exit_12: 0
+      Exit_13: 0
+      Exit_14: 0
+      Exit_15: 0
+      Exit_16: 0
+      Exit_17: 0
+      Exit_18: 0
+      Exit_19: 0
+      Exit_20: 0
+      Exit_21: 0
+      Exit_22: 0
+    HexTile: {fileID: 4641471824103506278, guid: acc7c84b1a1d0fa42bada3384628ec6c,
+      type: 3}
+  - Name: Straight_13
+    m_Chance: 1
+    Bifurcations:
+      Exit_1: 0
+      Exit_2: 0
+      Exit_3: 1
+      Exit_4: 0
+      Exit_5: 0
+      End: 0
+    DoubleTile: 0
+    DoubleTileBifurcations:
+      Exit_6: 0
+      Exit_7: 0
+      Exit_8: 0
+      Exit_9: 0
+      Exit_10: 0
+      Exit_11: 0
+      Exit_12: 0
+      Exit_13: 0
+      Exit_14: 0
+      Exit_15: 0
+      Exit_16: 0
+      Exit_17: 0
+      Exit_18: 0
+      Exit_19: 0
+      Exit_20: 0
+      Exit_21: 0
+      Exit_22: 0
+    HexTile: {fileID: 4641471824103506278, guid: dc303ba34a21dfd4696aa32d9b8f5e8f,
       type: 3}
   - Name: Div_Full_1
     m_Chance: 0.1
@@ -11899,7 +12439,7 @@ MonoBehaviour:
   m_TileContainer: {fileID: 1475012676}
   m_PathHolder: {fileID: 8783467024682310486, guid: 5242b96533405874f8255c6680f94379,
     type: 3}
-  m_NextTileChecker: {fileID: 2171034749813684662, guid: f9e1e4a0ea57a2c41a52d56e2e07c778,
+  m_NextTileChecker: {fileID: 3081256800590303610, guid: f9e1e4a0ea57a2c41a52d56e2e07c778,
     type: 3}
   TileElementsData:
   - Name: Null
@@ -14854,6 +15394,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_TagString
       value: Finish
+      objectReference: {fileID: 0}
+    - target: {fileID: 8942983139041027939, guid: 1fdad5febb5944f4b99cd3b66a409c62,
+        type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 21437263
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 4400117072178786987, guid: 1fdad5febb5944f4b99cd3b66a409c62, type: 3}

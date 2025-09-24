@@ -1,23 +1,39 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using Unity.Netcode;
+using UnityEngine;
 using UnityEngine.UIElements;
+using static HexPathCreator;
 
 public class TowerCreator : NetworkBehaviour
 {
     public GameObject m_TurretSketch, m_TurretToBuild;
-    private GameObject InstancedSketch;
+    private GameObject InstancedTurretSketch;
     public LayerMask BuildableLayer;
     public Material WrongPlacement, CorrectPlacement;
 
     public bool OnGround = false, OverTowers = false;
-    void Start()
-    {
 
+    [ServerRpc(RequireOwnership = false)]
+    private void SpawnTurretServerRpc(Vector3 turretPos)
+    {
+        GameObject turret = Instantiate(m_TurretToBuild, turretPos, Quaternion.identity);
+        //InstancedTurretSketch = turret;
+
+        NetworkObject TileNetworkObject = turret.GetComponent<NetworkObject>();
+        TileNetworkObject.Spawn(true);
+    }
+    [ServerRpc(RequireOwnership = false)]
+    private void DestroySketchTurretServerRpc()
+    {
+        NetworkObject TileNetworkObject = InstancedTurretSketch.GetComponent<NetworkObject>();
+        TileNetworkObject.Despawn(true);
+        InstancedTurretSketch = null;
+        Destroy(InstancedTurretSketch);
     }
     void Update()
     {
+        //if (!IsOwner) return;
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
 
@@ -26,53 +42,60 @@ public class TowerCreator : NetworkBehaviour
 
             Vector3 targetPos = GridAdjust(hit.point);
             targetPos += Vector3.down;
-            if(InstancedSketch == null)
+            if(InstancedTurretSketch == null)
             {
-                InstancedSketch = Instantiate(m_TurretSketch, targetPos, Quaternion.identity);
+                //SpawnTurretServerRpc(targetPos, true);
+                InstancedTurretSketch = Instantiate(m_TurretSketch, targetPos, Quaternion.identity);
             }
             else
             {// if not on ground or colliding with other towers
 
-                OnGround = CheckIsOnGround(InstancedSketch);
-                OverTowers = CheckIsOverlapWithTowers(InstancedSketch.transform);
+                OnGround = CheckIsOnGround(InstancedTurretSketch);
+                OverTowers = CheckIsOverlapWithTowers(InstancedTurretSketch.transform);
 
                 if (!OnGround || OverTowers)
                 {
-                    InstancedSketch.transform.GetChild(0).transform.GetChild(1).GetComponent<Renderer>().material = WrongPlacement;
+                    InstancedTurretSketch.transform.GetChild(0).transform.GetChild(1).GetComponent<Renderer>().material = WrongPlacement;
                 }
                 else
                 {
-                    InstancedSketch.transform.GetChild(0).transform.GetChild(1).GetComponent<Renderer>().material = CorrectPlacement;
+                    InstancedTurretSketch.transform.GetChild(0).transform.GetChild(1).GetComponent<Renderer>().material = CorrectPlacement;
                 }
 
-                InstancedSketch.transform.position = targetPos;
+                InstancedTurretSketch.transform.position = targetPos;
             }
 
-            if (Input.GetMouseButtonDown(0) && OnGround && !OverTowers && InstancedSketch != null
+            if (Input.GetMouseButtonDown(0) && OnGround && !OverTowers && InstancedTurretSketch != null
                 && GetComponent<GameManager>().m_Currency >= m_TurretToBuild.GetComponent<TowerStats>().m_Cost)
             {
-                Instantiate(m_TurretToBuild, targetPos, Quaternion.identity);
+                //Instantiate(m_TurretToBuild, targetPos, Quaternion.identity);
+                //DestroySketchTurretServerRpc();
+                SpawnTurretServerRpc(targetPos);
 
                 GetComponent<GameManager>().SpendMoney(m_TurretToBuild.GetComponent<TowerStats>().m_Cost);
 
-                if(!Input.GetKey(KeyCode.LeftShift))
+                Destroy(InstancedTurretSketch);
+                GetComponent<TowerCreator>().enabled = false;
+
+                /*if (!Input.GetKey(KeyCode.LeftShift))
                 {
-                    Destroy(InstancedSketch);
+                    //DestroySketchTurretServerRpc();
+                    Destroy(InstancedTurretSketch);
                     GetComponent<TowerCreator>().enabled = false;
-                }
+                }*/
             }
         }
         else
         {
-            if (InstancedSketch != null)
+            if (InstancedTurretSketch != null)
             {
-                Destroy(InstancedSketch);
-                InstancedSketch = null;
+                Destroy(InstancedTurretSketch);
+                InstancedTurretSketch = null;
             }
         }
         if (Input.GetMouseButtonDown(1))
         {
-            if(InstancedSketch != null) Destroy(InstancedSketch);
+            if(InstancedTurretSketch != null) Destroy(InstancedTurretSketch);
             GetComponent<TowerCreator>().enabled = false;
         }
 
@@ -113,7 +136,8 @@ public class TowerCreator : NetworkBehaviour
 
         foreach (Collider col in overlappingColliders)
         {
-            if (col.gameObject != gameObject && col.CompareTag("Turret"))
+            //if (col.gameObject != gameObject && col.CompareTag("Turret"))
+            if (col.CompareTag("Turret"))
             {
                 return true; // overlap detected
             }

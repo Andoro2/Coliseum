@@ -10,8 +10,8 @@ using static HexPathCreator;
 
 public class PlayerController : NetworkBehaviour
 {
-    public enum GameStates { Fighting, Building }
-    public GameStates m_State = GameStates.Fighting;
+    public enum PlayerStates { Fighting, Building }
+    public PlayerStates m_State;
     private GameObject m_FightingUI, m_BuildingUI,
         m_MainCam;
 
@@ -97,6 +97,9 @@ public class PlayerController : NetworkBehaviour
     #endregion
     void Start()
     {
+        if (IsOwner) m_State = PlayerStates.Fighting;
+        else GetComponent<PlayerController>().enabled = false;
+
         m_MainCam = GameObject.FindWithTag("MainCamera").gameObject;
         m_Anim = transform.GetChild(0).transform.GetChild(0).transform.GetComponent<Animator>();
 
@@ -133,31 +136,29 @@ public class PlayerController : NetworkBehaviour
         m_HPCurrent.text = m_CurrentHealth.ToString();
 
         #region Mode change
-        if (Input.GetKeyDown(KeyCode.Tab))
+        if (Input.GetKeyDown(KeyCode.Tab) && IsOwner)
         {
-            if (!IsOwner) return;
-
-            if (m_State == GameStates.Building)
+            if (m_State == PlayerStates.Building)
             {
                 m_MainCam.transform.parent.GetComponent<CameraFollow>().FollowPlayer = true;
                 m_MainCam.transform.parent.gameObject.transform.rotation = Quaternion.identity;
-                m_State = GameStates.Fighting;
+                m_State = PlayerStates.Fighting;
             }
             else
             {
                 m_MainCam.transform.parent.GetComponent<CameraFollow>().FollowPlayer = false;
 
-                m_State = GameStates.Building;
+                m_State = PlayerStates.Building;
             }
         }
         switch (m_State)
         {
-            case GameStates.Building:
+            case PlayerStates.Building:
                 //m_FightingUI.SetActive(false);
                 m_Anim.SetBool("Building", true);
                 m_BuildingUI.SetActive(true);
                 break;
-            case GameStates.Fighting:
+            case PlayerStates.Fighting:
                 //m_FightingUI.SetActive(true);
                 m_Anim.SetBool("Building", false);
                 m_BuildingUI.SetActive(false);

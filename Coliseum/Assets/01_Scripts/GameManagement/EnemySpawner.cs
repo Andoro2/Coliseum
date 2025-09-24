@@ -28,7 +28,7 @@ public class EnemySpawner : NetworkBehaviour
         }
     }
     [ServerRpc(RequireOwnership = false)]
-    void SpawnEnemyServerRpc()
+    private void SpawnEnemyServerRpc()
     {
         for (int p = 0; p < m_PathSpawns.Count; p++)
         {
