@@ -946,6 +946,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Icosahedron
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 079583b87fdaf0944af5ad638b782c57,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1051,6 +1056,12 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 6770d141f4f7fba43a79d4b93f02c2c7, type: 2}
+    - target: {fileID: -5754084199372789682, guid: c5b8ad5081bc10948911835a278f0810,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 3400258787181010783, guid: 486c58c9cadc5ef4aab69a9307e4d8ee,
+        type: 3}
     - target: {fileID: 919132149155446097, guid: c5b8ad5081bc10948911835a278f0810,
         type: 3}
       propertyPath: m_Name

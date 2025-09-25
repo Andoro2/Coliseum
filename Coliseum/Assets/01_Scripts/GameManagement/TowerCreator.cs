@@ -7,7 +7,9 @@ using static HexPathCreator;
 
 public class TowerCreator : NetworkBehaviour
 {
-    public GameObject m_TurretSketch, m_TurretToBuild;
+    public GameObject m_TurretSketch;
+    public List<GameObject> m_TurretsToBuild = new List<GameObject>();
+    public int m_TurretIndex = 0;
     private GameObject InstancedTurretSketch;
     public LayerMask BuildableLayer;
     public Material WrongPlacement, CorrectPlacement;
@@ -15,9 +17,17 @@ public class TowerCreator : NetworkBehaviour
     public bool OnGround = false, OverTowers = false;
 
     [ServerRpc(RequireOwnership = false)]
-    private void SpawnTurretServerRpc(Vector3 turretPos)
+    private void SpawnTurretServerRpc(int TurretIndex, Vector3 turretPos)
     {
-        GameObject turret = Instantiate(m_TurretToBuild, turretPos, Quaternion.identity);
+        GameObject turret;
+        if (TurretIndex == 0)
+        {
+            turret = Instantiate(m_TurretSketch, turretPos, Quaternion.identity);
+        }
+        else
+        {
+            turret = Instantiate(m_TurretsToBuild[TurretIndex], turretPos, Quaternion.identity);
+        }
         //InstancedTurretSketch = turret;
 
         NetworkObject TileNetworkObject = turret.GetComponent<NetworkObject>();
@@ -66,14 +76,12 @@ public class TowerCreator : NetworkBehaviour
             }
 
             if (Input.GetMouseButtonDown(0) && OnGround && !OverTowers && InstancedTurretSketch != null
-                && GetComponent<GameManager>().m_Currency >= m_TurretToBuild.GetComponent<TowerStats>().m_Cost)
+                && GetComponent<GameManager>().m_Currency >= m_TurretsToBuild[m_TurretIndex].GetComponent<TowerStats>().m_Cost)
             {
-                //Instantiate(m_TurretToBuild, targetPos, Quaternion.identity);
-                //DestroySketchTurretServerRpc();
-                SpawnTurretServerRpc(targetPos);
+                SpawnTurretServerRpc(m_TurretIndex, targetPos);
 
-                GetComponent<GameManager>().SpendMoney(m_TurretToBuild.GetComponent<TowerStats>().m_Cost);
-
+                GetComponent<GameManager>().SpendMoney(m_TurretsToBuild[m_TurretIndex].GetComponent<TowerStats>().m_Cost);
+                
                 Destroy(InstancedTurretSketch);
                 GetComponent<TowerCreator>().enabled = false;
 
@@ -96,6 +104,7 @@ public class TowerCreator : NetworkBehaviour
         if (Input.GetMouseButtonDown(1))
         {
             if(InstancedTurretSketch != null) Destroy(InstancedTurretSketch);
+
             GetComponent<TowerCreator>().enabled = false;
         }
 
@@ -121,10 +130,9 @@ public class TowerCreator : NetworkBehaviour
             return new Vector3(xFinal, 2f, zFinal);
         }
     }
-    public void SetTowerToBuild(GameObject thisTurret)
+    public void SetTowerIndex(int turretIndex)
     {
-        //Debug.Log("Torreta asignada");
-        m_TurretToBuild = thisTurret;
+        m_TurretIndex = turretIndex;
     }
     public bool CheckIsOverlapWithTowers(Transform tower)
     {
@@ -136,7 +144,6 @@ public class TowerCreator : NetworkBehaviour
 
         foreach (Collider col in overlappingColliders)
         {
-            //if (col.gameObject != gameObject && col.CompareTag("Turret"))
             if (col.CompareTag("Turret"))
             {
                 return true; // overlap detected

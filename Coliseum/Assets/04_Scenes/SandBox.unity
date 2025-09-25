@@ -3646,9 +3646,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12411c02651968f4091d009301d144e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Tugget: {fileID: 1948653996950279330, guid: 0e5a75dbc2915464fb752829fa16b028,
-    type: 3}
-  m_GameController: {fileID: 0}
+  m_TurretIndex: 1
   TurretMaker: {fileID: 0}
 --- !u!114 &472803838
 MonoBehaviour:
@@ -10154,6 +10152,7 @@ GameObject:
   - component: {fileID: 1625463620}
   - component: {fileID: 1625463619}
   - component: {fileID: 1625463618}
+  - component: {fileID: 1625463622}
   m_Layer: 5
   m_Name: TurretTwo
   m_TagString: Untagged
@@ -10193,8 +10192,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12411c02651968f4091d009301d144e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Tugget: {fileID: 573596426422493728, guid: 1fdad5febb5944f4b99cd3b66a409c62, type: 3}
-  m_GameController: {fileID: 0}
+  m_TurretIndex: 2
   TurretMaker: {fileID: 0}
 --- !u!114 &1625463619
 MonoBehaviour:
@@ -10290,6 +10288,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1625463616}
   m_CullTransparentMesh: 1
+--- !u!114 &1625463622
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1625463616}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 3420287307
+  AlwaysReplicateAsRoot: 0
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!1 &1627680049
 GameObject:
   m_ObjectHideFlags: 0
@@ -10754,8 +10768,8 @@ GameObject:
   - component: {fileID: 1735057703}
   - component: {fileID: 1735057700}
   - component: {fileID: 1735057701}
-  - component: {fileID: 1735057702}
   - component: {fileID: 1735057704}
+  - component: {fileID: 1735057705}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: GameController
@@ -12457,28 +12471,6 @@ MonoBehaviour:
   - Name: Water
     Element: 4
     TileMat: {fileID: 2100000, guid: fef64a8f5979a214881e4b84f5626490, type: 2}
---- !u!114 &1735057702
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1735057697}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9753d6609f98b8a4bb5adc724690da41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_TurretSketch: {fileID: 2282135650313546438, guid: b78689f563779874c84933e50183ec19,
-    type: 3}
-  m_TurretToBuild: {fileID: 0}
-  BuildableLayer:
-    serializedVersion: 2
-    m_Bits: 8
-  WrongPlacement: {fileID: 2100000, guid: 9602e0c586db79c4786d30bfa7f4bc72, type: 2}
-  CorrectPlacement: {fileID: 2100000, guid: 6770d141f4f7fba43a79d4b93f02c2c7, type: 2}
-  OnGround: 0
-  OverTowers: 0
 --- !u!114 &1735057703
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12514,6 +12506,32 @@ MonoBehaviour:
   AlwaysReplicateAsRoot: 0
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
+--- !u!114 &1735057705
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1735057697}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9753d6609f98b8a4bb5adc724690da41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TurretSketch: {fileID: 2282135650313546438, guid: b78689f563779874c84933e50183ec19,
+    type: 3}
+  m_TurretsToBuild:
+  - {fileID: 2282135650313546438, guid: b78689f563779874c84933e50183ec19, type: 3}
+  - {fileID: 1948653996950279330, guid: 0e5a75dbc2915464fb752829fa16b028, type: 3}
+  - {fileID: 573596426422493728, guid: 1fdad5febb5944f4b99cd3b66a409c62, type: 3}
+  m_TurretIndex: 0
+  BuildableLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  WrongPlacement: {fileID: 2100000, guid: 9602e0c586db79c4786d30bfa7f4bc72, type: 2}
+  CorrectPlacement: {fileID: 2100000, guid: 6770d141f4f7fba43a79d4b93f02c2c7, type: 2}
+  OnGround: 0
+  OverTowers: 0
 --- !u!1 &1740629920
 GameObject:
   m_ObjectHideFlags: 0

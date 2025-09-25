@@ -1,27 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-//using Unity.Netcode;
-public class SetTowerToBuild : MonoBehaviour
+using Unity.Netcode;
+public class SetTowerToBuild : NetworkBehaviour
 {
-    public GameObject m_Tugget, m_GameController;
+    public int m_TurretIndex;
     public TowerCreator TurretMaker;
-    // Start is called before the first frame update
     void Start()
     {
-        m_GameController = GameObject.FindWithTag("GameController");
-        TurretMaker = m_GameController.transform.GetComponent<TowerCreator>();
+        TurretMaker = GameObject.FindWithTag("GameController").GetComponent<TowerCreator>();
     }
     public void SetTurretToBeBuilded()
     {
         TurretMaker.enabled = true;
-        TurretMaker.SetTowerToBuild(m_Tugget);
-        //SetTurretToBuildTurretServerRpc();
+        TurretMaker.SetTowerIndex(m_TurretIndex);
     }
-    /*[ServerRpc(RequireOwnership = false)]
-    private void SetTurretToBuildTurretServerRpc()
-    {
-        TurretMaker.enabled = true;
-        TurretMaker.SetTowerToBuild(m_Tugget);
-    }*/
 }
