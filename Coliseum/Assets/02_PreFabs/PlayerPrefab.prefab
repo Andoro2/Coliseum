@@ -93,7 +93,7 @@ GameObject:
   m_Component:
   - component: {fileID: 870437125520562393}
   - component: {fileID: 3023993590970305858}
-  - component: {fileID: 7199412726994033609}
+  - component: {fileID: 209518255613710847}
   - component: {fileID: 2503505914621943596}
   - component: {fileID: 617922272802090259}
   - component: {fileID: 8311735784414578631}
@@ -162,8 +162,15 @@ MonoBehaviour:
   dashSpeed: 45
   dashDuration: 0.2
   m_RespawnFromFall: {x: 0, y: 10, z: 0}
---- !u!136 &7199412726994033609
-CapsuleCollider:
+  m_SpawanPositionList:
+  - {x: 4, y: 2, z: 6.495}
+  - {x: -4, y: 2, z: 6.495}
+  - {x: -7.5, y: 2, z: 0}
+  - {x: -4, y: 2, z: -6.495}
+  - {x: 4, y: 2, z: -6.495}
+  - {x: 7.5, y: 2, z: 0}
+--- !u!65 &209518255613710847
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -180,10 +187,8 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
+  serializedVersion: 3
+  m_Size: {x: 0.75, y: 2, z: 0.75}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &2503505914621943596
 Rigidbody:

@@ -10,6 +10,7 @@ using static HexPathCreator;
 
 public class PlayerController : NetworkBehaviour
 {
+    public static PlayerController LocalInstance { get; private set; }
     public enum PlayerStates { Fighting, Building }
     public PlayerStates m_State;
     private GameObject m_FightingUI, m_BuildingUI,
@@ -44,6 +45,17 @@ public class PlayerController : NetworkBehaviour
 
     private Animator m_Anim;
 
+    [SerializeField] private List<Vector3> m_SpawanPositionList;
+
+    public override void OnNetworkSpawn()
+    {
+        if (IsOwner)
+        {
+            LocalInstance = this;
+        }
+
+        transform.position = m_SpawanPositionList[(int)OwnerClientId];
+    }
     /*private void Awake()
     {
         m_MainCam = GameObject.FindWithTag("MainCamera").gameObject;
