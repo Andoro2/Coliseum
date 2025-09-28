@@ -1,14 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static GameManager;
 
 public class ProjectileForward : MonoBehaviour
 {
     public GameObject target;
     public float speed = 20f,
         m_Damage,
-        m_ElementalDamage;
-    public EnemySpawner.Types m_Element = EnemySpawner.Types.Normal;
+        m_ElementalPercentage;
+    public WorldElements m_ProjectileElement;
+    //public EnemySpawner.Types m_Element = EnemySpawner.Types.Normal;
 
     void Update()
     {
@@ -31,7 +33,7 @@ public class ProjectileForward : MonoBehaviour
     {
         if (other.CompareTag("Enemy"))
         {
-            other.GetComponent<EnemyManager>().TakeDamage(m_Damage, m_ElementalDamage, m_Element);
+            other.GetComponent<EnemyManager>().TakeDamage(m_Damage, m_ElementalPercentage, m_ProjectileElement);
             Destroy(gameObject);
         }
     }

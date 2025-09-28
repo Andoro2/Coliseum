@@ -16,6 +16,9 @@ public class GameManager : NetworkBehaviour
     public bool IsFighting;
     public TextMeshProUGUI m_HealthTMP, m_WavelTMP, m_CurrencyTMP;
     private List<GameObject> tileCanvases = new List<GameObject>();
+
+    public enum WorldElements { Null, Fire, Ice, Lightning, Wind, Tech, Physical }
+    
     void Start()
     {
         m_WavelTMP.text = "" + m_Wave;

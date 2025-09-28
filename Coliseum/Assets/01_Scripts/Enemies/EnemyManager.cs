@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using static GameManager;
 
 public class EnemyManager : MonoBehaviour
 {
@@ -15,7 +16,7 @@ public class EnemyManager : MonoBehaviour
         m_ResistanceLightning,
         m_ResistanceTech,
         m_ResistanceEarth,
-        m_ResistanceBlood;
+        m_ResistancePhysical;
 
     public List<State> m_States = new List<State>();
     // Start is called before the first frame update
@@ -58,34 +59,35 @@ public class EnemyManager : MonoBehaviour
 
         Destroy(gameObject);
     }
-    public void TakeDamage(float Damage, float ElementalDamage, EnemySpawner.Types Elemento)
+    public void TakeDamage(float Damage, float ElementalPercentage, WorldElements Elemento)
     {
-        m_Health -= Damage;
+        float AttackDamage = Damage + Damage * ElementalPercentage;
 
         switch (Elemento)
         {
-            case EnemySpawner.Types.Fire:
-                m_Health -= ElementalDamage * m_ResistanceFire;
+            case WorldElements.Fire:
+                AttackDamage = AttackDamage * (1 - m_ResistanceFire);
                 break;
-            case EnemySpawner.Types.Ice:
-                m_Health -= ElementalDamage * m_ResistanceIce;
+            case WorldElements.Ice:
+                AttackDamage = AttackDamage * (1 - m_ResistanceIce);
                 break;
-            case EnemySpawner.Types.Wind:
-                m_Health -= ElementalDamage * m_ResistanceWind;
+            case WorldElements.Wind:
+                AttackDamage = AttackDamage * (1 - m_ResistanceWind);
                 break;
-            case EnemySpawner.Types.Lightning:
-                m_Health -= ElementalDamage * m_ResistanceLightning;
+            case WorldElements.Lightning:
+                AttackDamage = AttackDamage * (1 - m_ResistanceLightning);
                 break;
-            case EnemySpawner.Types.Earth:
-                m_Health -= ElementalDamage * m_ResistanceEarth;
+            case WorldElements.Tech:
+                AttackDamage = AttackDamage * (1 - m_ResistanceTech);
                 break;
-            case EnemySpawner.Types.Tech:
-                m_Health -= ElementalDamage * m_ResistanceTech;
+            case WorldElements.Physical:
+                AttackDamage = AttackDamage * (1 - m_ResistancePhysical);
                 break;
-            case EnemySpawner.Types.Blood:
-                m_Health -= ElementalDamage * m_ResistanceBlood;
+            default:
                 break;
         }
+
+        m_Health -= AttackDamage;
     }
 
     private void OnTriggerEnter(Collider other)

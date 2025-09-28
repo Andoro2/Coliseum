@@ -1,13 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static GameManager;
 
 public class ProjectileTower : MonoBehaviour
 {
-    public float m_Damage, m_BaseDamage, m_ElementalDamage;
-    public EnemySpawner.Types m_ProjectileElement = EnemySpawner.Types.Normal;
-    public float m_ShootPerMinute = 30f,
-        m_Range = 1000f;
+    private TurretStatsSO m_TurretStats;
+
+    public float m_Damage, m_ElementalPercentage;
+    //public EnemySpawner.Types m_ProjectileElement = EnemySpawner.Types.Normal;
+    //public float m_ShootPerMinute = 30f, m_Range = 1000f;
     private int m_Level;
 
     public float m_ShootTimer = 0f;
@@ -20,7 +22,10 @@ public class ProjectileTower : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        m_ShootTimer = 60f / m_ShootPerMinute;
+        m_TurretStats = GetComponent<TowerStats>().m_TurretStats;
+        m_Damage = m_TurretStats.m_Damage;
+        //m_ElementalPercentage = m_TurretStats.m_ElementalDamagePercentage;
+        m_ShootTimer = 60f / m_TurretStats.m_ShootsPerMinute;
         //m_Level = GetComponent<TowerStats>().m_Level;
     }
 
@@ -45,7 +50,7 @@ public class ProjectileTower : MonoBehaviour
             if (m_ShootTimer <= 0)
             {
                 Shoot();
-                m_ShootTimer = 60f / m_ShootPerMinute;
+                m_ShootTimer = 60f / m_TurretStats.m_ShootsPerMinute; ;
             }
         }
     }
@@ -58,8 +63,8 @@ public class ProjectileTower : MonoBehaviour
             projectile.GetComponent<ProjectileForward>().target = m_Target;
 
         projectile.GetComponent<ProjectileForward>().m_Damage = m_Damage;
-        projectile.GetComponent<ProjectileForward>().m_ElementalDamage = m_ElementalDamage;
-        projectile.GetComponent<ProjectileForward>().m_Element = m_ProjectileElement;
+        //projectile.GetComponent<ProjectileForward>().m_ElementalOercentage = m_ElementalPercentage;
+        projectile.GetComponent<ProjectileForward>().m_ElementalPercentage = m_TurretStats.m_ElementPercentage;
     }
     public GameObject SetTarget()
     {
@@ -88,7 +93,7 @@ public class ProjectileTower : MonoBehaviour
     }
     public void IncreaseDamage()
     {
-        m_Damage = m_BaseDamage * m_Level;
+        m_Damage = m_TurretStats.m_Damage * m_Level;
     }
     void UpdateEnemyList()
     {

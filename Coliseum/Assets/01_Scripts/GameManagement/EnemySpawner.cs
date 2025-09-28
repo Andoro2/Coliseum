@@ -11,7 +11,7 @@ public class EnemySpawner : NetworkBehaviour
     public List<PathSpawn> m_PathSpawns = new List<PathSpawn>();
     public static List<PathSpawn> m_StaticPathSpawns = new List<PathSpawn>();
     public GameObject SpawnPoint;
-    public List<GameObject> m_EnemyTypes = new List<GameObject>();
+    public List<GameObject> m_EnemyList = new List<GameObject>();
     // Start is called before the first frame update
     void Start()
     {
@@ -32,7 +32,7 @@ public class EnemySpawner : NetworkBehaviour
     {
         for (int p = 0; p < m_PathSpawns.Count; p++)
         {
-            GameObject enemy = Instantiate(m_EnemyTypes[Random.Range(0, m_EnemyTypes.Count)], m_PathSpawns[p].m_PathSpawnPoint.transform.position, Quaternion.identity);
+            GameObject enemy = Instantiate(m_EnemyList[Random.Range(0, m_EnemyList.Count)], m_PathSpawns[p].m_PathSpawnPoint.transform.position, Quaternion.identity);
             enemy.GetComponent<EnemyMovement>().AssignPath(m_PathSpawns[p].m_PathSpawnPoint);
 
 

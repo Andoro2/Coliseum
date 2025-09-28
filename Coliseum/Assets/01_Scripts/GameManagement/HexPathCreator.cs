@@ -8,7 +8,7 @@ using Unity.VisualScripting;
 //using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using static TileElementAsigned;
+using static GameManager;
 //using static UnityEngine.Rendering.DebugUI;
 //using UnityEditor.Experimental.GraphView;
 
@@ -1182,7 +1182,7 @@ public class HexPathCreator : NetworkBehaviour
     public class ElementData
     {
         public string Name;
-        public TileElements Element = TileElements.Null;
+        public WorldElements Element = WorldElements.Null;
         public Material TileMat;
     }
     void ReloadScene()

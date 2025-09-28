@@ -83,8 +83,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Level: 1
-  m_Cost: 500
-  m_RangeMesh: {fileID: 0}
+  m_RangeMesh: {fileID: 919132149155446097, guid: 486c58c9cadc5ef4aab69a9307e4d8ee,
+    type: 3}
+  m_TurretStats: {fileID: 11400000, guid: 26a00f764f9ca96478982c92f8620f40, type: 2}
 --- !u!114 &5974546148575209020
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -97,12 +98,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1cda61c00d6e9444a948d1f65a1e51e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_TurretStats: {fileID: 11400000, guid: 26a00f764f9ca96478982c92f8620f40, type: 2}
   m_Damage: 4
-  m_BaseDamage: 4
-  m_ElementalDamage: 1
+  m_ElementalPercentage: 0
   m_ProjectileElement: 0
-  m_ShootPerMinute: 30
-  m_Range: 1000
   m_ShootTimer: 0
   m_Projectile: {fileID: 1872292829029996938, guid: 1fdb3b21d6a105843a0a5c804ddb2575,
     type: 3}

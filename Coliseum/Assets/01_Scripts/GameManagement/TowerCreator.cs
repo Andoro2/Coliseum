@@ -76,12 +76,13 @@ public class TowerCreator : NetworkBehaviour
             }
 
             if (Input.GetMouseButtonDown(0) && OnGround && !OverTowers && InstancedTurretSketch != null
-                && GetComponent<GameManager>().m_Currency >= m_TurretsToBuild[m_TurretIndex].GetComponent<TowerStats>().m_Cost)
+                && GetComponent<GameManager>().m_Currency >= m_TurretsToBuild[m_TurretIndex].GetComponent<TowerStats>().m_TurretStats.m_Price)
             {
                 SpawnTurretServerRpc(m_TurretIndex, targetPos);
 
-                GetComponent<GameManager>().SpendMoney(m_TurretsToBuild[m_TurretIndex].GetComponent<TowerStats>().m_Cost);
-                
+                GetComponent<GameManager>().SpendMoney(m_TurretsToBuild[m_TurretIndex].GetComponent<TowerStats>().m_TurretStats.m_Price);
+
+
                 Destroy(InstancedTurretSketch);
                 GetComponent<TowerCreator>().enabled = false;
 
