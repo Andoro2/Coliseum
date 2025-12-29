@@ -5,6 +5,7 @@ using UnityEngine.Rendering;
 
 public class SteamAchievementsManager : MonoBehaviour
 {
+    public string ACH_ID;
     // Start is called before the first frame update
     void Start()
     {
@@ -17,25 +18,25 @@ public class SteamAchievementsManager : MonoBehaviour
         
     }
     //[Button]
-    public void IsUnlocked(string id)
+    public void IsUnlocked()//string id)
     {
-        var ach = new Steamworks.Data.Achievement(id);
-        Debug.Log($"Achievement {id} status: " + ach.State);
+        var ach = new Steamworks.Data.Achievement(ACH_ID);
+        Debug.Log($"Achievement {ACH_ID} status: " + ach.State);
     }
     //[Button]
-    public void Unlock(string id)
+    public void Unlock()//string id)
     {
-        var ach = new Steamworks.Data.Achievement(id);
+        var ach = new Steamworks.Data.Achievement(ACH_ID);
         ach.Trigger();
 
-        Debug.Log($"Achievement {id} unlocked");
+        Debug.Log($"Achievement {ACH_ID} unlocked");
     }
     //[Button]
-    public void LockAchievement(string id)
+    public void LockAchievement()//string id)
     {
-        var ach = new Steamworks.Data.Achievement(id);
+        var ach = new Steamworks.Data.Achievement(ACH_ID);
         ach.Clear();
 
-        Debug.Log($"Achievement {id} locked");
+        Debug.Log($"Achievement {ACH_ID} locked");
     }
 }

@@ -157,16 +157,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Health: 10
   m_HealthSlider: {fileID: 1452728312636484170}
-  m_Value: 50
-  m_ExpValue: 10
-  EnemyType: 0
-  m_ResistanceFire: 0
-  m_ResistanceIce: 0
-  m_ResistanceWind: 0
-  m_ResistanceLightning: 0
-  m_ResistanceTech: 0
-  m_ResistanceEarth: 0
-  m_ResistanceBlood: 0
+  m_EnemyStats: {fileID: 11400000, guid: d0afa1c23d077f84db22498d117f2c92, type: 2}
 --- !u!114 &6879255883371957677
 MonoBehaviour:
   m_ObjectHideFlags: 0

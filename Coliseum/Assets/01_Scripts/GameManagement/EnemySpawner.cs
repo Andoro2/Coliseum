@@ -105,38 +105,4 @@ public class EnemySpawner : NetworkBehaviour
         public GameObject m_PathSpawnPoint;
     }
     #endregion
-
-    #region Elemental System
-
-    public enum Types
-    {
-        Normal,
-        Fire,
-        Ice,
-        Wind,
-        Tech,
-        Earth,
-        Blood,
-        Lightning
-    }
-    public static class Type
-    {
-        public static Types Element = Types.Normal;
-    }
-
-    public enum States
-    {
-        Null,
-        Slow,
-        Stun,
-        Burn,
-        Wet,
-        Blood
-    }
-    public static class Stage
-    {
-        public static States Element = States.Null;
-    }
-
-    #endregion
 }

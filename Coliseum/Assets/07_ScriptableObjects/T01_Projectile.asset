@@ -10,12 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2ad734fda541dbb4e88ee7718184db6e, type: 3}
-  m_Name: 02_FireProjectile
+  m_Name: T01_Projectile
   m_EditorClassIdentifier: 
   m_TurretName: "Torreta b\xE1sica"
-  Element: 0
-  m_ElementPercentage: 0
-  m_Damage: 70
-  m_ShootsPerMinute: 20
-  m_Range: 700
-  m_Price: 150
+  m_Damage: 50
+  m_ShootsPerMinute: 30
+  m_Range: 750
+  m_Price: 100

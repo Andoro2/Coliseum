@@ -9,9 +9,13 @@ using static EnemySpawner;
 
 public class EnemyMovement : NetworkBehaviour
 {
-    public float m_Speed = 5f;
+    public float m_Speed;
     public List<Transform> m_Path = new List<Transform>();
     public List<GameObject> m_TurretsTargetedBy = new List<GameObject>();
+    void Start()
+    {
+        m_Speed = GetComponent<EnemyManager>().m_EnemyStats.m_Speed;
+    }
     void Update()
     {
         if (m_Path.Count > 0)

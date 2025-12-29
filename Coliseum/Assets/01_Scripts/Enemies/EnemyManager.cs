@@ -8,22 +8,18 @@ public class EnemyManager : MonoBehaviour
 {
     public float m_Health = 5f;
     public Slider m_HealthSlider;
-    public int m_Value = 50, m_ExpValue = 10;
-    public EnemySpawner.Types EnemyType = EnemySpawner.Types.Normal;
-    public float m_ResistanceFire,
-        m_ResistanceIce,
-        m_ResistanceWind,
-        m_ResistanceLightning,
-        m_ResistanceTech,
-        m_ResistanceEarth,
-        m_ResistancePhysical;
+    //public int m_Value = 50, m_ExpValue = 10;
+    //public EnemySpawner.Types EnemyType = EnemySpawner.Types.Normal;
 
     public List<State> m_States = new List<State>();
+
+    public EnemyStatsSO m_EnemyStats;
     // Start is called before the first frame update
     void Start()
     {
-        m_HealthSlider.maxValue = m_Health;
-        m_HealthSlider.value = m_Health;
+        m_Health = m_EnemyStats.m_Health;
+        m_HealthSlider.maxValue = m_EnemyStats.m_Health;
+        m_HealthSlider.value = m_EnemyStats.m_Health;
     }
 
     // Update is called once per frame
@@ -36,12 +32,7 @@ public class EnemyManager : MonoBehaviour
             Death();
         }
     }
-    public class State
-    {
-        EnemySpawner.States ActiveState;
-        float m_Intensity,
-            m_ActiveTime;
-    }
+    
     public void Death()
     {
         //score
@@ -53,9 +44,9 @@ public class EnemyManager : MonoBehaviour
             }
         }
 
-        GameObject.FindWithTag("GameController").transform.GetComponent<GameManager>().GetPaid(m_Value);
+        GameObject.FindWithTag("GameController").transform.GetComponent<GameManager>().GetPaid(m_EnemyStats.m_Reward);
 
-        GameObject.FindWithTag("Player").GetComponent<PlayerController>().ObtainExp(m_ExpValue);
+        GameObject.FindWithTag("Player").GetComponent<PlayerController>().ObtainExp(m_EnemyStats.m_Experience);
 
         Destroy(gameObject);
     }
@@ -63,10 +54,14 @@ public class EnemyManager : MonoBehaviour
     {
         float AttackDamage = Damage + Damage * ElementalPercentage;
 
-        switch (Elemento)
+        foreach (EnemyStatsSO.ElementResistance Resist in m_EnemyStats.m_Resistancies)
+        {
+            if (Resist.Element == Elemento) AttackDamage = AttackDamage * ((100 - Resist.Resistance)/100);
+        }
+        /*switch (Elemento)
         {
             case WorldElements.Fire:
-                AttackDamage = AttackDamage * (1 - m_ResistanceFire);
+                AttackDamage = AttackDamage * (1 - m_EnemyStats.m_Resistancies);
                 break;
             case WorldElements.Ice:
                 AttackDamage = AttackDamage * (1 - m_ResistanceIce);
@@ -85,7 +80,7 @@ public class EnemyManager : MonoBehaviour
                 break;
             default:
                 break;
-        }
+        }*/
 
         m_Health -= AttackDamage;
     }
@@ -94,5 +89,19 @@ public class EnemyManager : MonoBehaviour
     {
         
     }
-
+    public class State
+    {
+        States ActiveState;
+        float m_Intensity,
+            m_ActiveTime;
+    }
+    public enum States
+    {
+        Null,
+        Slow,
+        Stun,
+        Burn,
+        Wet,
+        Bleeding
+    }
 }

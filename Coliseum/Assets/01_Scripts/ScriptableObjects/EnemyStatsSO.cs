@@ -15,11 +15,12 @@ public class EnemyStatsSO : ScriptableObject
         m_Reward,
         m_Speed,
         m_Experience,
-        m_TowerDamage;
+        m_BaseDamage = 1;
 
-    [SerializeField]
+    [System.Serializable]
     public class ElementResistance
     {
+        public string ElementName;
         public WorldElements Element;
         public float Resistance;
     }
