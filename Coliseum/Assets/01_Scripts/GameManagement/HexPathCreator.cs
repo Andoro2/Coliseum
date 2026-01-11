@@ -19,7 +19,7 @@ public class HexPathCreator : NetworkBehaviour
 
     public List<PathDetails> m_PathList = new List<PathDetails>();
 
-    private Vector2 StartPathValues = new Vector2(45, 30 * Mathf.Sqrt(3));
+    private Vector2 StartPathValues = new Vector2(24, 16 * Mathf.Sqrt(3));
     public bool m_PathZero, m_PathOne, m_PathTwo, m_PathThree, m_PathFour, m_PathFive;
 
     public GameObject m_TileContainer, m_PathHolder;
@@ -99,12 +99,12 @@ public class HexPathCreator : NetworkBehaviour
         {
             List<Vector3> m_PathStartPositions = new List<Vector3>
             {
-                new Vector3(0, 0, -StartPathValues.y),                      //path zero
-                new Vector3(-StartPathValues.x, 0, -StartPathValues.y / 2), //path one
-                new Vector3(-StartPathValues.x, 0, StartPathValues.y / 2),  //path two
-                new Vector3(0, 0, StartPathValues.y),                       //path three
-                new Vector3(StartPathValues.x, 0, StartPathValues.y / 2),   //path four
-                new Vector3(StartPathValues.x, 0, -StartPathValues.y / 2)   //path five
+                new Vector3(0, 1, -StartPathValues.y),                      //path zero
+                new Vector3(-StartPathValues.x, 1, -StartPathValues.y / 2), //path one
+                new Vector3(-StartPathValues.x, 1, StartPathValues.y / 2),  //path two
+                new Vector3(0, 1, StartPathValues.y),                       //path three
+                new Vector3(StartPathValues.x, 1, StartPathValues.y / 2),   //path four
+                new Vector3(StartPathValues.x, 1, -StartPathValues.y / 2)   //path five
             };
 
             
@@ -443,26 +443,26 @@ public class HexPathCreator : NetworkBehaviour
             switch (Path.PathOrientation)
             {
                 case HexOrientation.Zero:
-                    NextTilePos.z -= (10 * Mathf.Sqrt(3));
+                    NextTilePos.z -= (8 * Mathf.Sqrt(3));
                     break;
                 case HexOrientation.One:
-                    NextTilePos.x -= 15;
-                    NextTilePos.z -= (5 * Mathf.Sqrt(3));
+                    NextTilePos.x -= 12;
+                    NextTilePos.z -= (4 * Mathf.Sqrt(3));
                     break;
                 case HexOrientation.Two:
-                    NextTilePos.x -= 15;
-                    NextTilePos.z += (5 * Mathf.Sqrt(3));
+                    NextTilePos.x -= 12;
+                    NextTilePos.z += (4 * Mathf.Sqrt(3));
                     break;
                 case HexOrientation.Three:
-                    NextTilePos.z += (10 * Mathf.Sqrt(3));
+                    NextTilePos.z += (8 * Mathf.Sqrt(3));
                     break;
                 case HexOrientation.Four:
-                    NextTilePos.x += 15;
-                    NextTilePos.z += (5 * Mathf.Sqrt(3));
+                    NextTilePos.x += 12;
+                    NextTilePos.z += (4 * Mathf.Sqrt(3));
                     break;
                 case HexOrientation.Five:
-                    NextTilePos.x += 15;
-                    NextTilePos.z -= (5 * Mathf.Sqrt(3));
+                    NextTilePos.x += 12;
+                    NextTilePos.z -= (4 * Mathf.Sqrt(3));
                     break;
             }
         }
@@ -548,7 +548,7 @@ public class HexPathCreator : NetworkBehaviour
             }
         }
     }
-    [ServerRpc(RequireOwnership = false)]
+    [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
     private void SpawnNewTileServerRpc(int TileIndex, Vector3 NextTilePosition, HexOrientation PathOrientation)
     {
         GameObject GeneratedTile = Instantiate(m_TheTiles[TileIndex].HexTile, NextTilePosition, Quaternion.identity);
@@ -566,7 +566,9 @@ public class HexPathCreator : NetworkBehaviour
 
         TileNetworkObject.GetComponent<TileElementAsigned>().AssignElementClientRpc(ElementIndex);
     }
-    /*[ServerRpc(RequireOwnership = false)]
+    /*[Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone/Owner)]
+     * 
+     * [ServerRpc(RequireOwnership = false)]
     private void SpawnTileCheckerServerRpc(int pathIndex, Vector3 tileCheckPosition, float tileCheckYRotation)
     {
         NetworkObject NextTileChecker = Instantiate(m_NextTileChecker, tileCheckPosition, Quaternion.Euler(0, tileCheckYRotation, 0));
@@ -574,16 +576,21 @@ public class HexPathCreator : NetworkBehaviour
         //path.m_NextTileChecker = Instantiate(m_NextTileChecker, m_PathStartPositions[i], Quaternion.Euler(0, yRotation, 0));
         m_PathList[pathIndex].m_NextTileChecker.name = "TileChecker_" + m_PathList[pathIndex].ID;
     }*/
-    [ServerRpc(RequireOwnership = false)]
+    [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
     private void DestroyTileCheckerServerRpc(int pathIndex)
     {
-        Destroy(m_PathList[pathIndex].m_NextTileChecker.gameObject);
+        Debug.Log(pathIndex);
+        Debug.Log("Longitud del pathList: " + m_PathList.Count);
+        if(pathIndex < m_PathList.Count) Destroy(m_PathList[pathIndex].m_NextTileChecker.gameObject);
     }
-    [ServerRpc(RequireOwnership = false)]
+    [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
     private void TileCheckerServerRpc(int pathIndex)
     {
-        GameObject TileButton = m_PathList[pathIndex].m_NextTileChecker.gameObject.transform.Find("Canvas").gameObject;
-        TileButton.GetComponent<TileCreateButton>().m_ThisWay = m_PathList[pathIndex];
+        if (pathIndex < m_PathList.Count)
+        {
+            GameObject TileButton = m_PathList[pathIndex].m_NextTileChecker.gameObject.transform.Find("Canvas").gameObject;
+            TileButton.GetComponent<TileCreateButton>().m_ThisWay = m_PathList[pathIndex];
+        }
     }
     private void UpdatePath(int HexTileBifurcation, PathDetails Path, GameObject GeneratedTile)
     {
@@ -763,26 +770,26 @@ public class HexPathCreator : NetworkBehaviour
             switch (PathOrientation.PathOrientation)
             {
                 case HexOrientation.Zero:
-                    NewPos.z -= (10 * Mathf.Sqrt(3));
+                    NewPos.z -= (8 * Mathf.Sqrt(3));
                     break;
                 case HexOrientation.One:
-                    NewPos.x -= 15;
-                    NewPos.z -= (5 * Mathf.Sqrt(3));
+                    NewPos.x -= 12;
+                    NewPos.z -= (4 * Mathf.Sqrt(3));
                     break;
                 case HexOrientation.Two:
-                    NewPos.x -= 15;
-                    NewPos.z += (5 * Mathf.Sqrt(3));
+                    NewPos.x -= 12;
+                    NewPos.z += (4 * Mathf.Sqrt(3));
                     break;
                 case HexOrientation.Three:
-                        NewPos.z += (10 * Mathf.Sqrt(3));
+                        NewPos.z += (8 * Mathf.Sqrt(3));
                     break;
                 case HexOrientation.Four:
-                    NewPos.x += 15;
-                    NewPos.z += (5 * Mathf.Sqrt(3));
+                    NewPos.x += 12;
+                    NewPos.z += (4 * Mathf.Sqrt(3));
                     break;
                 case HexOrientation.Five:
-                    NewPos.x += 15;
-                    NewPos.z -= (5 * Mathf.Sqrt(3));
+                    NewPos.x += 12;
+                    NewPos.z -= (4 * Mathf.Sqrt(3));
                     break;
             }
         }
@@ -1100,26 +1107,26 @@ public class HexPathCreator : NetworkBehaviour
             switch (Orientation)
             {
                 case HexOrientation.Zero:
-                    Movement.z -= (10 * Mathf.Sqrt(3));
+                    Movement.z -= (8 * Mathf.Sqrt(3));
                     break;
                 case HexOrientation.One:
-                    Movement.x -= 15;
-                    Movement.z -= (5 * Mathf.Sqrt(3));
+                    Movement.x -= 12;
+                    Movement.z -= (4 * Mathf.Sqrt(3));
                     break;
                 case HexOrientation.Two:
-                    Movement.x -= 15;
-                    Movement.z += (5 * Mathf.Sqrt(3));
+                    Movement.x -= 12;
+                    Movement.z += (4 * Mathf.Sqrt(3));
                     break;
                 case HexOrientation.Three:
-                    Movement.z += (10 * Mathf.Sqrt(3));
+                    Movement.z += (8 * Mathf.Sqrt(3));
                     break;
                 case HexOrientation.Four:
-                    Movement.x += 15;
-                    Movement.z += (5 * Mathf.Sqrt(3));
+                    Movement.x += 12;
+                    Movement.z += (4 * Mathf.Sqrt(3));
                     break;
                 case HexOrientation.Five:
-                    Movement.x += 15;
-                    Movement.z -= (5 * Mathf.Sqrt(3));
+                    Movement.x += 12;
+                    Movement.z -= (4 * Mathf.Sqrt(3));
                     break;
             }
             return Movement;
