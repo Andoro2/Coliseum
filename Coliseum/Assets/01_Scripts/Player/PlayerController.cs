@@ -54,13 +54,25 @@ public class PlayerController : NetworkBehaviour
             LocalInstance = this;
         }
 
-        transform.position = m_SpawanPositionList[(int)OwnerClientId];
+        if((int)OwnerClientId > 5) transform.position = m_SpawanPositionList[5];
+        else transform.position = m_SpawanPositionList[(int)OwnerClientId];
+
+        if (IsServer)
+        {
+            NetworkManager.Singleton.OnClientDisconnectCallback += NetworkManager_OnClientDisconnectCallback;
+        }
     }
-    /*private void Awake()
+
+    private void NetworkManager_OnClientDisconnectCallback(ulong clientId)
     {
-        m_MainCam = GameObject.FindWithTag("MainCamera").gameObject;
-        m_MainCam.GetComponent<CameraFollow>().target = transform;
-    }*/
+        Debug.Log(clientId + "has disconnected.");
+    }
+
+    /*private void Awake()
+{
+   m_MainCam = GameObject.FindWithTag("MainCamera").gameObject;
+   m_MainCam.GetComponent<CameraFollow>().target = transform;
+}*/
     #region Movement
     public void OnMove(InputAction.CallbackContext context)
     {

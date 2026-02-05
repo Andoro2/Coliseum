@@ -770,7 +770,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 1034563008
+  InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
 --- !u!1 &112681293
@@ -1910,7 +1915,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &284914699
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1933,7 +1938,7 @@ MonoBehaviour:
   ConnectionData:
     Address: 127.0.0.1
     Port: 7777
-    ServerListenAddress: 
+    ServerListenAddress: 127.0.0.1
   DebugSimulator:
     PacketDelayMS: 0
     PacketJitterMS: 0
@@ -1950,14 +1955,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 593a2fe42fa9d37498c96f9a383b6521, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RunInBackground: 1
-  LogLevel: 1
   NetworkConfig:
     ProtocolVersion: 0
     NetworkTransport: {fileID: 284914699}
     PlayerPrefab: {fileID: 5225101343848003185, guid: 39c5f0b85a31a934095a69e6424a214b,
       type: 3}
-    NetworkPrefabs:
+    Prefabs:
+      NetworkPrefabsLists: []
+    TickRate: 30
+    ClientConnectionBufferTimeout: 10
+    ConnectionApproval: 0
+    ConnectionData: 
+    EnableTimeResync: 0
+    TimeResyncInterval: 30
+    EnsureNetworkVariableLengthSafety: 0
+    EnableSceneManagement: 1
+    ForceSamePrefabs: 1
+    RecycleNetworkIds: 1
+    NetworkIdRecycleDelay: 120
+    RpcHashSize: 0
+    LoadSceneTimeOut: 120
+    SpawnTimeout: 1
+    EnableNetworkLogs: 1
+    OldPrefabList:
     - Override: 0
       Prefab: {fileID: 2171034749813684662, guid: f9e1e4a0ea57a2c41a52d56e2e07c778,
         type: 3}
@@ -2324,21 +2344,8 @@ MonoBehaviour:
       SourcePrefabToOverride: {fileID: 0}
       SourceHashToOverride: 0
       OverridingTargetPrefab: {fileID: 0}
-    TickRate: 30
-    ClientConnectionBufferTimeout: 10
-    ConnectionApproval: 0
-    ConnectionData: 
-    EnableTimeResync: 0
-    TimeResyncInterval: 30
-    EnsureNetworkVariableLengthSafety: 0
-    EnableSceneManagement: 1
-    ForceSamePrefabs: 1
-    RecycleNetworkIds: 1
-    NetworkIdRecycleDelay: 120
-    RpcHashSize: 0
-    LoadSceneTimeOut: 120
-    SpawnTimeout: 1
-    EnableNetworkLogs: 1
+  RunInBackground: 1
+  LogLevel: 1
 --- !u!4 &284914701
 Transform:
   m_ObjectHideFlags: 0
@@ -2385,11 +2392,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Damage: 2
-  m_BaseDamage: 0
-  m_ElementalDamage: 1
-  m_ProjectileElement: 2
-  m_ShootPerMinute: 30
-  m_Range: 1000
+  m_ElementalPercentage: 0
   m_ShootTimer: 0
   m_Projectile: {fileID: 1872292829029996938, guid: 1fdb3b21d6a105843a0a5c804ddb2575,
     type: 3}
@@ -2427,8 +2430,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Level: 1
-  m_Cost: 500
   m_RangeMesh: {fileID: 0}
+  m_ElementProficiency: 0
+  m_TurretStats: {fileID: 0}
 --- !u!1001 &312664253
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3531,12 +3535,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 1
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -4098,8 +4102,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 504479875}
-  - component: {fileID: 504479876}
   - component: {fileID: 504479877}
+  - component: {fileID: 504479876}
   m_Layer: 0
   m_Name: MainCam
   m_TagString: Untagged
@@ -4154,7 +4158,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 2027546083
+  InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
 --- !u!1 &508058434
@@ -4494,11 +4503,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Damage: 5
-  m_BaseDamage: 0
-  m_ElementalDamage: 0
-  m_ProjectileElement: 0
-  m_ShootPerMinute: 30
-  m_Range: 25
+  m_ElementalPercentage: 0
   m_ShootTimer: 0
   m_Projectile: {fileID: 0}
   m_ShootPoint: {fileID: 0}
@@ -6740,11 +6745,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Damage: 2
-  m_BaseDamage: 2
-  m_ElementalDamage: 1
-  m_ProjectileElement: 2
-  m_ShootPerMinute: 30
-  m_Range: 1000
+  m_ElementalPercentage: 0
   m_ShootTimer: 0
   m_Projectile: {fileID: 1872292829029996938, guid: 1fdb3b21d6a105843a0a5c804ddb2575,
     type: 3}
@@ -6782,8 +6783,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Level: 1
-  m_Cost: 0
   m_RangeMesh: {fileID: 0}
+  m_ElementProficiency: 0
+  m_TurretStats: {fileID: 0}
 --- !u!1 &1190299090
 GameObject:
   m_ObjectHideFlags: 0
@@ -8388,6 +8390,7 @@ MonoBehaviour:
   m_DeselectOnBackgroundClick: 1
   m_PointerBehavior: 0
   m_CursorLockBehavior: 0
+  m_ScrollDeltaPerTick: 6
 --- !u!1 &1455099881
 GameObject:
   m_ObjectHideFlags: 0
@@ -9060,6 +9063,11 @@ PrefabInstance:
         type: 3}
       propertyPath: GlobalObjectIdHash
       value: 2136235038
+      objectReference: {fileID: 0}
+    - target: {fileID: 1050200236044561886, guid: 039dde88dfa2371408672f4b7bed873b,
+        type: 3}
+      propertyPath: InScenePlacedSourceGlobalObjectIdHash
+      value: 2506926277
       objectReference: {fileID: 0}
     - target: {fileID: 2365854645322114647, guid: 039dde88dfa2371408672f4b7bed873b,
         type: 3}
@@ -10302,7 +10310,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 3420287307
+  InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
 --- !u!1 &1627680049
@@ -10575,7 +10588,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1671395018
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10766,10 +10779,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1735057699}
+  - component: {fileID: 1735057704}
   - component: {fileID: 1735057703}
   - component: {fileID: 1735057700}
   - component: {fileID: 1735057701}
-  - component: {fileID: 1735057704}
   - component: {fileID: 1735057705}
   m_Layer: 0
   m_Name: GameManager
@@ -10807,10 +10820,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_PathSpawns: []
   SpawnPoint: {fileID: 1024853286}
-  m_EnemyTypes:
-  - {fileID: 2365854645322114647, guid: 039dde88dfa2371408672f4b7bed873b, type: 3}
-  - {fileID: 2365854645322114647, guid: 1e40f70f90218e942af8e2c5dc2f3aac, type: 3}
-  - {fileID: 2365854645322114647, guid: 15e3d604e3841f64f9a698a90c7c682a, type: 3}
+  m_EnemyList: []
 --- !u!114 &1735057701
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12491,6 +12501,8 @@ MonoBehaviour:
   m_HealthTMP: {fileID: 1455099883}
   m_WavelTMP: {fileID: 1256762374}
   m_CurrencyTMP: {fileID: 1247694275}
+  playerPrefab: {fileID: 870437125520562393, guid: 39c5f0b85a31a934095a69e6424a214b,
+    type: 3}
 --- !u!114 &1735057704
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12504,7 +12516,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 4098706375
+  InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
 --- !u!114 &1735057705
@@ -15418,6 +15435,11 @@ PrefabInstance:
         type: 3}
       propertyPath: GlobalObjectIdHash
       value: 21437263
+      objectReference: {fileID: 0}
+    - target: {fileID: 8942983139041027939, guid: 1fdad5febb5944f4b99cd3b66a409c62,
+        type: 3}
+      propertyPath: InScenePlacedSourceGlobalObjectIdHash
+      value: 436069321
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 4400117072178786987, guid: 1fdad5febb5944f4b99cd3b66a409c62, type: 3}
