@@ -188,6 +188,51 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf5a61a98112abc46b46b5aeef223b2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PJsList:
+  - PJName: 
+    PJID: 0
+    PJIcon: {fileID: 0}
+    PJPreFab: {fileID: 0}
+  - PJName: Gauthak
+    PJID: 4
+    PJIcon: {fileID: 21300000, guid: 247ea9fb25d919147bde3d9b3239e4ba, type: 3}
+    PJPreFab: {fileID: 0}
+  - PJName: Khaldo
+    PJID: 5
+    PJIcon: {fileID: 0}
+    PJPreFab: {fileID: 0}
+  - PJName: Lidith
+    PJID: 13
+    PJIcon: {fileID: 21300000, guid: c8cb860e1dcb1e645bf95ea92009ce8b, type: 3}
+    PJPreFab: {fileID: 0}
+  - PJName: Ragnar
+    PJID: 16
+    PJIcon: {fileID: 21300000, guid: 127edfe7f8640694492bacb36f0da4f9, type: 3}
+    PJPreFab: {fileID: 0}
+  - PJName: Shen
+    PJID: 18
+    PJIcon: {fileID: 21300000, guid: 1f8caf4f8d9aad546b8924560c6470b6, type: 3}
+    PJPreFab: {fileID: 0}
+  - PJName: "\xDAredan"
+    PJID: 19
+    PJIcon: {fileID: 21300000, guid: 9970534eb9ebd4347a01f2ac8ca1d226, type: 3}
+    PJPreFab: {fileID: 0}
+  - PJName: Barbie
+    PJID: 20
+    PJIcon: {fileID: 21300000, guid: 06555acb384b6fa40864977399ce3864, type: 3}
+    PJPreFab: {fileID: 0}
+  - PJName: "\xC0ndrum"
+    PJID: 34
+    PJIcon: {fileID: 21300000, guid: 1e17d79dcdfc6b046838b82f024692b4, type: 3}
+    PJPreFab: {fileID: 0}
+  - PJName: Benthos
+    PJID: 35
+    PJIcon: {fileID: 21300000, guid: 06cf01b21c327904fae085175de52f84, type: 3}
+    PJPreFab: {fileID: 0}
+  - PJName: Elara
+    PJID: 36
+    PJIcon: {fileID: 21300000, guid: 129cf260611378b49a02ca2e8dcaba21, type: 3}
+    PJPreFab: {fileID: 0}
 --- !u!1 &575692830
 GameObject:
   m_ObjectHideFlags: 0
@@ -399,7 +444,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &747142292
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1360,7 +1405,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1699413265
 RectTransform:
   m_ObjectHideFlags: 0
