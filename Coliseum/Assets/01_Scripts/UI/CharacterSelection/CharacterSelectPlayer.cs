@@ -41,7 +41,11 @@ public class CharacterSelectPlayer : MonoBehaviour
     {
         UpdatePlayer();
     }
-
+    private void OnDestroy()
+    {
+        HexGameMultiplayer.Instance.OnPlayerDataNetworkListChanged -= Instance_OnPlayerDataNetworkListChanged;
+    }
+    
     private void Show()
     {
         gameObject.SetActive(true);

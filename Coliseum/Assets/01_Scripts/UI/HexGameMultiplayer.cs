@@ -21,8 +21,8 @@ public class HexGameMultiplayer : NetworkBehaviour
     //[SerializeField] private List<CharInfo> CharactersInformation = new List<CharInfo>();
     [SerializeField] private List<PJInfo> PJsList = new List<PJInfo>();
 
-
     private NetworkList<PlayerData> playerDataNetworkList;
+
 
     private void Awake()
     {
@@ -43,21 +43,25 @@ public class HexGameMultiplayer : NetworkBehaviour
     {
         NetworkManager.Singleton.ConnectionApprovalCallback += NetworkManager_ConnectionApprovalCallback;
         NetworkManager.Singleton.OnClientConnectedCallback += NetworkManager_OnClientConnectedCallback;
-        NetworkManager.Singleton.OnClientDisconnectCallback += NetworkManager_OnClientDisconnectCallback;
+        NetworkManager.Singleton.OnClientDisconnectCallback += NetworkManager_Server_OnClientDisconnectCallback;
         NetworkManager.Singleton.StartHost();
     }
     public void StartClient()
     {
         OnTryingToJoinGame?.Invoke(this, EventArgs.Empty);
 
-        NetworkManager.Singleton.OnClientDisconnectCallback += NetworkManager_OnClientDisconnectCallback;
+        NetworkManager.Singleton.OnClientDisconnectCallback += NetworkManager_Client_OnClientDisconnectCallback;
         NetworkManager.Singleton.StartClient();
     }
     
-    private void NetworkManager_OnClientDisconnectCallback(ulong clientId)
+    private void NetworkManager_Client_OnClientDisconnectCallback(ulong clientId)
     {
         OnFailedToJoinGame?.Invoke(this, EventArgs.Empty);
-        /*
+    }
+
+    private void NetworkManager_Server_OnClientDisconnectCallback(ulong clientId)
+    {
+        OnFailedToJoinGame?.Invoke(this, EventArgs.Empty);
         for (int i = 0; i < playerDataNetworkList.Count; i++)
         {
             PlayerData playerData = playerDataNetworkList[i];
@@ -67,10 +71,9 @@ public class HexGameMultiplayer : NetworkBehaviour
                 playerDataNetworkList.RemoveAt(i);
             }
         }
-        */
     }
-    
-    
+
+
     private void NetworkManager_OnClientConnectedCallback(ulong clientId)
     {
         playerDataNetworkList.Add(new PlayerData
@@ -157,6 +160,12 @@ public class HexGameMultiplayer : NetworkBehaviour
         return -1;
     }
 
+    public void KickPlayer(ulong clientId)
+    {
+        NetworkManager.Singleton.DisconnectClient(clientId);
+        NetworkManager_Server_OnClientDisconnectCallback(clientId);
+    }
+    #region PJ Selection
     private bool IsPJAvailable(int PJID)
     {
         foreach (PlayerData playerData in playerDataNetworkList)
@@ -190,6 +199,10 @@ public class HexGameMultiplayer : NetworkBehaviour
         Debug.LogError($"No se encontró ningún personaje con el ID: {idBuscado}. Devolviendo el primero por defecto.");
         return PJsList[0];
     }
+    public bool HasSelectedAPJ()
+    {
+        return GetPlayerData().selectedPJID != 0;
+    }
 
     [Serializable]
     public class PJInfo
@@ -199,4 +212,5 @@ public class HexGameMultiplayer : NetworkBehaviour
         public Sprite PJIcon;
         public GameObject PJPreFab;
     }
+    #endregion
 }

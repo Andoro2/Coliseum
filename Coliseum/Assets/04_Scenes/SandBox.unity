@@ -524,9 +524,9 @@ GameObject:
   - component: {fileID: 97385998}
   - component: {fileID: 97386001}
   - component: {fileID: 97386000}
+  - component: {fileID: 97386003}
   - component: {fileID: 97385999}
   - component: {fileID: 97386002}
-  - component: {fileID: 97386003}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -592,6 +592,8 @@ MonoBehaviour:
   dashDuration: 0.2
   m_RespawnFromFall: {x: 0, y: 10, z: 0}
   m_SpawanPositionList: []
+  playerVisual: {fileID: 0}
+  kickButton: {fileID: 0}
 --- !u!114 &97386000
 MonoBehaviour:
   m_ObjectHideFlags: 0

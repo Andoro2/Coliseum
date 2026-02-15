@@ -18,7 +18,7 @@ public class CharacterSelectionUI : MonoBehaviour
         });
         readyButton.onClick.AddListener(() =>
         {
-            CharacterSelectReady.Instance.SetPlayerReady();
+            if(HexGameMultiplayer.Instance.HasSelectedAPJ()) CharacterSelectReady.Instance.SetPlayerReady();
         });
     }
 }

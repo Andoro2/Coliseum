@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 using TMPro;
 using Unity.VisualScripting;
 using static HexPathCreator;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : NetworkBehaviour
 {
@@ -46,6 +47,8 @@ public class PlayerController : NetworkBehaviour
     private Animator m_Anim;
 
     [SerializeField] private List<Vector3> m_SpawanPositionList;
+    [SerializeField] private PlayerCharVisual playerVisual;
+    
 
     public override void OnNetworkSpawn()
     {
@@ -55,7 +58,7 @@ public class PlayerController : NetworkBehaviour
         }
 
         if((int)OwnerClientId > 5) transform.position = m_SpawanPositionList[5];
-        else transform.position = m_SpawanPositionList[(int)OwnerClientId];
+        else transform.position = m_SpawanPositionList[HexGameMultiplayer.Instance.GetPlayerDataIndexFromClientID(OwnerClientId)];
 
         if (IsServer)
         {
@@ -68,11 +71,12 @@ public class PlayerController : NetworkBehaviour
         Debug.Log(clientId + "has disconnected.");
     }
 
-    /*private void Awake()
-{
-   m_MainCam = GameObject.FindWithTag("MainCamera").gameObject;
-   m_MainCam.GetComponent<CameraFollow>().target = transform;
-}*/
+    private void Awake()
+    {
+        
+       //m_MainCam = GameObject.FindWithTag("MainCamera").gameObject;
+       //m_MainCam.GetComponent<CameraFollow>().target = transform;
+    }
     #region Movement
     public void OnMove(InputAction.CallbackContext context)
     {
@@ -151,6 +155,12 @@ public class PlayerController : NetworkBehaviour
 
         m_InteractionTMP = transform.Find("InteractionCanvas").Find("Text").GetComponent<TMP_Text>();
         m_InteractionTMP.text = "";
+         
+        // character visuals
+        PlayerData playerData = HexGameMultiplayer.Instance.GetPlayerDataFromClientID(OwnerClientId);
+        playerVisual.SetPlayerPJ(playerData.selectedPJID);
+
+        
     }
 
     void Update()

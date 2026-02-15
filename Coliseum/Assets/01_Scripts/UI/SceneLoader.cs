@@ -16,7 +16,7 @@ public class SceneLoader : MonoBehaviour
         SandBox
     }
     private static Scene targetScene;
-
+        
     public static void Load(Scene targetScene)
     {
         SceneLoader.targetScene = targetScene;
