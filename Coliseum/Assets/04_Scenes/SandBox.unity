@@ -593,7 +593,6 @@ MonoBehaviour:
   m_RespawnFromFall: {x: 0, y: 10, z: 0}
   m_SpawanPositionList: []
   playerVisual: {fileID: 0}
-  kickButton: {fileID: 0}
 --- !u!114 &97386000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1816,7 +1815,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 513c86487dde7954688d373c53cdbd6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemiesInRange: []
+  hexSize: 3
+  detectionHeight: 2
+  checkInterval: 0.1
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  targetElements: 
+  m_EnemiesInRangeDebug: []
 --- !u!1001 &270948745
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2400,7 +2406,6 @@ MonoBehaviour:
     type: 3}
   m_ShootPoint: {fileID: 1507850456}
   m_Target: {fileID: 0}
-  m_EnemiesInRange: []
 --- !u!4 &305250986
 Transform:
   m_ObjectHideFlags: 0
@@ -4510,7 +4515,6 @@ MonoBehaviour:
   m_Projectile: {fileID: 0}
   m_ShootPoint: {fileID: 0}
   m_Target: {fileID: 0}
-  m_EnemiesInRange: []
 --- !u!65 &639371849
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5964,7 +5968,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 513c86487dde7954688d373c53cdbd6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemiesInRange: []
+  hexSize: 3
+  detectionHeight: 2
+  checkInterval: 0.1
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  targetElements: 
+  m_EnemiesInRangeDebug: []
 --- !u!64 &974338543
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -6753,7 +6764,6 @@ MonoBehaviour:
     type: 3}
   m_ShootPoint: {fileID: 1221479018}
   m_Target: {fileID: 0}
-  m_EnemiesInRange: []
 --- !u!4 &1186728453
 Transform:
   m_ObjectHideFlags: 0
@@ -10822,7 +10832,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_PathSpawns: []
   SpawnPoint: {fileID: 1024853286}
-  m_EnemyList: []
+  m_EnemyList:
+  - {fileID: 2365854645322114647, guid: 039dde88dfa2371408672f4b7bed873b, type: 3}
+  - {fileID: 2365854645322114647, guid: 1e40f70f90218e942af8e2c5dc2f3aac, type: 3}
+  - {fileID: 2365854645322114647, guid: 15e3d604e3841f64f9a698a90c7c682a, type: 3}
 --- !u!114 &1735057701
 MonoBehaviour:
   m_ObjectHideFlags: 0

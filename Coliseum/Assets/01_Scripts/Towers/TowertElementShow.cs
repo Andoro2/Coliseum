@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
-using static GameManager;
+//using static GameManager;
 
 public class TowertElementShow : MonoBehaviour
 {
