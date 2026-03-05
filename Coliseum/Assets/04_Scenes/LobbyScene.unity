@@ -192,47 +192,59 @@ MonoBehaviour:
   - PJName: 
     PJID: 0
     PJIcon: {fileID: 0}
+    PJVisual: {fileID: 0}
     PJPreFab: {fileID: 0}
   - PJName: Gauthak
     PJID: 5
     PJIcon: {fileID: 21300000, guid: 247ea9fb25d919147bde3d9b3239e4ba, type: 3}
-    PJPreFab: {fileID: 4366383568224032390, guid: 1a5e5f70613544a46bd6ac1cbe37e0a6,
+    PJVisual: {fileID: 4366383568224032390, guid: 1a5e5f70613544a46bd6ac1cbe37e0a6,
+      type: 3}
+    PJPreFab: {fileID: 3040966821503632805, guid: fadfd2ec5fdf41048ad88921d56a3b09,
       type: 3}
   - PJName: Khaldo
     PJID: 6
     PJIcon: {fileID: 0}
+    PJVisual: {fileID: 0}
     PJPreFab: {fileID: 0}
   - PJName: Lidith
     PJID: 13
     PJIcon: {fileID: 21300000, guid: c8cb860e1dcb1e645bf95ea92009ce8b, type: 3}
+    PJVisual: {fileID: 0}
     PJPreFab: {fileID: 0}
   - PJName: Ragnar
     PJID: 16
     PJIcon: {fileID: 21300000, guid: 127edfe7f8640694492bacb36f0da4f9, type: 3}
+    PJVisual: {fileID: 0}
     PJPreFab: {fileID: 0}
   - PJName: Shen
     PJID: 18
     PJIcon: {fileID: 21300000, guid: 1f8caf4f8d9aad546b8924560c6470b6, type: 3}
+    PJVisual: {fileID: 0}
     PJPreFab: {fileID: 0}
   - PJName: "\xDAredan"
     PJID: 19
     PJIcon: {fileID: 21300000, guid: 9970534eb9ebd4347a01f2ac8ca1d226, type: 3}
+    PJVisual: {fileID: 0}
     PJPreFab: {fileID: 0}
   - PJName: Barbie
     PJID: 20
     PJIcon: {fileID: 21300000, guid: 06555acb384b6fa40864977399ce3864, type: 3}
+    PJVisual: {fileID: 0}
     PJPreFab: {fileID: 0}
   - PJName: "\xC0ndrum"
     PJID: 34
     PJIcon: {fileID: 21300000, guid: 1e17d79dcdfc6b046838b82f024692b4, type: 3}
+    PJVisual: {fileID: 0}
     PJPreFab: {fileID: 0}
   - PJName: Benthos
     PJID: 35
     PJIcon: {fileID: 21300000, guid: 06cf01b21c327904fae085175de52f84, type: 3}
+    PJVisual: {fileID: 0}
     PJPreFab: {fileID: 0}
   - PJName: Elara
     PJID: 36
     PJIcon: {fileID: 21300000, guid: 129cf260611378b49a02ca2e8dcaba21, type: 3}
+    PJVisual: {fileID: 0}
     PJPreFab: {fileID: 0}
 --- !u!1 &575692830
 GameObject:

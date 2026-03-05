@@ -138,7 +138,7 @@ public class HexGameMultiplayer : NetworkBehaviour
 
         PlayerData playerData = playerDataNetworkList[playerDataIndex];
 
-        playerData.selectedPJID = PJID;//modify
+        playerData.selectedPJID = PJID; //modify
 
         playerDataNetworkList[playerDataIndex] = playerData; //update
     }
@@ -205,7 +205,7 @@ public class HexGameMultiplayer : NetworkBehaviour
         public string PJName;
         public int PJID;
         public Sprite PJIcon;
-        public GameObject PJPreFab;
+        public GameObject PJVisual, PJPreFab;
     }
     #endregion
 }

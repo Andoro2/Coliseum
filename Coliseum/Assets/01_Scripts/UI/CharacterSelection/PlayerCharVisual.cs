@@ -11,9 +11,9 @@ public class PlayerCharVisual : NetworkBehaviour
     [SerializeField] public TextMeshProUGUI pjNameTag;
     [SerializeField] private Button kickButton;
 
-    [SerializeField] private Transform modelParent;
+    [SerializeField] private Transform parentTransform;
 
-    [SerializeField] private GameObject currentModel;
+    [SerializeField] public GameObject currentModel;
     private void Awake()
     {
         kickButton.onClick.AddListener(() =>
@@ -24,7 +24,6 @@ public class PlayerCharVisual : NetworkBehaviour
     }
     void Start()
     {
-        //pjNameTag.text = "";
         //kick button
         if (SceneManager.GetActiveScene().name == "CharacterSelectScene" && gameObject.name != "Player_0") kickButton.gameObject.SetActive(NetworkManager.Singleton.IsServer);
     }
@@ -32,8 +31,20 @@ public class PlayerCharVisual : NetworkBehaviour
     {
         pjNameTag.text = HexGameMultiplayer.Instance.GetPJByID(PJID).PJName;
 
-        GameObject prefab = HexGameMultiplayer.Instance.GetPJByID(PJID).PJPreFab;
-        if (prefab != null)
-            currentModel = Instantiate(prefab, modelParent);
+        if (currentModel != null) Destroy(currentModel);
+
+        if (SceneManager.GetActiveScene().name == "CharacterSelectScene")
+        {
+            GameObject prefab = HexGameMultiplayer.Instance.GetPJByID(PJID).PJVisual;
+            if (prefab != null)
+                currentModel = Instantiate(prefab, parentTransform);
+        }
+
+        if (SceneManager.GetActiveScene().name == "SandBox")
+        {
+            GameObject prefab = HexGameMultiplayer.Instance.GetPJByID(PJID).PJPreFab;
+            if (prefab != null)
+                currentModel = Instantiate(prefab, parentTransform);
+        }
     }
 }

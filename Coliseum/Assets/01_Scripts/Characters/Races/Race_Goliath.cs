@@ -20,8 +20,6 @@ public class Race_Goliath : MonoBehaviour
     [Header("Pasiva nivel 20:")]
     public GameObject m_DashDamageVisual;
 
-    public bool HandsApplied = false;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -74,7 +72,7 @@ public class Race_Goliath : MonoBehaviour
         }
         if (newLevel >= 20 && !m_PassiveLevel20)
         {
-            GetComponent<PlayerController>().OnDashEnd += DashDamage;
+            transform.parent.GetComponent<PlayerController>().OnDashEnd += DashDamage;
             m_PlayerStats.AddDamageResistancePermanent(WorldElements.Cold, 0.5f);
             m_PassiveLevel20 = true;
 

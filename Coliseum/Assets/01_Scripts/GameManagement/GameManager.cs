@@ -18,7 +18,7 @@ public class GameManager : NetworkBehaviour
     public TextMeshProUGUI m_HealthTMP, m_WavelTMP, m_CurrencyTMP;
     private List<GameObject> tileCanvases = new List<GameObject>();
 
-    public enum WorldElements { Null, Fire, Ice, Lightning, Wind, Tech, Physical }
+    //public enum WorldElements { Null, Fire, Ice, Lightning, Wind, Tech, Physical }
 
     [SerializeField] private Transform playerPrefab;
 

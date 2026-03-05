@@ -580,7 +580,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pjNameTag: {fileID: 3559152621857770589}
   kickButton: {fileID: 6999664271977650064}
-  modelParent: {fileID: 8107500748382748522}
+  parentTransform: {fileID: 8107500748382748522}
   currentModel: {fileID: 0}
 --- !u!1 &6768741639509049597
 GameObject:

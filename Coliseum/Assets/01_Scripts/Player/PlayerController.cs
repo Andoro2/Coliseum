@@ -117,11 +117,15 @@ public class PlayerController : NetworkBehaviour
     #endregion
     void Start()
     {
+        // character visuals
+        PlayerData playerData = HexGameMultiplayer.Instance.GetPlayerDataFromClientID(OwnerClientId);
+        playerVisual.SetPlayerPJ(playerData.selectedPJID);
+
         if (IsOwner) m_State = PlayerStates.Fighting;
         else GetComponent<PlayerController>().enabled = false;
 
         m_MainCam = GameObject.FindWithTag("MainCamera").gameObject;
-        m_Anim = transform.GetChild(0).transform.GetChild(0).transform.GetComponent<Animator>();
+        m_Anim = playerVisual.currentModel.transform.GetChild(0).transform.GetChild(0).transform.GetComponent<Animator>();
 
         DI = GetComponentInChildren<DetectInteraction>();
 
@@ -150,10 +154,6 @@ public class PlayerController : NetworkBehaviour
 
         m_InteractionTMP = transform.Find("InteractionCanvas").Find("Text").GetComponent<TMP_Text>();
         m_InteractionTMP.text = "";
-         
-        // character visuals
-        PlayerData playerData = HexGameMultiplayer.Instance.GetPlayerDataFromClientID(OwnerClientId);
-        playerVisual.SetPlayerPJ(playerData.selectedPJID);        
     }
 
     void Update()
@@ -196,7 +196,7 @@ public class PlayerController : NetworkBehaviour
         if (Input.GetKeyDown(KeyCode.X))
         {
             //ObtainExp(10f);
-            GetComponent<PlayerStats>().ObtainExp(10f);
+            GetComponentInChildren<PlayerStats>().ObtainExp(50f);
         }
 
         if (m_MainCam.transform.parent.GetComponent<CameraFollow>().FollowPlayer)
