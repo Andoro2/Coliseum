@@ -72,8 +72,6 @@ public class HexGameMultiplayer : NetworkBehaviour
             }
         }
     }
-
-
     private void NetworkManager_OnClientConnectedCallback(ulong clientId)
     {
         playerDataNetworkList.Add(new PlayerData
@@ -81,8 +79,7 @@ public class HexGameMultiplayer : NetworkBehaviour
             clientId = clientId,
             selectedPJID = 0,
         });
-    }    
-
+    }
     private void NetworkManager_ConnectionApprovalCallback(NetworkManager.ConnectionApprovalRequest connectionApprovalRequest, NetworkManager.ConnectionApprovalResponse connectionApprovalResponse)
     {
         if (SceneManager.GetActiveScene().name != SceneLoader.Scene.CharacterSelectScene.ToString())
@@ -120,7 +117,6 @@ public class HexGameMultiplayer : NetworkBehaviour
     {
         return GetPlayerDataFromClientID(NetworkManager.Singleton.LocalClientId);
     }
-
     public PlayerData GetPlayerDataFromPlayerIndex (int playerIndex)
     {
         return playerDataNetworkList[playerIndex];
@@ -135,7 +131,6 @@ public class HexGameMultiplayer : NetworkBehaviour
     {
         if (!IsPJAvailable(PJID))
         {
-            //PJPrepicked
             return;
         }
         // utilitzant un "struct", s'ha d'agafar el que va a menejar, modificar-lo, i després actualitzar-lo
@@ -172,7 +167,7 @@ public class HexGameMultiplayer : NetworkBehaviour
         {
             if (playerData.selectedPJID == PJID)
             {
-                // pickeat
+                // picked
                 return false;
             }
         }

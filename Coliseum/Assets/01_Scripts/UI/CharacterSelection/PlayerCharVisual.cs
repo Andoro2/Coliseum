@@ -10,6 +10,10 @@ public class PlayerCharVisual : NetworkBehaviour
 {
     [SerializeField] public TextMeshProUGUI pjNameTag;
     [SerializeField] private Button kickButton;
+
+    [SerializeField] private Transform modelParent;
+
+    [SerializeField] private GameObject currentModel;
     private void Awake()
     {
         kickButton.onClick.AddListener(() =>
@@ -27,5 +31,9 @@ public class PlayerCharVisual : NetworkBehaviour
     public void SetPlayerPJ(int PJID)
     {
         pjNameTag.text = HexGameMultiplayer.Instance.GetPJByID(PJID).PJName;
+
+        GameObject prefab = HexGameMultiplayer.Instance.GetPJByID(PJID).PJPreFab;
+        if (prefab != null)
+            currentModel = Instantiate(prefab, modelParent);
     }
 }

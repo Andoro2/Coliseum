@@ -57,7 +57,7 @@ public class EnemyManager : MonoBehaviour
         }
 
         GameObject.FindWithTag("GameController").GetComponent<GameManager>().GetPaid(m_Value);
-        GameObject.FindWithTag("Player").GetComponent<PlayerController>().ObtainExp(m_ExpValue);
+        GameObject.FindWithTag("Player").GetComponent<PlayerStats>().ObtainExp(m_ExpValue);
 
         Destroy(gameObject);
     }

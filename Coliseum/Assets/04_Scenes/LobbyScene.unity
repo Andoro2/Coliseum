@@ -194,11 +194,12 @@ MonoBehaviour:
     PJIcon: {fileID: 0}
     PJPreFab: {fileID: 0}
   - PJName: Gauthak
-    PJID: 4
-    PJIcon: {fileID: 21300000, guid: 247ea9fb25d919147bde3d9b3239e4ba, type: 3}
-    PJPreFab: {fileID: 0}
-  - PJName: Khaldo
     PJID: 5
+    PJIcon: {fileID: 21300000, guid: 247ea9fb25d919147bde3d9b3239e4ba, type: 3}
+    PJPreFab: {fileID: 4366383568224032390, guid: 1a5e5f70613544a46bd6ac1cbe37e0a6,
+      type: 3}
+  - PJName: Khaldo
+    PJID: 6
     PJIcon: {fileID: 0}
     PJPreFab: {fileID: 0}
   - PJName: Lidith

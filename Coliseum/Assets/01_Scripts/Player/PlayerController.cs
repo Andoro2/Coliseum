@@ -17,14 +17,6 @@ public class PlayerController : NetworkBehaviour
     private GameObject m_FightingUI, m_BuildingUI,
         m_MainCam;
 
-
-    public float m_MaxHealth, m_CurrentHealth, m_CurrentExp;
-    public int m_Level = 0;
-    public List<LevelAttributes> m_LevelsArray;
-
-    private Slider m_HealthSlider, m_ExpSlider;
-    public TMP_Text m_HPCurrent, m_HPMax;
-
     public float m_Speed;
     private Vector2 m_PlayerMovement,
         m_MouseLook, m_JoystickLook;
@@ -48,8 +40,8 @@ public class PlayerController : NetworkBehaviour
 
     [SerializeField] private List<Vector3> m_SpawanPositionList;
     [SerializeField] private PlayerCharVisual playerVisual;
-    
 
+    public event System.Action OnDashEnd;
     public override void OnNetworkSpawn()
     {
         if (IsOwner)
@@ -77,7 +69,7 @@ public class PlayerController : NetworkBehaviour
        //m_MainCam = GameObject.FindWithTag("MainCamera").gameObject;
        //m_MainCam.GetComponent<CameraFollow>().target = transform;
     }
-    #region Movement
+    #region MOVEMENT
     public void OnMove(InputAction.CallbackContext context)
     {
         if (!IsOwner) return;
@@ -136,6 +128,8 @@ public class PlayerController : NetworkBehaviour
         m_BuildingUI = GameObject.FindWithTag("UICanvas").gameObject.transform.GetChild(1).gameObject;
 
         m_FightingUI = GameObject.FindWithTag("UICanvas").gameObject.transform.GetChild(0).gameObject.transform.GetChild(0).gameObject;
+
+        /*
         m_ExpSlider = m_FightingUI.transform.GetChild(0).GetComponent<Slider>();
         m_HealthSlider = m_FightingUI.transform.GetChild(1).GetComponent<Slider>();
         m_HPCurrent = m_FightingUI.transform.GetChild(3).gameObject.transform.GetChild(0).GetComponent<TMP_Text>();
@@ -152,22 +146,21 @@ public class PlayerController : NetworkBehaviour
 
         m_HPCurrent.text = m_CurrentHealth.ToString();
         m_HPMax.text = "/" + m_CurrentHealth;
+        */
 
         m_InteractionTMP = transform.Find("InteractionCanvas").Find("Text").GetComponent<TMP_Text>();
         m_InteractionTMP.text = "";
          
         // character visuals
         PlayerData playerData = HexGameMultiplayer.Instance.GetPlayerDataFromClientID(OwnerClientId);
-        playerVisual.SetPlayerPJ(playerData.selectedPJID);
-
-        
+        playerVisual.SetPlayerPJ(playerData.selectedPJID);        
     }
 
     void Update()
     {
-        m_HealthSlider.value = m_CurrentHealth;
-        m_ExpSlider.value = m_CurrentExp;
-        m_HPCurrent.text = m_CurrentHealth.ToString();
+        //m_HealthSlider.value = m_CurrentHealth;
+        //m_ExpSlider.value = m_CurrentExp;
+        //m_HPCurrent.text = m_CurrentHealth.ToString();
 
         #region Mode change
         if (Input.GetKeyDown(KeyCode.Tab) && IsOwner)
@@ -202,7 +195,8 @@ public class PlayerController : NetworkBehaviour
 
         if (Input.GetKeyDown(KeyCode.X))
         {
-            ObtainExp(10f);
+            //ObtainExp(10f);
+            GetComponent<PlayerStats>().ObtainExp(10f);
         }
 
         if (m_MainCam.transform.parent.GetComponent<CameraFollow>().FollowPlayer)
@@ -292,6 +286,7 @@ public class PlayerController : NetworkBehaviour
         }
 
         isDashing = false;
+        OnDashEnd?.Invoke();
     }
     public void playerMovement()
     {
@@ -347,6 +342,7 @@ public class PlayerController : NetworkBehaviour
     }*/
 
     #region Level managing
+    /*
     [System.Serializable]
     public class LevelAttributes
     {
@@ -372,6 +368,6 @@ public class PlayerController : NetworkBehaviour
 
             m_HPMax.text = "/" + m_LevelsArray[m_Level].m_MaxHealth;
         }
-    }
+    }*/
     #endregion
 }
