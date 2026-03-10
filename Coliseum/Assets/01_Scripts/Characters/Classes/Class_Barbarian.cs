@@ -7,11 +7,19 @@ public class Class_Barbarian : MonoBehaviour
     private PlayerStats m_PlayerStats;
 
     [Header("Pasivas obtenidas:")]
-    public bool m_PassiveLevel4 = false,
-        m_PassiveLevel8 = false,
-        m_PassiveLevel12 = false,
-        m_PassiveLevel16 = false,
-        m_PassiveLevel20 = false;
+    public bool m_PassiveLevel4 = false;
+    public bool m_PassiveLevel8 = false;
+    public bool m_PassiveLevel12 = false;
+    public bool m_PassiveLevel16 = false;
+    public bool m_PassiveLevel20 = false;
+
+    [Header("Pasiva nivel 10:")]
+    public float m_SpeedBonusPercent;
+    public float m_AttackSpeedBonusPercent;
+
+    [Header("Pasiva nivel 12:")]
+    public float m_TrapDodgePercent;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -24,12 +32,19 @@ public class Class_Barbarian : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (m_PassiveLevel4)
+            ApplyWrathBonus();
     }
 
     private void StackWrath(float damage)
     {
-        m_PlayerStats.StackWraath(damage * 0.1f);
+        m_PlayerStats.StackWrath(damage * 0.1f);
+    }
+
+    void ApplyWrathBonus()
+    {
+        m_PlayerStats.SetDynamicDamageBonus(PlayerStats.DynamicDamageSource.BarbarianWrath, m_PlayerStats.GetWrathStatBonus());
+        m_PlayerStats.SetDynamicLifeRegenBonus(PlayerStats.DynamicLifeRegenSource.BarbarianWrath, m_PlayerStats.GetWrathStatBonus());
     }
 
     private void OnLevelUp(int newLevel)
@@ -42,6 +57,9 @@ public class Class_Barbarian : MonoBehaviour
         }
         if (newLevel >= 8 && !m_PassiveLevel8)
         {
+            m_PlayerStats.ApplySpeedBonus(m_SpeedBonusPercent);
+            m_PlayerStats.ApplyAttackSpeedBonus(m_AttackSpeedBonusPercent);
+            m_PlayerStats.AddDamageResistancePermanent(WorldElements.Critical, 0.25f);
             m_PassiveLevel8 = true;
         }
         if (newLevel >= 12 && !m_PassiveLevel12)
@@ -54,6 +72,7 @@ public class Class_Barbarian : MonoBehaviour
         }
         if (newLevel >= 20 && !m_PassiveLevel20)
         {
+            m_PlayerStats.m_MaxWrath += 50f;
             m_PassiveLevel20 = true;
 
             m_PlayerStats.OnLevelUp -= OnLevelUp;

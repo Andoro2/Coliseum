@@ -1,7 +1,8 @@
+using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
 public class PlayerStats : MonoBehaviour
 {
@@ -29,7 +30,44 @@ public class PlayerStats : MonoBehaviour
     // --- Escudo ---
     [Header("Escudo")]
     private Dictionary<ShieldSource, float> m_Shields = new Dictionary<ShieldSource, float>();
-    
+    private Dictionary<DynamicDamageSource, float> m_DynamicDamageBonus = new Dictionary<DynamicDamageSource, float>();
+    private Dictionary<DynamicLifeRegenSource, float> m_DynamicLifeRegenBonus = new Dictionary<DynamicLifeRegenSource, float>();
+
+    public enum DynamicDamageSource
+    {
+        BarbarianWrath,
+    }
+    public enum DynamicLifeRegenSource
+    {
+        BarbarianWrath,
+    }
+
+    public void SetDynamicDamageBonus(DynamicDamageSource source, float value)
+    {
+        m_DynamicDamageBonus[source] = value;
+        RecalculateDamage();
+    }
+    private void RecalculateDamage()
+    {
+        float total = 1f + m_DamageBonusPercent;
+        foreach (float bonus in m_DynamicDamageBonus.Values)
+            total += bonus;
+        m_DamageMultiplier = total;
+    }
+
+    public void SetDynamicLifeRegenBonus(DynamicLifeRegenSource source, float value)
+    {
+        m_DynamicLifeRegenBonus[source] = value;
+        RecalculateLifeRegen();
+    }
+    private void RecalculateLifeRegen()
+    {
+        float total = m_LifeRegenBonusPercent;
+        foreach (float bonus in m_DynamicLifeRegenBonus.Values)
+            total += bonus;
+        m_LifeRegen = total;
+    }
+
     #region SHIELD MANAGEMENT
     public enum ShieldSource // escudos creados con habilidad activa primero, pasivos o regenerativos después
     {
@@ -78,6 +116,7 @@ public class PlayerStats : MonoBehaviour
     [Header("Bufos")]
     public float m_HealthBonusPercent = 0f;
     public float m_SpeedBonusPercent = 0f;
+    public float m_AttackSpeedBonusPercent = 0f;
     public float m_DamageBonusPercent = 0f;
     public float m_ExpBonusPercent = 0f;
     public float m_FlatArmorBonus = 0f;
@@ -99,7 +138,15 @@ public class PlayerStats : MonoBehaviour
 
     // --- Recurso según la clase ---
     [Header("Recursos de clase")]
-    public float m_Scrap, m_MaxWrath, m_Wrath, m_Ki, m_Magic;
+    public float m_Scrap;
+    public float m_MaxWrath;
+    public float m_Wrath;
+    public float m_Ki;
+    public float m_Magic;
+    private float m_WrathStatBonus;
+
+    // --- Getters y eventos ---
+    public float GetWrathStatBonus() => m_WrathStatBonus;
 
     public event System.Action<int> OnLevelUp;
     public event System.Action<float> OnDamageTaken;
@@ -114,6 +161,10 @@ public class PlayerStats : MonoBehaviour
 
         foreach (ShieldSource source in System.Enum.GetValues(typeof(ShieldSource)))
             m_Shields[source] = 0f;
+        foreach (DynamicDamageSource source in System.Enum.GetValues(typeof(DynamicDamageSource)))
+            m_DynamicDamageBonus[source] = 0f;
+        foreach (DynamicLifeRegenSource source in System.Enum.GetValues(typeof(DynamicLifeRegenSource)))
+            m_DynamicLifeRegenBonus[source] = 0f;
 
         //m_PassiveManager = GetComponent<PassiveManager>();
 
@@ -145,6 +196,11 @@ public class PlayerStats : MonoBehaviour
 
         if (m_CurrentHealth <= 0)
             Die();
+
+        if (Input.GetKeyDown(KeyCode.O))
+        {
+            OnDamageTaken?.Invoke(m_Level);
+        }
     }
 
     public void AbilityQ()
@@ -228,7 +284,6 @@ public class PlayerStats : MonoBehaviour
 
             m_HPMax.text = "/" + m_MaxHealth;
 
-            // Notifica al PassiveManager para que compruebe nuevas pasivas
             OnLevelUp?.Invoke(m_Level);
         }
     }
@@ -244,13 +299,17 @@ public class PlayerStats : MonoBehaviour
         m_CurrentHealth = Mathf.Min(m_CurrentHealth, m_MaxHealth);
         m_HealthSlider.maxValue = m_MaxHealth;
     }
-
     public void ApplySpeedBonus(float percent)
     {
         m_SpeedBonusPercent += percent;
-        m_Speed = GetComponent<PlayerController>().m_Speed * (1f + m_SpeedBonusPercent);
+        m_Speed = transform.parent.GetComponent<PlayerController>().m_Speed * (1f + m_SpeedBonusPercent);
     }
-
+    public void ApplyAttackSpeedBonus(float percent)
+    {
+        m_AttackSpeedBonusPercent += percent;
+        //m_Speed = GetComponent<PlayerController>().m_Speed
+        m_AttackSpeedBonusPercent *= (1f + m_SpeedBonusPercent);
+    }
     public void ApplyDamageBonus(float percent)
     {
         m_DamageBonusPercent += percent;
@@ -316,10 +375,12 @@ public class PlayerStats : MonoBehaviour
     // -------------------------------------------------------------------------
 
     // BARBARIAN
-    public void StackWraath(float wrath)
+    public void StackWrath(float wrath)
     {
         if ((m_Wrath + wrath) > m_MaxWrath) m_Wrath = m_MaxWrath;
         else m_Wrath += wrath;
+
+        m_WrathStatBonus = m_Wrath * 0.01f;
     }
 
     // -------------------------------------------------------------------------

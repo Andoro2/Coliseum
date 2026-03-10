@@ -155,6 +155,10 @@ public class PlayerController : NetworkBehaviour
 
         m_InteractionTMP = transform.Find("InteractionCanvas").Find("Text").GetComponent<TMP_Text>();
         m_InteractionTMP.text = "";
+
+        /*
+         * 
+         */ 
     }
 
     void Update()
@@ -162,6 +166,7 @@ public class PlayerController : NetworkBehaviour
         //m_HealthSlider.value = m_CurrentHealth;
         //m_ExpSlider.value = m_CurrentExp;
         //m_HPCurrent.text = m_CurrentHealth.ToString();
+        
 
         #region Mode change
         if (Input.GetKeyDown(KeyCode.Tab) && IsOwner)

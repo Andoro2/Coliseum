@@ -14,4 +14,5 @@ public enum WorldElements
     Radiant,
     Cutting,
     Thunder,
+    Critical
 }
