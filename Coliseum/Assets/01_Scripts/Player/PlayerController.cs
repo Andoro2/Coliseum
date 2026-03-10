@@ -42,6 +42,9 @@ public class PlayerController : NetworkBehaviour
     [SerializeField] private PlayerCharVisual playerVisual;
 
     public event System.Action OnDashEnd;
+    public event System.Action AbilityQUsed;
+    public event System.Action AbilityEUsed;
+    public event System.Action UltimateUsed;
     public override void OnNetworkSpawn()
     {
         if (IsOwner)
@@ -64,12 +67,11 @@ public class PlayerController : NetworkBehaviour
     }
 
     private void Awake()
-    {
-        
+    {        
        //m_MainCam = GameObject.FindWithTag("MainCamera").gameObject;
        //m_MainCam.GetComponent<CameraFollow>().target = transform;
     }
-    #region MOVEMENT
+    #region CONTROL
     public void OnMove(InputAction.CallbackContext context)
     {
         if (!IsOwner) return;
@@ -114,6 +116,24 @@ public class PlayerController : NetworkBehaviour
 
         if (DI.m_Interact && context.performed) Interact();
     }
+    public void AbilityQ(InputAction.CallbackContext context)
+    {
+        if (!IsOwner) return;
+
+        if (context.performed) UseAbilityQ();
+    }
+    public void AbilityE(InputAction.CallbackContext context)
+    {
+        if (!IsOwner) return;
+
+        if (context.performed) UseAbilityE();
+    }
+    public void Ultimate(InputAction.CallbackContext context)
+    {
+        if (!IsOwner) return;
+
+        if (context.performed) UseUltimate();
+    }
     #endregion
     void Start()
     {
@@ -132,25 +152,6 @@ public class PlayerController : NetworkBehaviour
         m_BuildingUI = GameObject.FindWithTag("UICanvas").gameObject.transform.GetChild(1).gameObject;
 
         m_FightingUI = GameObject.FindWithTag("UICanvas").gameObject.transform.GetChild(0).gameObject.transform.GetChild(0).gameObject;
-
-        /*
-        m_ExpSlider = m_FightingUI.transform.GetChild(0).GetComponent<Slider>();
-        m_HealthSlider = m_FightingUI.transform.GetChild(1).GetComponent<Slider>();
-        m_HPCurrent = m_FightingUI.transform.GetChild(3).gameObject.transform.GetChild(0).GetComponent<TMP_Text>();
-        m_HPMax = m_FightingUI.transform.GetChild(3).gameObject.transform.GetChild(1).GetComponent<TMP_Text>();
-
-
-        m_CurrentHealth = m_MaxHealth;
-
-        m_HealthSlider.maxValue = m_LevelsArray[m_Level].m_MaxHealth;
-        m_HealthSlider.value = m_LevelsArray[m_Level].m_MaxHealth;
-
-        m_ExpSlider.minValue = 0;
-        m_ExpSlider.maxValue = m_LevelsArray[m_Level].m_ExpToAdvance;
-
-        m_HPCurrent.text = m_CurrentHealth.ToString();
-        m_HPMax.text = "/" + m_CurrentHealth;
-        */
 
         m_InteractionTMP = transform.Find("InteractionCanvas").Find("Text").GetComponent<TMP_Text>();
         m_InteractionTMP.text = "";
@@ -246,6 +247,18 @@ public class PlayerController : NetworkBehaviour
     public void Interact()
     {
 
+    }
+    public void UseAbilityQ()
+    {
+        AbilityQUsed?.Invoke();
+    }
+    public void UseAbilityE()
+    {
+        AbilityEUsed?.Invoke();
+    }
+    public void UseUltimate()
+    {
+        UltimateUsed?.Invoke();
     }
     private IEnumerator DashCoroutine()
     {

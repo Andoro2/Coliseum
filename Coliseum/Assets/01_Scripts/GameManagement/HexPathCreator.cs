@@ -165,10 +165,10 @@ public class HexPathCreator : NetworkBehaviour
             StartingTiles(flag); //create the starting tiles
         }
 
-        if (Input.GetKeyDown(KeyCode.R))
+        /*if (Input.GetKeyDown(KeyCode.R))
         {
             ReloadScene();
-        }
+        }*/
         if (Input.GetKeyDown(KeyCode.Space) && m_PathList.Count > 0)
         {
             if (!IsServer) return;

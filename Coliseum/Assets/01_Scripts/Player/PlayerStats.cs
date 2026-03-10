@@ -97,18 +97,25 @@ public class PlayerStats : MonoBehaviour
     private TMP_Text m_HPCurrent;
     private TMP_Text m_HPMax;
 
-    // --- Referencia al PassiveManager para notificar subidas de nivel ---
-    private PassiveManager m_PassiveManager;
+    // --- Recurso según la clase ---
+    [Header("Recursos de clase")]
+    public float m_Scrap, m_MaxWrath, m_Wrath, m_Ki, m_Magic;
 
     public event System.Action<int> OnLevelUp;
     public event System.Action<float> OnDamageTaken;
 
+    private PlayerController PC;
     private void Start()
     {
+        PC = transform.parent.GetComponent<PlayerController>();
+        PC.AbilityQUsed += AbilityQ;
+        PC.AbilityEUsed += AbilityE;
+        PC.UltimateUsed += Ultimate;
+
         foreach (ShieldSource source in System.Enum.GetValues(typeof(ShieldSource)))
             m_Shields[source] = 0f;
 
-        m_PassiveManager = GetComponent<PassiveManager>();
+        //m_PassiveManager = GetComponent<PassiveManager>();
 
         m_CurrentHealth = m_MaxHealth;
 
@@ -138,6 +145,19 @@ public class PlayerStats : MonoBehaviour
 
         if (m_CurrentHealth <= 0)
             Die();
+    }
+
+    public void AbilityQ()
+    {
+        Debug.Log("Habilidad Q");
+    }
+    public void AbilityE()
+    {
+        Debug.Log("Habilidad E");
+    }
+    public void Ultimate()
+    {
+        Debug.Log("ULTIMATE");
     }
 
     // -------------------------------------------------------------------------
@@ -289,6 +309,17 @@ public class PlayerStats : MonoBehaviour
     public void SetLifeRegen()
     {
 
+    }
+
+    // -------------------------------------------------------------------------
+    // Ajustes de estadísticas por clase
+    // -------------------------------------------------------------------------
+
+    // BARBARIAN
+    public void StackWraath(float wrath)
+    {
+        if ((m_Wrath + wrath) > m_MaxWrath) m_Wrath = m_MaxWrath;
+        else m_Wrath += wrath;
     }
 
     // -------------------------------------------------------------------------

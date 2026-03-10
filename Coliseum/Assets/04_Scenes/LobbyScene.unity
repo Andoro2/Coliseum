@@ -194,6 +194,26 @@ MonoBehaviour:
     PJIcon: {fileID: 0}
     PJVisual: {fileID: 0}
     PJPreFab: {fileID: 0}
+  - PJName: Andrath
+    PJID: 1
+    PJIcon: {fileID: 0}
+    PJVisual: {fileID: 0}
+    PJPreFab: {fileID: 0}
+  - PJName: BASS
+    PJID: 2
+    PJIcon: {fileID: 0}
+    PJVisual: {fileID: 0}
+    PJPreFab: {fileID: 0}
+  - PJName: Dievil
+    PJID: 3
+    PJIcon: {fileID: 0}
+    PJVisual: {fileID: 0}
+    PJPreFab: {fileID: 0}
+  - PJName: Artificer_4
+    PJID: 4
+    PJIcon: {fileID: 0}
+    PJVisual: {fileID: 0}
+    PJPreFab: {fileID: 0}
   - PJName: Gauthak
     PJID: 5
     PJIcon: {fileID: 21300000, guid: 247ea9fb25d919147bde3d9b3239e4ba, type: 3}
@@ -203,47 +223,217 @@ MonoBehaviour:
       type: 3}
   - PJName: Khaldo
     PJID: 6
+    PJIcon: {fileID: 21300000, guid: ee4a3a4c79209eb45a9cfce76b6f9ba2, type: 3}
+    PJVisual: {fileID: 0}
+    PJPreFab: {fileID: 0}
+  - PJName: Trebor
+    PJID: 7
+    PJIcon: {fileID: 21300000, guid: 129cf260611378b49a02ca2e8dcaba21, type: 3}
+    PJVisual: {fileID: 0}
+    PJPreFab: {fileID: 0}
+  - PJName: Barbarian_4
+    PJID: 8
+    PJIcon: {fileID: 0}
+    PJVisual: {fileID: 0}
+    PJPreFab: {fileID: 0}
+  - PJName: Arthurrias
+    PJID: 9
+    PJIcon: {fileID: 0}
+    PJVisual: {fileID: 0}
+    PJPreFab: {fileID: 0}
+  - PJName: Crissia
+    PJID: 10
+    PJIcon: {fileID: 0}
+    PJVisual: {fileID: 0}
+    PJPreFab: {fileID: 0}
+  - PJName: Sr. Rochetto
+    PJID: 11
+    PJIcon: {fileID: 0}
+    PJVisual: {fileID: 0}
+    PJPreFab: {fileID: 0}
+  - PJName: Bard_4
+    PJID: 12
+    PJIcon: {fileID: 0}
+    PJVisual: {fileID: 0}
+    PJPreFab: {fileID: 0}
+  - PJName: John Baker
+    PJID: 13
+    PJIcon: {fileID: 0}
+    PJVisual: {fileID: 0}
+    PJPreFab: {fileID: 0}
+  - PJName: Kataploff
+    PJID: 14
+    PJIcon: {fileID: 0}
+    PJVisual: {fileID: 0}
+    PJPreFab: {fileID: 0}
+  - PJName: Exhereas
+    PJID: 15
+    PJIcon: {fileID: 0}
+    PJVisual: {fileID: 0}
+    PJPreFab: {fileID: 0}
+  - PJName: Cleric_4
+    PJID: 16
     PJIcon: {fileID: 0}
     PJVisual: {fileID: 0}
     PJPreFab: {fileID: 0}
   - PJName: Lidith
-    PJID: 13
+    PJID: 17
     PJIcon: {fileID: 21300000, guid: c8cb860e1dcb1e645bf95ea92009ce8b, type: 3}
     PJVisual: {fileID: 0}
     PJPreFab: {fileID: 0}
+  - PJName: Robinson
+    PJID: 18
+    PJIcon: {fileID: 0}
+    PJVisual: {fileID: 0}
+    PJPreFab: {fileID: 0}
+  - PJName: Kongeth
+    PJID: 19
+    PJIcon: {fileID: 0}
+    PJVisual: {fileID: 0}
+    PJPreFab: {fileID: 0}
+  - PJName: Druid_4
+    PJID: 20
+    PJIcon: {fileID: 0}
+    PJVisual: {fileID: 0}
+    PJPreFab: {fileID: 0}
   - PJName: Ragnar
-    PJID: 16
+    PJID: 21
     PJIcon: {fileID: 21300000, guid: 127edfe7f8640694492bacb36f0da4f9, type: 3}
     PJVisual: {fileID: 0}
     PJPreFab: {fileID: 0}
+  - PJName: Milek
+    PJID: 22
+    PJIcon: {fileID: 0}
+    PJVisual: {fileID: 0}
+    PJPreFab: {fileID: 0}
   - PJName: Shen
-    PJID: 18
+    PJID: 23
     PJIcon: {fileID: 21300000, guid: 1f8caf4f8d9aad546b8924560c6470b6, type: 3}
     PJVisual: {fileID: 0}
     PJPreFab: {fileID: 0}
+  - PJName: Fighter_4
+    PJID: 24
+    PJIcon: {fileID: 0}
+    PJVisual: {fileID: 0}
+    PJPreFab: {fileID: 0}
   - PJName: "\xDAredan"
-    PJID: 19
+    PJID: 25
     PJIcon: {fileID: 21300000, guid: 9970534eb9ebd4347a01f2ac8ca1d226, type: 3}
     PJVisual: {fileID: 0}
     PJPreFab: {fileID: 0}
   - PJName: Barbie
-    PJID: 20
+    PJID: 26
     PJIcon: {fileID: 21300000, guid: 06555acb384b6fa40864977399ce3864, type: 3}
     PJVisual: {fileID: 0}
     PJPreFab: {fileID: 0}
-  - PJName: "\xC0ndrum"
+  - PJName: Gorak
+    PJID: 27
+    PJIcon: {fileID: 0}
+    PJVisual: {fileID: 0}
+    PJPreFab: {fileID: 0}
+  - PJName: Monk_4
+    PJID: 28
+    PJIcon: {fileID: 0}
+    PJVisual: {fileID: 0}
+    PJPreFab: {fileID: 0}
+  - PJName: Atlas
+    PJID: 29
+    PJIcon: {fileID: 0}
+    PJVisual: {fileID: 0}
+    PJPreFab: {fileID: 0}
+  - PJName: Dali
+    PJID: 30
+    PJIcon: {fileID: 0}
+    PJVisual: {fileID: 0}
+    PJPreFab: {fileID: 0}
+  - PJName: Deruma
+    PJID: 31
+    PJIcon: {fileID: 0}
+    PJVisual: {fileID: 0}
+    PJPreFab: {fileID: 0}
+  - PJName: Paladin_4
+    PJID: 32
+    PJIcon: {fileID: 0}
+    PJVisual: {fileID: 0}
+    PJPreFab: {fileID: 0}
+  - PJName: Asaland
+    PJID: 33
+    PJIcon: {fileID: 0}
+    PJVisual: {fileID: 0}
+    PJPreFab: {fileID: 0}
+  - PJName: "M\xEDrenvelu"
     PJID: 34
+    PJIcon: {fileID: 0}
+    PJVisual: {fileID: 0}
+    PJPreFab: {fileID: 0}
+  - PJName: Apex Randa
+    PJID: 35
+    PJIcon: {fileID: 0}
+    PJVisual: {fileID: 0}
+    PJPreFab: {fileID: 0}
+  - PJName: Ranger_4
+    PJID: 36
+    PJIcon: {fileID: 0}
+    PJVisual: {fileID: 0}
+    PJPreFab: {fileID: 0}
+  - PJName: Brisa
+    PJID: 37
+    PJIcon: {fileID: 0}
+    PJVisual: {fileID: 0}
+    PJPreFab: {fileID: 0}
+  - PJName: Poison
+    PJID: 38
+    PJIcon: {fileID: 0}
+    PJVisual: {fileID: 0}
+    PJPreFab: {fileID: 0}
+  - PJName: Serlack
+    PJID: 39
+    PJIcon: {fileID: 0}
+    PJVisual: {fileID: 0}
+    PJPreFab: {fileID: 0}
+  - PJName: Rogue_4
+    PJID: 40
+    PJIcon: {fileID: 0}
+    PJVisual: {fileID: 0}
+    PJPreFab: {fileID: 0}
+  - PJName: "And\xFAriel"
+    PJID: 41
+    PJIcon: {fileID: 0}
+    PJVisual: {fileID: 0}
+    PJPreFab: {fileID: 0}
+  - PJName: Kamishi
+    PJID: 42
+    PJIcon: {fileID: 0}
+    PJVisual: {fileID: 0}
+    PJPreFab: {fileID: 0}
+  - PJName: Rill
+    PJID: 43
+    PJIcon: {fileID: 0}
+    PJVisual: {fileID: 0}
+    PJPreFab: {fileID: 0}
+  - PJName: Wizard_4
+    PJID: 44
+    PJIcon: {fileID: 0}
+    PJVisual: {fileID: 0}
+    PJPreFab: {fileID: 0}
+  - PJName: "\xC0ndrum"
+    PJID: 45
     PJIcon: {fileID: 21300000, guid: 1e17d79dcdfc6b046838b82f024692b4, type: 3}
     PJVisual: {fileID: 0}
     PJPreFab: {fileID: 0}
   - PJName: Benthos
-    PJID: 35
+    PJID: 4546
     PJIcon: {fileID: 21300000, guid: 06cf01b21c327904fae085175de52f84, type: 3}
     PJVisual: {fileID: 0}
     PJPreFab: {fileID: 0}
   - PJName: Elara
-    PJID: 36
+    PJID: 47
     PJIcon: {fileID: 21300000, guid: 129cf260611378b49a02ca2e8dcaba21, type: 3}
+    PJVisual: {fileID: 0}
+    PJPreFab: {fileID: 0}
+  - PJName: Warlock_4
+    PJID: 48
+    PJIcon: {fileID: 0}
     PJVisual: {fileID: 0}
     PJPreFab: {fileID: 0}
 --- !u!1 &575692830
