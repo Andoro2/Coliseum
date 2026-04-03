@@ -17,10 +17,22 @@ public class GameManager : NetworkBehaviour
     public bool IsFighting;
     public TextMeshProUGUI m_HealthTMP, m_WavelTMP, m_CurrencyTMP;
     private List<GameObject> tileCanvases = new List<GameObject>();
+    [HideInInspector] public bool currencyFlag = false;
 
     //public enum WorldElements { Null, Fire, Ice, Lightning, Wind, Tech, Physical }
 
     [SerializeField] private Transform playerPrefab;
+
+    private Dictionary<ClassEnum, bool> m_PresentClasses = new Dictionary<ClassEnum, bool>();
+    public enum ClassEnum
+    {
+        Artificer, Barbarian, Bard, Cleric, Druid, Fighter, Monk, Paladin, Ranger, Rogue, Warlock, Wizard,
+    }
+
+    public void SetClassPresent(ClassEnum m_Class)
+    { 
+        m_PresentClasses[m_Class] = true;
+    }
 
     void Start()
     {
@@ -119,7 +131,8 @@ public class GameManager : NetworkBehaviour
     }
     public void SpendMoney(int money)
     {
-        m_Currency -= money;
+        if(m_PresentClasses[ClassEnum.Artificer] && currencyFlag) m_Currency -= Mathf.FloorToInt((money * 0.9f));
+        else m_Currency -= money;
     }
     public void NextWave()
     {

@@ -27,6 +27,10 @@ public class PlayerStats : MonoBehaviour
     [Header("Regeneración de vida")]
     public float m_LifeRegen = 0f;
 
+    // --- Enfriamiento de habilidades ---
+    [Header("Enfriamiento de habilidades")]
+    public float m_CD = 0f;
+
     // --- Escudo ---
     [Header("Escudo")]
     private Dictionary<ShieldSource, float> m_Shields = new Dictionary<ShieldSource, float>();
@@ -369,6 +373,7 @@ public class PlayerStats : MonoBehaviour
     {
 
     }
+    public void SetBonusCD(float CD) => m_CD += CD;
 
     // -------------------------------------------------------------------------
     // Ajustes de estadísticas por clase

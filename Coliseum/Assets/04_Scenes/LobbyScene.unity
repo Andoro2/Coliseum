@@ -197,8 +197,10 @@ MonoBehaviour:
   - PJName: Andrath
     PJID: 1
     PJIcon: {fileID: 0}
-    PJVisual: {fileID: 0}
-    PJPreFab: {fileID: 0}
+    PJVisual: {fileID: 4366383568224032390, guid: ffe1b85a08100ba41893cdb34e67e328,
+      type: 3}
+    PJPreFab: {fileID: 4954374317287241384, guid: cdb3689c32d17924fbdf81a9ad562080,
+      type: 3}
   - PJName: BASS
     PJID: 2
     PJIcon: {fileID: 0}
@@ -238,9 +240,11 @@ MonoBehaviour:
     PJPreFab: {fileID: 0}
   - PJName: Arthurrias
     PJID: 9
-    PJIcon: {fileID: 0}
-    PJVisual: {fileID: 0}
-    PJPreFab: {fileID: 0}
+    PJIcon: {fileID: 21300000, guid: e9477086ab124a64fbe70f46693679a4, type: 3}
+    PJVisual: {fileID: 4366383568224032390, guid: 5ddd37e9b5cb54243b0750f56c454e81,
+      type: 3}
+    PJPreFab: {fileID: 3040966821503632805, guid: 4b9ed288ccbd7c1408171c02f0ae02c7,
+      type: 3}
   - PJName: Crissia
     PJID: 10
     PJIcon: {fileID: 0}
@@ -279,8 +283,10 @@ MonoBehaviour:
   - PJName: Lidith
     PJID: 17
     PJIcon: {fileID: 21300000, guid: c8cb860e1dcb1e645bf95ea92009ce8b, type: 3}
-    PJVisual: {fileID: 0}
-    PJPreFab: {fileID: 0}
+    PJVisual: {fileID: 4366383568224032390, guid: 82fb3e2767fb2e8499134057ceabe191,
+      type: 3}
+    PJPreFab: {fileID: 3040966821503632805, guid: 9013b6a77a10e8641a1851dc346c1614,
+      type: 3}
   - PJName: Robinson
     PJID: 18
     PJIcon: {fileID: 0}

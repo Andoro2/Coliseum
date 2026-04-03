@@ -1141,7 +1141,7 @@ ParticleSystem:
         m_Curve:
         - serializedVersion: 3
           time: 0
-          value: 0.25
+          value: 0.54729724
           inSlope: 2
           outSlope: 2
           tangentMode: 0
@@ -1194,7 +1194,7 @@ ParticleSystem:
         m_Curve:
         - serializedVersion: 3
           time: 0
-          value: 0.25
+          value: 0.55
           inSlope: 2
           outSlope: 2
           tangentMode: 0
@@ -5119,6 +5119,7 @@ MonoBehaviour:
   m_DamageMultiplier: 1
   m_Armor: 0
   m_LifeRegen: 0
+  m_CD: 0
   m_Level: 0
   m_CurrentExp: 0
   m_LevelsArray:
@@ -5187,10 +5188,16 @@ MonoBehaviour:
     m_ExpToAdvance: 0
   m_HealthBonusPercent: 0
   m_SpeedBonusPercent: 0
+  m_AttackSpeedBonusPercent: 0
   m_DamageBonusPercent: 0
   m_ExpBonusPercent: 0
   m_FlatArmorBonus: 0
   m_LifeRegenBonusPercent: 0
+  m_Scrap: 0
+  m_MaxWrath: 0
+  m_Wrath: 0
+  m_Ki: 0
+  m_Magic: 0
 --- !u!1001 &5332470017983993008
 PrefabInstance:
   m_ObjectHideFlags: 0
