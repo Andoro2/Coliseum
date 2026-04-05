@@ -10,16 +10,17 @@ public class GameManager : NetworkBehaviour
     //public enum GameStates { Fighting, Building }
     //public GameStates m_State = GameStates.Fighting;
     //public GameObject m_FightingUI, m_BuildingUI;
+    [Header("Attack stuff:")]
+    public bool m_AutoAttackEnabled = true;
+    public bool m_ManualAiming = false;
+    public bool IsFighting;
 
     private GameObject m_MainCam;
 
-    public int m_BaseHealth = 20, m_Currency = 500, m_Wave = 1;
-    public bool IsFighting;
-    public TextMeshProUGUI m_HealthTMP, m_WavelTMP, m_CurrencyTMP;
+    public int m_TowerMaxLife = 20, m_TowerCurrentLife, m_Currency = 500, m_Wave = 1;
+    public TextMeshProUGUI m_HealthTMP, m_WaveTMP, m_CurrencyTMP;
     private List<GameObject> tileCanvases = new List<GameObject>();
     [HideInInspector] public bool currencyFlag = false;
-
-    //public enum WorldElements { Null, Fire, Ice, Lightning, Wind, Tech, Physical }
 
     [SerializeField] private Transform playerPrefab;
 
@@ -28,6 +29,7 @@ public class GameManager : NetworkBehaviour
     {
         Artificer, Barbarian, Bard, Cleric, Druid, Fighter, Monk, Paladin, Ranger, Rogue, Warlock, Wizard,
     }
+    private PlayerStats PS;
 
     public void SetClassPresent(ClassEnum m_Class)
     { 
@@ -36,10 +38,14 @@ public class GameManager : NetworkBehaviour
 
     void Start()
     {
-        m_WavelTMP.text = "" + m_Wave;
+        m_WaveTMP.text = "" + m_Wave;
         m_CurrencyTMP.text = "" + m_Currency;
 
         m_MainCam = GameObject.FindWithTag("MainCamera");
+
+        PS = PlayerController.LocalInstance.GetComponentInChildren<PlayerStats>();
+
+        m_TowerCurrentLife = m_TowerMaxLife;
     }
 
     void Update()
@@ -49,17 +55,20 @@ public class GameManager : NetworkBehaviour
             Debug.Break(); // Pauses the editor if in Play Mode
         }
 
-        if (int.Parse(m_HealthTMP.text) != m_BaseHealth)
+        if (PS != null)
         {
-            m_HealthTMP.text = "" + m_BaseHealth;
-        }
-        if (int.Parse(m_WavelTMP.text) != m_Wave)
-        {
-            m_WavelTMP.text = "" + m_Wave;
-        }
-        if (int.Parse(m_CurrencyTMP.text) != m_Currency)
-        {
-            m_CurrencyTMP.text = "" + m_Currency;
+            if (int.Parse(m_HealthTMP.text) != PS.m_CurrentHealth)
+            {
+                m_HealthTMP.text = "" + PS.m_CurrentHealth;
+            }
+            if (int.Parse(m_WaveTMP.text) != m_Wave)
+            {
+                m_WaveTMP.text = "" + m_Wave;
+            }
+            if (int.Parse(m_CurrencyTMP.text) != m_Currency)
+            {
+                m_CurrencyTMP.text = "" + m_Currency;
+            }
         }
         
         /*#region Mode change
@@ -117,13 +126,16 @@ public class GameManager : NetworkBehaviour
         }
         #endregion
     }
-    public void TakeDamage(int dmg)
+    public void DamageTower(int dmg)
     {
-        m_BaseHealth -= dmg;
+        m_TowerCurrentLife -= dmg;
+
+        //if (m_TowerCurrentLife <= 0) EndGame();
     }
-    public void HealDamage(int heal)
+    public void HealTower(int heal)
     {
-        m_BaseHealth += heal;
+        if ((m_TowerCurrentLife + heal) > m_TowerMaxLife) m_TowerCurrentLife = m_TowerMaxLife;
+        else m_TowerCurrentLife += heal;
     }
     public void GetPaid(int money)
     {
@@ -160,5 +172,9 @@ public class GameManager : NetworkBehaviour
             Transform playerTransform = Instantiate(playerPrefab);
             playerTransform.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientID, true);
         }
+    }
+    public void SetLocalPlayerStats(PlayerStats ps)
+    {
+        PS = ps;
     }
 }

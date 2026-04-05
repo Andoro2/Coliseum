@@ -46,7 +46,7 @@ public class EnemyMovement : NetworkBehaviour
 
 
             Debug.Log("DED");
-            GameObject.FindWithTag("GameController").GetComponent<GameManager>().TakeDamage(1);
+            GameObject.FindWithTag("GameController").GetComponent<GameManager>().DamageTower(1);
 
             Destroy(gameObject);
         }

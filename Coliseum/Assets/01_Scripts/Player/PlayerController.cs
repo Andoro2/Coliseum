@@ -50,9 +50,11 @@ public class PlayerController : NetworkBehaviour
         if (IsOwner)
         {
             LocalInstance = this;
+            GameObject.FindWithTag("GameController").GetComponent<GameManager>().SetLocalPlayerStats(GetComponentInChildren<PlayerStats>());
         }
 
         if((int)OwnerClientId > 5) transform.position = m_SpawanPositionList[5];
+
         else transform.position = m_SpawanPositionList[HexGameMultiplayer.Instance.GetPlayerDataIndexFromClientID(OwnerClientId)];
 
         if (IsServer)
@@ -155,10 +157,6 @@ public class PlayerController : NetworkBehaviour
 
         m_InteractionTMP = transform.Find("InteractionCanvas").Find("Text").GetComponent<TMP_Text>();
         m_InteractionTMP.text = "";
-
-        /*
-         * 
-         */ 
     }
 
     void Update()
