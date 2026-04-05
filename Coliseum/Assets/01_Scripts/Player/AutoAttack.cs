@@ -36,11 +36,16 @@ public abstract class AutoAttack : MonoBehaviour
 
     protected virtual void Update()
     {
-        if (PC.m_State == PlayerController.PlayerStates.Fighting)
+        if (GameManager.Instance.IsFighting)
         {
             m_Target = GetNearestEnemy();
 
-            if (Time.time >= m_LastAttackTime + GetCooldown())
+            if(m_AutoAim)
+                PC.m_AutoAimTarget = m_Target != null ? m_Target.transform : null;
+            else
+                PC.m_AutoAimTarget = null;
+
+            if (m_Target != null && Time.time >= m_LastAttackTime + GetCooldown())
             {
                 if (m_AutoAim) AimAtTarget();
 

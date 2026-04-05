@@ -11,8 +11,6 @@ public class GameManager : NetworkBehaviour
     //public GameStates m_State = GameStates.Fighting;
     //public GameObject m_FightingUI, m_BuildingUI;
     [Header("Attack stuff:")]
-    public bool m_AutoAttackEnabled = true;
-    public bool m_ManualAiming = false;
     public bool IsFighting;
 
     private GameObject m_MainCam;

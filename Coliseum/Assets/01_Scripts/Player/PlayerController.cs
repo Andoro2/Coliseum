@@ -22,6 +22,7 @@ public class PlayerController : NetworkBehaviour
         m_MouseLook, m_JoystickLook;
 
     private Vector3 m_RotationTarget; //point where our character will be looking at
+    public Transform m_AutoAimTarget;
 
     public bool isPC;
     
@@ -212,24 +213,13 @@ public class PlayerController : NetworkBehaviour
                 RaycastHit hit;
                 Ray ray = Camera.main.ScreenPointToRay(m_MouseLook);
 
-                if(Physics.Raycast(ray, out hit))
+                if (Physics.Raycast(ray, out hit))
                 {
                     m_RotationTarget = hit.point;
                 }
+            }
 
-                movePlayerWithAim();
-            }
-            else
-            {
-                if(m_JoystickLook.x == 0 && m_JoystickLook.y == 0)
-                {
-                    playerMovement();
-                }
-                else
-                {
-                    movePlayerWithAim();
-                }
-            }
+            playerMovementAndAim();
 
             if (DI.m_Interact)
             {
@@ -304,20 +294,48 @@ public class PlayerController : NetworkBehaviour
         isDashing = false;
         OnDashEnd?.Invoke();
     }
-    public void playerMovement()
+    public void playerMovementAndAim()
     {
         Vector3 movement = new Vector3(m_PlayerMovement.x, 0f, m_PlayerMovement.y);
 
-        if (movement != Vector3.zero)
+        /*if (movement != Vector3.zero)
         {
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(movement), 0.15f);
             m_Anim.SetBool("Running", true);
         }
         else m_Anim.SetBool("Running", false);
 
+        transform.Translate(movement * m_Speed * Time.deltaTime, Space.World);*/
+
+        Vector3 lookDir = Vector3.zero;
+
+        if (m_AutoAimTarget != null) // enemigo en rango + autoaim activo
+        {
+            lookDir = m_AutoAimTarget.position - transform.position;
+        }
+        else if (isPC) // PC sin autoaim o sin enemigo en rango
+        {
+            lookDir = m_RotationTarget - transform.position;
+        }
+        else // mando
+        {
+            if (m_JoystickLook.x != 0 || m_JoystickLook.y != 0)
+                lookDir = new Vector3(m_JoystickLook.x, 0f, m_JoystickLook.y);
+            else if (movement != Vector3.zero)
+                lookDir = movement;
+        }
+
+        lookDir.y = 0;
+        if (lookDir != Vector3.zero)
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(lookDir), 0.15f);
+
+        // --- MOVIMIENTO ---
         transform.Translate(movement * m_Speed * Time.deltaTime, Space.World);
+
+        if (movement != Vector3.zero) m_Anim.SetBool("Running", true);
+        else m_Anim.SetBool("Running", false);
     }
-    public void movePlayerWithAim()
+    /*public void movePlayerWithAim()
     {
         if (isPC)
         {
