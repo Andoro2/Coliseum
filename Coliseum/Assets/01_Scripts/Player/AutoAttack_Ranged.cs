@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Netcode;
 
 public class AutoAttack_Ranged : AutoAttack
 {
@@ -24,5 +25,14 @@ public class AutoAttack_Ranged : AutoAttack
         GameObject projectile = Instantiate(m_ProjectilePrefab, transform.position, transform.rotation);
         projectile.GetComponent<ProjectileForward>().target = m_Target;
         // Initialize y pasar info al proyectil
+        /*
+         * projectile.GetComponent<ProjectileForward>().Initialize(
+         * m_Target,
+         * m_Damage * PS.m_DamageMultiplier,
+         * m_ElementalPercent,
+         * m_Element,
+         * NetworkManager.Singleton.LocalClientId
+         * );
+         */
     }
 }

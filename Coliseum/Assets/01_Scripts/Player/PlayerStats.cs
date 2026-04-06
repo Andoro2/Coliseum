@@ -156,6 +156,7 @@ public class PlayerStats : MonoBehaviour
     public event System.Action<float> OnDamageTaken;
 
     private PlayerController PC;
+
     private void Start()
     {
         PC = transform.parent.GetComponent<PlayerController>();
@@ -169,8 +170,6 @@ public class PlayerStats : MonoBehaviour
             m_DynamicDamageBonus[source] = 0f;
         foreach (DynamicLifeRegenSource source in System.Enum.GetValues(typeof(DynamicLifeRegenSource)))
             m_DynamicLifeRegenBonus[source] = 0f;
-
-        //m_PassiveManager = GetComponent<PassiveManager>();
 
         m_CurrentHealth = m_MaxHealth;
 
@@ -293,7 +292,7 @@ public class PlayerStats : MonoBehaviour
     }
 
     // -------------------------------------------------------------------------
-    // Métodos para pasivas — StatModifierPassive los llama
+    // Métodos para pasivas
     // -------------------------------------------------------------------------
 
     public void ApplyHealthBonus(float percent)
@@ -332,7 +331,7 @@ public class PlayerStats : MonoBehaviour
     }
 
     // -------------------------------------------------------------------------
-    // Métodos para pasivas — ResistancePassive los llama
+    // Métodos para resistencias / inmunidades
     // -------------------------------------------------------------------------
 
     public void AddDamageResistancePermanent(WorldElements element, float value)
