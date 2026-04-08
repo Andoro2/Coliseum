@@ -61,7 +61,7 @@ public class Class_Barbarian : MonoBehaviour
         {
             m_PlayerStats.ApplySpeedBonus(m_SpeedBonusPercent);
             m_PlayerStats.ApplyAttackSpeedBonus(m_AttackSpeedBonusPercent);
-            m_PlayerStats.AddDamageResistancePermanent(WorldElements.Critical, 0.25f);
+            //m_PlayerStats.AddDamageResistancePermanent(WorldElements.Critical, 0.25f);
             m_PassiveLevel8 = true;
         }
         if (newLevel >= 12 && !m_PassiveLevel12)

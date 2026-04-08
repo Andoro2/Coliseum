@@ -27,8 +27,7 @@ public class Race_Goliath : MonoBehaviour
 
         // Suscribirse al evento de subida de nivel
         m_PlayerStats.OnLevelUp += OnLevelUp;
-        m_PlayerStats.OnDamageTaken += OnDamageTaken;
-
+        //m_PlayerStats.OnDamageTaken += OnDamageTaken;
     }
 
     // Update is called once per frame
@@ -45,15 +44,15 @@ public class Race_Goliath : MonoBehaviour
         {
             m_MaxShield = m_PlayerStats.m_MaxHealth * 0.1f;
             m_CurrentShield = m_MaxShield;
-            m_PlayerStats.SetShield(PlayerStats.ShieldSource.GoliathShield, m_CurrentShield);
+            m_PlayerStats.AddShield(ShieldSources.GoliathShield, WorldElements.Null, m_CurrentShield, ShieldPriority.Permanent, -1f);
         }
     }
-    void OnDamageTaken(float damage)
+    /*void OnDamageTaken(float damage)
     {
         m_LastDamageTime = Time.time;
         m_CurrentShield = Mathf.Max(0f, m_CurrentShield - damage);
         m_PlayerStats.SetShield(ShieldSource.GoliathShield, m_CurrentShield);
-    }
+    }*/
     void DashDamage()
     {
         Debug.Log("Goliath dash damage");

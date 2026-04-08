@@ -168,6 +168,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8051582786298585620, guid: e36f77405e5b3904d8078f3b6b52afb4,
         type: 3}
+      propertyPath: m_Damage
+      value: 27.48
+      objectReference: {fileID: 0}
+    - target: {fileID: 8051582786298585620, guid: e36f77405e5b3904d8078f3b6b52afb4,
+        type: 3}
+      propertyPath: DamageText
+      value: 
+      objectReference: {fileID: 4542012624017028618, guid: 781d68e251a410140aa1b4c2e36a4eca,
+        type: 3}
+    - target: {fileID: 8051582786298585620, guid: e36f77405e5b3904d8078f3b6b52afb4,
+        type: 3}
       propertyPath: m_MaxWrath
       value: 100
       objectReference: {fileID: 0}
@@ -181,6 +192,11 @@ PrefabInstance:
       propertyPath: m_MaxHealth
       value: 500
       objectReference: {fileID: 0}
+    - target: {fileID: 8051582786298585620, guid: e36f77405e5b3904d8078f3b6b52afb4,
+        type: 3}
+      propertyPath: m_DamageMultiplier
+      value: 12
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 7868676542064945985, guid: e36f77405e5b3904d8078f3b6b52afb4, type: 3}
@@ -193,12 +209,12 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 7990890279652666815, guid: e36f77405e5b3904d8078f3b6b52afb4,
         type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 5102931274015348413}
+      insertIndex: 1
+      addedObject: {fileID: 547845200728485397}
     - targetCorrespondingSourceObject: {fileID: 7990890279652666815, guid: e36f77405e5b3904d8078f3b6b52afb4,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 547845200728485397}
+      addedObject: {fileID: 5102931274015348413}
     - targetCorrespondingSourceObject: {fileID: 7990890279652666815, guid: e36f77405e5b3904d8078f3b6b52afb4,
         type: 3}
       insertIndex: -1
@@ -218,18 +234,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 4960424071224928282}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &5102931274015348413
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3040966821503632805}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 943f25b283a3a0f49bf2733c9297596b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &547845200728485397
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -251,6 +255,18 @@ MonoBehaviour:
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
+--- !u!114 &5102931274015348413
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3040966821503632805}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 943f25b283a3a0f49bf2733c9297596b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &8610466307660779263
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -272,6 +288,9 @@ MonoBehaviour:
   m_BonusResistPersonal: 0.1
   m_BonusResistAllies: 0.05
   m_Aura: {fileID: 6327916681691007440}
+  AA: {fileID: 0}
+  m_ElementBonus: 6.7
+  elementoAleatorio: 0
 --- !u!114 &5280550356611417014
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -302,9 +321,10 @@ MonoBehaviour:
   m_Target: {fileID: 0}
   m_AutoAim: 1
   m_AttackCooldown: 1
-  m_AttackRange: 5
-  m_Damage: 50
-  m_ProjectilePrefab: {fileID: 0}
+  m_AttackRange: 10.91
+  m_AutoAimButton: {fileID: 0}
+  m_ProjectilePrefab: {fileID: 1872292829029996938, guid: f60b85c28e3e4724488492f97cddd3c5,
+    type: 3}
 --- !u!4 &8732443177489382226 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4465646293676528456, guid: e36f77405e5b3904d8078f3b6b52afb4,

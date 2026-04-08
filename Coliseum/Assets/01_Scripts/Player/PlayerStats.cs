@@ -3,13 +3,16 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Unity.Netcode;
 
-public class PlayerStats : MonoBehaviour
+public class PlayerStats : NetworkBehaviour
 {
     // --- Vida ---
     [Header("Vida")]
     public float m_MaxHealth;
-    public float m_CurrentHealth;
+    public NetworkVariable<float> m_CurrentHealth = new NetworkVariable<float>(
+        0f, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server
+    );
 
     // --- Movimiento ---
     [Header("Movimiento")]
@@ -17,6 +20,7 @@ public class PlayerStats : MonoBehaviour
 
     // --- Daño ---
     [Header("Daño")]
+    public float m_Damage = 15f;
     public float m_DamageMultiplier = 1f;
 
     // --- Armadura ---
@@ -31,21 +35,12 @@ public class PlayerStats : MonoBehaviour
     [Header("Enfriamiento de habilidades")]
     public float m_CD = 0f;
 
-    // --- Escudo ---
-    [Header("Escudo")]
-    private Dictionary<ShieldSource, float> m_Shields = new Dictionary<ShieldSource, float>();
+    // --- Damage ---
     private Dictionary<DynamicDamageSource, float> m_DynamicDamageBonus = new Dictionary<DynamicDamageSource, float>();
-    private Dictionary<DynamicLifeRegenSource, float> m_DynamicLifeRegenBonus = new Dictionary<DynamicLifeRegenSource, float>();
-
     public enum DynamicDamageSource
     {
         BarbarianWrath,
     }
-    public enum DynamicLifeRegenSource
-    {
-        BarbarianWrath,
-    }
-
     public void SetDynamicDamageBonus(DynamicDamageSource source, float value)
     {
         m_DynamicDamageBonus[source] = value;
@@ -58,7 +53,33 @@ public class PlayerStats : MonoBehaviour
             total += bonus;
         m_DamageMultiplier = total;
     }
+    
+    public Dictionary<WorldElements, float> m_AutoAttackElements = new Dictionary<WorldElements, float>();
 
+    public void AddAutoAttackElement(WorldElements element, float percentage)
+    {
+        if (m_AutoAttackElements.ContainsKey(element))
+            m_AutoAttackElements[element] = Mathf.Clamp01(m_AutoAttackElements[element] + percentage);
+        else
+            m_AutoAttackElements[element] = Mathf.Clamp01(percentage);
+    }
+
+    public void RemoveAutoAttackElement(WorldElements element, float percentage)
+    {
+        if (!m_AutoAttackElements.ContainsKey(element)) return;
+
+        m_AutoAttackElements[element] -= percentage;
+
+        if(m_AutoAttackElements[element] <= 0)
+            m_AutoAttackElements.Remove(element);
+    }
+
+    // --- Regeneración de vida ---
+    private Dictionary<DynamicLifeRegenSource, float> m_DynamicLifeRegenBonus = new Dictionary<DynamicLifeRegenSource, float>();
+    public enum DynamicLifeRegenSource
+    {
+        BarbarianWrath,
+    }
     public void SetDynamicLifeRegenBonus(DynamicLifeRegenSource source, float value)
     {
         m_DynamicLifeRegenBonus[source] = value;
@@ -72,40 +93,82 @@ public class PlayerStats : MonoBehaviour
         m_LifeRegen = total;
     }
 
+    // --- Escudo ---
+
     #region SHIELD MANAGEMENT
-    public enum ShieldSource // escudos creados con habilidad activa primero, pasivos o regenerativos después
+    public enum ShieldPriority { Passive = 0, Permanent = 1 } // para ordenar primero los pasivos y luego los permanentes
+
+    public enum ShieldSources
     {
         GoliathShield,
     }
-    public void SetShield(ShieldSource source, float value)
+
+    private List<ShieldInstance> m_ShieldList = new List<ShieldInstance>();
+
+    [System.Serializable]
+    public class ShieldInstance
     {
-        m_Shields[source] = Mathf.Max(0f, value);
+        public ShieldSources Source;
+        public WorldElements Element;
+        public float Amount;
+        public ShieldPriority Priority;
+        public float ExpirationTime;
+
+        public bool IsExpired => ExpirationTime != -1 && Time.time >= ExpirationTime; // -1 = infinito, permanente
+
+        public ShieldInstance(ShieldSources source, WorldElements element, float amount, ShieldPriority priority, float duration = -1f)
+        {
+            Source = source;
+            Element = element;
+            Amount = amount;
+            Priority = priority;
+            ExpirationTime = (duration <= 0) ? -1f : Time.time + duration;
+        }
     }
+
+    public void AddShield(ShieldSources sourde, WorldElements element, float amount, ShieldPriority priority, float duration = -1f)
+    {
+        m_ShieldList.Add(new ShieldInstance(sourde, element, amount, priority, duration));
+
+        m_ShieldList.Sort((a, b) => a.Priority.CompareTo(b.Priority));
+    }
+
     public float GetTotalShield()
     {
         float total = 0f;
-        foreach (float shieldValue in m_Shields.Values)
-            total += shieldValue;
+
+        m_ShieldList.RemoveAll(s => s.IsExpired || s.Amount <= 0);
+
+        foreach (var shield in m_ShieldList)
+            total += shield.Amount;
         return total;
     }
-    private void AbsorbDamageFromShields(float damage)
-    {
-        foreach (ShieldSource source in System.Enum.GetValues(typeof(ShieldSource)))
-        {
-            if (damage <= 0f) break;
-            if (m_Shields[source] <= 0f) continue; // escudo vacío, al siguiente
 
-            if (m_Shields[source] >= damage)
+    private float AbsorbElementalDamage(WorldElements element, float damage)
+    {
+        m_ShieldList.RemoveAll(s => s.IsExpired || s.Amount <= 0);
+
+        for (int i = 0; i < m_ShieldList.Count; i++)
+        {
+            if (damage <= 0) break;
+
+            if (m_ShieldList[i].Element == element)
             {
-                m_Shields[source] -= damage;
-                damage = 0f;
-            }
-            else
-            {
-                damage -= m_Shields[source];
-                m_Shields[source] = 0f;
+                if (m_ShieldList[i].Amount >= damage)
+                {
+                    m_ShieldList[i].Amount -= damage;
+                    damage = 0;
+                }
+                else
+                {
+                    damage -= m_ShieldList[i].Amount;
+                    m_ShieldList[i].Amount = 0;
+                }
             }
         }
+
+        m_ShieldList.RemoveAll(s => s.Amount <= 0);
+        return damage;
     }
 
     #endregion
@@ -156,7 +219,21 @@ public class PlayerStats : MonoBehaviour
     public event System.Action<float> OnDamageTaken;
 
     private PlayerController PC;
+    public GameObject DamageText;
+    public override void OnNetworkSpawn()
+    {
+        if (IsServer)
+        {
+            m_CurrentHealth.Value = m_MaxHealth;
+        }
 
+        m_CurrentHealth.OnValueChanged += (oldValue, newValue) => {
+            m_HealthSlider.value = newValue;
+            m_HPCurrent.text = Mathf.CeilToInt(newValue).ToString();
+        };
+
+        // Aquí pones el resto de tu lógica de inicialización de UI que tenías en Start
+    }
     private void Start()
     {
         PC = transform.parent.GetComponent<PlayerController>();
@@ -164,14 +241,10 @@ public class PlayerStats : MonoBehaviour
         PC.AbilityEUsed += AbilityE;
         PC.UltimateUsed += Ultimate;
 
-        foreach (ShieldSource source in System.Enum.GetValues(typeof(ShieldSource)))
-            m_Shields[source] = 0f;
         foreach (DynamicDamageSource source in System.Enum.GetValues(typeof(DynamicDamageSource)))
             m_DynamicDamageBonus[source] = 0f;
         foreach (DynamicLifeRegenSource source in System.Enum.GetValues(typeof(DynamicLifeRegenSource)))
             m_DynamicLifeRegenBonus[source] = 0f;
-
-        m_CurrentHealth = m_MaxHealth;
 
         // UI — misma lógica que tenías en PlayerController
         GameObject fightingUI = GameObject.FindWithTag("UICanvas").transform.GetChild(0).GetChild(0).gameObject;
@@ -193,16 +266,16 @@ public class PlayerStats : MonoBehaviour
 
     private void Update()
     {
-        m_HealthSlider.value = m_CurrentHealth;
+        m_HealthSlider.value = m_CurrentHealth.Value;
         m_ExpSlider.value = m_CurrentExp;
         m_HPCurrent.text = m_CurrentHealth.ToString();
 
-        if (m_CurrentHealth <= 0)
+        if (m_CurrentHealth.Value <= 0)
             Die();
 
         if (Input.GetKeyDown(KeyCode.O))
         {
-            OnDamageTaken?.Invoke(m_Level);
+            OnDamageTaken?.Invoke(10f);
         }
     }
 
@@ -223,38 +296,41 @@ public class PlayerStats : MonoBehaviour
     // Daño y curación
     // -------------------------------------------------------------------------
 
-    public void TakeDamage(float damage, WorldElements element = WorldElements.Null)
+    [ServerRpc(RequireOwnership = false)]
+    public void TakeDamageServerRpc(float damage, ElementDamage[] attackElements, ulong attackerClientId = 0)
     {
-        // Notifica a los scripts suscritos que se ha recibido daño
-        OnDamageTaken?.Invoke(damage);
+        float totalLifeDamage = 0f;
 
-        float resistance = m_ElementalResistances.ContainsKey(element)
-            ? m_ElementalResistances[element] : 0f;
-
-        float totalShield = GetTotalShield();
-
-        if (totalShield >= damage)
+        foreach (ElementDamage ed in attackElements)
         {
-            // El escudo absorbe todo el daño
-            AbsorbDamageFromShields(damage);
-            damage = 0f;
-        }
-        else
-        {
-            // El escudo absorbe lo que puede y el resto va a la vida
-            AbsorbDamageFromShields(totalShield);
-            damage -= totalShield;
+            float resistance = CheckDamageResistance(ed.Element);
+            float initialDmg = (damage * ed.Percentage) * (1f - resistance);
+
+            float remainingDmg = AbsorbElementalDamage(ed.Element, initialDmg);
+
+            if (remainingDmg > 0)
+            {
+                totalLifeDamage += remainingDmg;
+
+                GameObject damageText = Instantiate(DamageText, transform.position, transform.rotation);
+
+                damageText.GetComponent<DamageTextElement>().GetDamageInfo(
+                    ed.Element,
+                    remainingDmg
+                );
+            }
         }
 
-        float finalDamage = damage * (1f - resistance);
-        finalDamage = Mathf.Max(0f, finalDamage - m_Armor);
+        totalLifeDamage = Mathf.Max(0f, totalLifeDamage - m_Armor);
 
-        m_CurrentHealth -= finalDamage;
+        m_CurrentHealth.Value = Mathf.Max(0f, m_CurrentHealth.Value - totalLifeDamage);
+
+        if (m_CurrentHealth.Value <= 0) Die();
     }
-
-    public void Heal(float amount)
+    [ServerRpc]
+    public void HealServerRpc(float amount)
     {
-        m_CurrentHealth = Mathf.Min(m_CurrentHealth + amount, m_MaxHealth);
+        m_CurrentHealth.Value = Mathf.Min(m_CurrentHealth.Value + amount, m_MaxHealth);
     }
 
     private void Die()
@@ -277,7 +353,7 @@ public class PlayerStats : MonoBehaviour
             m_Level++;
 
             m_MaxHealth      = m_LevelsArray[m_Level].m_MaxHealth;
-            m_CurrentHealth  = m_MaxHealth;
+            m_CurrentHealth.Value  = m_MaxHealth;
 
             m_HealthSlider.maxValue = m_MaxHealth;
             m_HealthSlider.value    = m_MaxHealth;
@@ -299,7 +375,7 @@ public class PlayerStats : MonoBehaviour
     {
         m_HealthBonusPercent += percent;
         m_MaxHealth = m_LevelsArray[m_Level].m_MaxHealth * (1f + m_HealthBonusPercent);
-        m_CurrentHealth = Mathf.Min(m_CurrentHealth, m_MaxHealth);
+        m_CurrentHealth.Value = Mathf.Min(m_CurrentHealth.Value, m_MaxHealth);
         m_HealthSlider.maxValue = m_MaxHealth;
     }
     public void ApplySpeedBonus(float percent)

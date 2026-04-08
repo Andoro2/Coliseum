@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
-using Unity.Netcode;
+using static UnityEngine.GraphicsBuffer;
 
 public class EnemyStats : NetworkBehaviour
 {
@@ -30,43 +31,76 @@ public class EnemyStats : NetworkBehaviour
     // --- Escudo ---
     [Header("Escudo")]
     public float m_Armor = 0f;
-    private Dictionary<ShieldSource, float> m_Shields = new Dictionary<ShieldSource, float>();
 
     #region SHIELD MANAGEMENT
-    public enum ShieldSource // escudos creados con habilidad activa primero, pasivos o regenerativos después
+    public enum ShieldPriority { Passive = 0, Permanent = 1 } // para ordenar primero los pasivos y luego los permanentes
+
+    private List<ShieldInstance> m_ShieldList = new List<ShieldInstance>();
+
+    [System.Serializable]
+    public class ShieldInstance
     {
-        // Fuentess
+        public WorldElements Element;
+        public float Amount;
+        public ShieldPriority Priority;
+        public float ExpirationTime;
+
+        public bool IsExpired => ExpirationTime != -1 && Time.time >= ExpirationTime; // -1 = infinito, permanente
+
+        public ShieldInstance(WorldElements element, float amount, ShieldPriority priority, float duration = -1f)
+        {
+            Element = element;
+            Amount = amount;
+            Priority = priority;
+            ExpirationTime = (duration <= 0) ? -1f : Time.time + duration;
+        }
     }
-    public void SetShield(ShieldSource source, float value)
+
+    public void AddShield(WorldElements element, float amount, ShieldPriority priority, float duration = -1f)
     {
-        m_Shields[source] = Mathf.Max(0f, value);
+        m_ShieldList.Add(new ShieldInstance(element, amount, priority, duration));
+
+        m_ShieldList.Sort((a, b) => a.Priority.CompareTo(b.Priority));
     }
+
     public float GetTotalShield()
     {
         float total = 0f;
-        foreach (float shieldValue in m_Shields.Values)
-            total += shieldValue;
+        
+        m_ShieldList.RemoveAll(s => s.IsExpired || s.Amount <= 0);
+
+        foreach (var shield in m_ShieldList)
+            total += shield.Amount;
         return total;
     }
-    private void AbsorbDamageFromShields(float damage)
-    {
-        foreach (ShieldSource source in System.Enum.GetValues(typeof(ShieldSource)))
-        {
-            if (damage <= 0f) break;
-            if (m_Shields[source] <= 0f) continue; // escudo vacío, al siguiente
 
-            if (m_Shields[source] >= damage)
+    private float AbsorbElementalDamage(WorldElements element, float damage)
+    {
+        m_ShieldList.RemoveAll(s => s.IsExpired || s.Amount <= 0);
+
+        for (int i = 0; i < m_ShieldList.Count; i++)
+        {
+            if (damage <= 0) break;
+
+            if (m_ShieldList[i].Element == element)
             {
-                m_Shields[source] -= damage;
-                damage = 0f;
-            }
-            else
-            {
-                damage -= m_Shields[source];
-                m_Shields[source] = 0f;
+                if (m_ShieldList[i].Amount >= damage)
+                {
+                    m_ShieldList[i].Amount -= damage;
+                    damage = 0;
+                }
+                else
+                {
+                    damage -= m_ShieldList[i].Amount;
+                    m_ShieldList[i].Amount = 0;
+                }
             }
         }
+
+        m_ShieldList.RemoveAll(s => s.Amount <= 0);
+        return damage;
     }
+
     #endregion
 
     // --- Bonificadores acumulados (aplicados por pasivas) ---
@@ -92,19 +126,16 @@ public class EnemyStats : NetworkBehaviour
     private TMP_Text m_HPCurrent;
     private TMP_Text m_HPMax;
     
-    public event System.Action<float> OnDamageTaken;
-    public event System.Action<> OnDeath;
-
     public enum Killer { Player, Turret }
 
     public event System.Action<Killer, ulong> OnDeath;
+    public event System.Action<float, WorldElements> OnDamageTaken;
+    //public event System.Action<float> OnHealthChanged;
 
+    public GameObject DamageText;
     public override void OnNetworkSpawn()
     {
-        foreach (ShieldSource source in System.Enum.GetValues(typeof(ShieldSource)))
-            m_Shields[source] = 0f;
-
-        m_CurrentHealth.OnValueChanged += OnHealthChanged;
+        //m_CurrentHealth.OnValueChanged += OnHealthChanged;
 
         if (IsServer)
             m_CurrentHealth.Value = m_MaxHealth;
@@ -128,7 +159,7 @@ public class EnemyStats : NetworkBehaviour
 
         if (Input.GetKeyDown(KeyCode.L))
         {
-            OnDamageTaken?.Invoke(TakeDamageServerRpc(5f, 0.5f, WorldElements.Null));
+            //TakeDamageServerRpc(5f, 0.5f, WorldElements.Null, Killer.Player, NetworkManager.Singleton.LocalClientId);
         }
     }
 
@@ -136,31 +167,38 @@ public class EnemyStats : NetworkBehaviour
     // Recibir daño
     // -------------------------------------------------------------------------
     [ServerRpc(RequireOwnership = false)]
-    public void TakeDamageServerRpc(float damage, float elementalPercentage, WorldElements element, KillSource source, ulong attackerClientId = 0)
+    public void TakeDamageServerRpc(float damage, ElementDamage[] attackElements, Killer source, ulong attackerClientId = 0)
     {
-        float resistance = m_ResistanceMap.ContainsKey(element) ? m_ElementalResistances[element] : 0f;
-        float totalDamage = (damage + damage * elementalPercentage) * (1f - resistance);
+        float totalLifeDamage = 0f;
 
-        // Escudos
-        float totalShield = GetTotalShield();
-        if (totalShield >= totalDamage)
+        foreach (var ed in attackElements)
         {
-            AbsorbDamageFromShields(totalDamage);
-            totalDamage = 0f;
-        }
-        else
-        {
-            AbsorbDamageFromShields(totalShield);
-            totalDamage -= totalShield;
+            float resistance = CheckDamageResistance(ed.Element);
+            float initialDmg = (damage * ed.Percentage) * (1f - resistance);
+
+            float remainingDmg = AbsorbElementalDamage(ed.Element, initialDmg);
+
+            if (remainingDmg > 0)
+            {
+                Debug.Log("enemigo recibe daño");
+                totalLifeDamage += remainingDmg;
+                OnDamageTaken?.Invoke(remainingDmg, ed.Element);
+
+                GameObject damageText = Instantiate(DamageText, transform.position, transform.rotation);
+
+                damageText.GetComponent<DamageTextElement>().GetDamageInfo(
+                    ed.Element,
+                    remainingDmg
+                );
+            }
         }
 
-        m_CurrentHealth.Value = Mathf.Max(0f, m_CurrentHealth.Value - totalDamage);
+        m_CurrentHealth.Value = Mathf.Max(0f, m_CurrentHealth.Value - totalLifeDamage);
 
-        if (m_CurrentHealth.Value <= 0) Die(source, attackerClientId);;
+        if (m_CurrentHealth.Value <= 0) Die(source, attackerClientId);
     }
 
-
-    public void Die(KillSource source, ulong attackerClientId)
+    public void Die(Killer source, ulong attackerClientId)
     {
         OnDeath?.Invoke(source, attackerClientId);
     }
@@ -236,7 +274,7 @@ public class EnemyStats : NetworkBehaviour
     {
 
     }
-    public void SetBonusCD(float CD) => m_CD += CD;
+    //public void SetBonusCD(float CD) => m_CD += CD;
 
     [System.Serializable]
     public struct ElementResistance

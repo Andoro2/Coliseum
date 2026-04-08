@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
+using System.Linq;
 using Unity.Netcode;
+using UnityEngine;
+using static UnityEditor.Rendering.FilterWindow;
 
 public class Class_Bard : NetworkBehaviour
 {
@@ -22,10 +24,17 @@ public class Class_Bard : NetworkBehaviour
     public float m_BonusResistAllies = 0.05f;
     public GameObject m_Aura;
 
+    [Header("Pasiva nivel 12:")]
+    [SerializeField] private AutoAttack AA;
+    public float m_ElementBonus;
+    public WorldElements elementoAleatorio = WorldElements.Null;
+    private WorldElements[] m_WorldElementsArray;
+
     // Start is called before the first frame update
     void Start()
     {
         m_PlayerStats = GetComponent<PlayerStats>();
+        AA = GetComponent<AutoAttack>();
 
         GameObject.FindWithTag("GameController").GetComponent<GameManager>().SetClassPresent(GameManager.ClassEnum.Bard);
 
@@ -37,6 +46,18 @@ public class Class_Bard : NetworkBehaviour
     void Update()
     {
         
+    }
+
+    private void BardRandomElement()
+    {
+        if (m_PassiveLevel12)
+        {
+            m_PlayerStats.RemoveAutoAttackElement(elementoAleatorio, m_ElementBonus);
+
+            elementoAleatorio = m_WorldElementsArray[Random.Range(1, m_WorldElementsArray.Length)];
+
+            m_PlayerStats.AddAutoAttackElement(elementoAleatorio, m_ElementBonus);
+        }
     }
     private void OnLevelUp(int newLevel)
     {
@@ -54,6 +75,15 @@ public class Class_Bard : NetworkBehaviour
         }
         if (newLevel >= 12 && !m_PassiveLevel12)
         {
+            System.Array elementsSystemArray = System.Enum.GetValues(typeof(WorldElements));
+
+            // Filtramos para crear un array de WorldElements que NO incluya el Null
+            m_WorldElementsArray = elementsSystemArray.Cast<WorldElements>()
+                             .Where(e => e != WorldElements.Null)
+                             .ToArray();
+
+            if (AA != null) AA.OnAttack += BardRandomElement;
+
             m_PassiveLevel12 = true;
         }
         if (newLevel >= 16 && !m_PassiveLevel16)

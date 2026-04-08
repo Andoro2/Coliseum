@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using Unity.Netcode;
-using UnityEngine.SceneManagement;
+// using UnityEngine.SceneManagement;
 
 public class GameManager : NetworkBehaviour
 {
@@ -55,7 +55,7 @@ public class GameManager : NetworkBehaviour
 
         if (PS != null)
         {
-            if (int.Parse(m_HealthTMP.text) != PS.m_CurrentHealth)
+            if (int.Parse(m_HealthTMP.text) != PS.m_CurrentHealth.Value)
             {
                 m_HealthTMP.text = "" + PS.m_CurrentHealth;
             }

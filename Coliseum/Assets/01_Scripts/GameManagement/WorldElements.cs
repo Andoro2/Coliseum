@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using Unity.Netcode;
+
 public enum WorldElements
 {
     Null,
@@ -12,7 +15,20 @@ public enum WorldElements
     Poison,
     Psychic,
     Radiant,
-    Cutting,
-    Thunder,
-    Critical
+    Slashing,
+    Thunder
 }
+
+public struct ElementDamage : INetworkSerializable
+{
+    public WorldElements Element;
+    public float Percentage;
+
+    public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter // traductor a bytes para enviarlo por la red
+    {
+        serializer.SerializeValue(ref Element);
+        serializer.SerializeValue(ref Percentage);
+    }
+}
+// Crear elemento
+// ElementDamage fire = new ElementDamage { Element = WorldElements.Fire, Percentage = 0.5f };

@@ -68,10 +68,20 @@ PrefabInstance:
       propertyPath: m_Name
       value: PC01_Andrath
       objectReference: {fileID: 0}
+    - target: {fileID: 8051582786298585620, guid: e36f77405e5b3904d8078f3b6b52afb4,
+        type: 3}
+      propertyPath: DamageText
+      value: 
+      objectReference: {fileID: 4542012624017028618, guid: 781d68e251a410140aa1b4c2e36a4eca,
+        type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7990890279652666815, guid: e36f77405e5b3904d8078f3b6b52afb4,
+        type: 3}
+      insertIndex: 1
+      addedObject: {fileID: -2511059444581470021}
     - targetCorrespondingSourceObject: {fileID: 7990890279652666815, guid: e36f77405e5b3904d8078f3b6b52afb4,
         type: 3}
       insertIndex: -1
@@ -91,6 +101,27 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 3036588805620030231}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &-2511059444581470021
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4954374317287241384}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 3563627210
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!114 &9217457615732013843
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -140,6 +171,7 @@ MonoBehaviour:
   m_AutoAim: 1
   m_AttackCooldown: 1
   m_AttackRange: 5
+  m_AutoAimButton: {fileID: 0}
   m_Damage: 20
   m_ProjectilePrefab: {fileID: 1872292829029996938, guid: f60b85c28e3e4724488492f97cddd3c5,
     type: 3}
