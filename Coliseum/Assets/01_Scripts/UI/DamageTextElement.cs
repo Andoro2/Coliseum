@@ -8,16 +8,20 @@ public class DamageTextElement : MonoBehaviour
 {
     public List<DamageType> m_Elementos = new List<DamageType>();
     private WorldElements m_DmgElement;
-    public TextMeshPro m_TextMeshPro;
+    public TextMeshProUGUI m_TextMeshPro;
     public Image m_Image;
+    private Animator m_Anim;
 
-    public void GetDamageInfo(WorldElements element, float dmg)
+    public void GetDamageInfo(ElementDamage element, float dmg)
     {
+        //m_TextMeshPro = GetComponentInChildren<TextMeshProUGUI>();
+        //m_Image = GetComponentInChildren<Image>();
+
         m_TextMeshPro.text = dmg.ToString();
 
         foreach(DamageType type in m_Elementos)
         {
-            if (type.m_DmgElement == element)
+            if (type.m_DmgElement == element.Element)
             {
                 m_TextMeshPro.color = type.m_ElementColor;
                 if(type.m_DmgElement != WorldElements.Null) m_Image.sprite = type.m_ElementIcon;
@@ -29,8 +33,8 @@ public class DamageTextElement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        m_TextMeshPro = GetComponentInChildren<TextMeshPro>();
-        m_Image = GetComponentInChildren<Image>();
+        //m_TextMeshPro = GetComponentInChildren<TextMeshProUGUI>();
+        //m_Image = GetComponentInChildren<Image>();
     }
 
     // Update is called once per frame

@@ -7,6 +7,8 @@ using static UnityEngine.GraphicsBuffer;
 public class PlayerGenericProjectile : MonoBehaviour
 {
     public float m_Damage, m_ElementalPercent, m_AttackRange, m_Speed = 5f;
+    public bool m_IsCrit = false;
+    public float m_CritExtra = 1.5f;
     public GameObject m_Target;
     // private Dictionary<WorldElements, float> m_AttackElements;
     public ElementDamage[] elements;
@@ -23,23 +25,33 @@ public class PlayerGenericProjectile : MonoBehaviour
             transform.position = Vector3.MoveTowards(transform.position, m_Target.transform.position, m_Speed * Time.deltaTime);
         }
 
-        foreach (ElementDamage item in elements)
+        /*foreach (ElementDamage item in elements)
         {
-            ListaDeElementos.Clear();
+            if()
             ListaDeElementos.Add(item.Element);
-        }
+        }*/
     }
-    public void ProjectileData(GameObject target, float damage, Dictionary<WorldElements, float> attackElements, ulong attackerClientId)
+    public void ProjectileData(GameObject target, float damage, Dictionary<WorldElements, float> attackElements, bool isCrit, float critExtra, ulong attackerClientId)
     {
         m_Target = target;
         m_Damage = damage;
 
         // --- transformar el diccionario de autoAttackElements a un array para que el Netcode pueda enviarlo --- //
-        elements = new ElementDamage[attackElements.Count];
-        int i = 0;
+        elements = new ElementDamage[attackElements.Count + 1];
+        elements[0] = new ElementDamage { Element = WorldElements.Null, Percentage = 0 };
+        int i = 1;
         foreach (var kvp in attackElements)
+        { 
             elements[i++] = new ElementDamage { Element = kvp.Key, Percentage = kvp.Value };
+            ListaDeElementos.Add(kvp.Key);
+        }
         // --- //
+
+        if (isCrit)
+        {
+            m_IsCrit = isCrit;
+            m_CritExtra = critExtra;
+        }
 
         // m_AttackElements = attackElements;
         m_PlayerNetworkID = attackerClientId;
@@ -48,18 +60,18 @@ public class PlayerGenericProjectile : MonoBehaviour
     {
         if (other.CompareTag("Enemy"))
         {
-            Collider[] hits = Physics.OverlapSphere(transform.position, m_AttackRange * 0.5f);
+            //Collider[] hits = Physics.OverlapSphere(transform.position, m_AttackRange * 0.5f);
 
-            foreach (Collider hit in hits)
-            {
-                if (!hit.CompareTag("Enemy")) continue;
-                hit.GetComponent<EnemyStats>().TakeDamageServerRpc(
+            // foreach (Collider hit in hits)            {
+            other.GetComponent<EnemyStats>().TakeDamageServerRpc(
                 m_Damage,
                 elements,
+                m_IsCrit,
+                m_CritExtra,
                 EnemyStats.Killer.Player,
                 m_PlayerNetworkID
                 );
-            }
+            //}
 
             if(m_Impact_VFX != null) Instantiate(m_Impact_VFX, transform.position, Quaternion.identity);
             Destroy(gameObject);

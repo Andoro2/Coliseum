@@ -167,14 +167,18 @@ public class EnemyStats : NetworkBehaviour
     // Recibir daño
     // -------------------------------------------------------------------------
     [ServerRpc(RequireOwnership = false)]
-    public void TakeDamageServerRpc(float damage, ElementDamage[] attackElements, Killer source, ulong attackerClientId = 0)
+    public void TakeDamageServerRpc(float damage, ElementDamage[] attackElements, bool isCrit, float critExtra, Killer source, ulong attackerClientId = 0)
     {
         float totalLifeDamage = 0f;
-
+        int y = 0;
         foreach (var ed in attackElements)
         {
+            Debug.Log("Resibí daño ah");
             float resistance = CheckDamageResistance(ed.Element);
-            float initialDmg = (damage * ed.Percentage) * (1f - resistance);
+            float initialDmg;
+
+            if (isCrit) initialDmg = (damage * critExtra * (1 + ed.Percentage)) * (1f - resistance);
+            else initialDmg = (damage * ed.Percentage) * (1f - resistance);
 
             float remainingDmg = AbsorbElementalDamage(ed.Element, initialDmg);
 
@@ -184,18 +188,39 @@ public class EnemyStats : NetworkBehaviour
                 totalLifeDamage += remainingDmg;
                 OnDamageTaken?.Invoke(remainingDmg, ed.Element);
 
+                ShowDamageTextClientRpc(remainingDmg, attackElements[y], isCrit);
+                /*
                 GameObject damageText = Instantiate(DamageText, transform.position, transform.rotation);
 
                 damageText.GetComponent<DamageTextElement>().GetDamageInfo(
                     ed.Element,
                     remainingDmg
                 );
+                */
             }
+            y++;
         }
 
         m_CurrentHealth.Value = Mathf.Max(0f, m_CurrentHealth.Value - totalLifeDamage);
 
         if (m_CurrentHealth.Value <= 0) Die(source, attackerClientId);
+    }
+
+    [ClientRpc]
+    private void ShowDamageTextClientRpc(float damageAmount, ElementDamage element, bool isCrit)
+    {
+        GameObject damageText = Instantiate(DamageText, transform.position, Quaternion.identity);
+
+        damageText.GetComponentInChildren<DamageTextElement>().GetDamageInfo(element, damageAmount);
+        /*
+        var textElement = damageText.GetComponent<DamageTextElement>();
+        if (textElement != null)
+        {
+            textElement.GetDamageInfo(element, damageAmount);
+
+            // if (isCrit) textElement.SetCriticalStyle(); 
+        }
+        */
     }
 
     public void Die(Killer source, ulong attackerClientId)

@@ -20,6 +20,8 @@ public class AutoAttack_Ranged : AutoAttack
 
         m_Anim.SetTrigger("AttackRanged");
 
+        bool isCrit = Random.value <= PS.m_CriticChance;
+
         GameObject projectile = Instantiate(m_ProjectilePrefab, transform.position, transform.rotation);
         //projectile.GetComponent<ProjectileForward>().target = m_Target;
         // Initialize y pasar info al proyectil
@@ -27,6 +29,8 @@ public class AutoAttack_Ranged : AutoAttack
         m_Target,
         PS.m_Damage * PS.m_DamageMultiplier,
         PS.m_AutoAttackElements,
+        isCrit,
+        PS.m_CriticExtra,
         NetworkManager.Singleton.LocalClientId
         );
     }

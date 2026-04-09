@@ -172,8 +172,8 @@ MonoBehaviour:
   - m_DmgElement: 13
     m_ElementColor: {r: 0.9882353, g: 0.93333334, b: 0.12941177, a: 1}
     m_ElementIcon: {fileID: 21300000, guid: 182ff646283d9e34e9e166d70bdcdee0, type: 3}
-  m_TextMeshPro: {fileID: 0}
-  m_Image: {fileID: 0}
+  m_TextMeshPro: {fileID: 2600853575710178878}
+  m_Image: {fileID: 1594663324913801460}
 --- !u!1 &4533157289559480899
 GameObject:
   m_ObjectHideFlags: 0
@@ -186,6 +186,7 @@ GameObject:
   - component: {fileID: 6926345975702676725}
   - component: {fileID: 2600853575710178878}
   - component: {fileID: 1085401060484797144}
+  - component: {fileID: 4467194128198152874}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -318,7 +319,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4533157289559480899}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 57a7181afa7582341a94aefeaf43ef9d, type: 2}
   m_CullingMode: 0
@@ -331,6 +332,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &4467194128198152874
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4533157289559480899}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5f7afc74e40e694aa2f87584370a4f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4542012624017028618
 GameObject:
   m_ObjectHideFlags: 0
@@ -340,6 +353,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 575836455024635540}
+  - component: {fileID: -4889622268224345325}
   m_Layer: 0
   m_Name: DamageNumber
   m_TagString: Untagged
@@ -363,6 +377,27 @@ Transform:
   - {fileID: 2828074121005260304}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-4889622268224345325
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4542012624017028618}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 2053779234
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!1 &7912711308128745739
 GameObject:
   m_ObjectHideFlags: 0

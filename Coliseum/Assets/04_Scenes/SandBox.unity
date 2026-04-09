@@ -8422,10 +8422,30 @@ PrefabInstance:
       propertyPath: InScenePlacedSourceGlobalObjectIdHash
       value: 3147364024
       objectReference: {fileID: 0}
+    - target: {fileID: 1335448298186892778, guid: 1e40f70f90218e942af8e2c5dc2f3aac,
+        type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     - target: {fileID: 2365854645322114647, guid: 1e40f70f90218e942af8e2c5dc2f3aac,
         type: 3}
       propertyPath: m_Name
       value: Dummie
+      objectReference: {fileID: 0}
+    - target: {fileID: 2365854645322114647, guid: 1e40f70f90218e942af8e2c5dc2f3aac,
+        type: 3}
+      propertyPath: m_TagString
+      value: Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 2626500233743809430, guid: 1e40f70f90218e942af8e2c5dc2f3aac,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2756676106246347585, guid: 1e40f70f90218e942af8e2c5dc2f3aac,
+        type: 3}
+      propertyPath: m_Constraints
+      value: 126
       objectReference: {fileID: 0}
     - target: {fileID: 3666823515742495074, guid: 1e40f70f90218e942af8e2c5dc2f3aac,
         type: 3}
@@ -8489,6 +8509,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6879255883371957677, guid: 1e40f70f90218e942af8e2c5dc2f3aac, type: 3}
+    - {fileID: 4950250537489264965, guid: 1e40f70f90218e942af8e2c5dc2f3aac, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
