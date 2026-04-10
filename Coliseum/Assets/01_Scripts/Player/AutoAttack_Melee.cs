@@ -21,15 +21,17 @@ public class AutoAttack_Melee : AutoAttack
     {
         m_Anim.SetTrigger("AttackMelee");
         Collider[] hits = Physics.OverlapSphere(PC.transform.position + PC.transform.forward * (m_AttackRange * 0.5f), m_AttackRange * 0.5f);
-
+        /*
         // --- transformar el diccionario de autoAttackElements a un array para que el Netcode pueda enviarlo --- //
         ElementDamage[] elements = new ElementDamage[PS.m_AutoAttackElements.Count + 1];
-        elements[0] = new ElementDamage { Element = WorldElements.Null, Percentage = 0 };
-        int i = 1;
+
+        int i = 0;
+        elements[0] = new ElementDamage { Element = WorldElements.Null, Percentage = 1f };
+       
         foreach (var kvp in PS.m_AutoAttackElements)
             elements[i++] = new ElementDamage { Element = kvp.Key, Percentage = kvp.Value };
         // --- //
-
+        */
         bool isCrit = Random.value <= PS.m_CriticChance; // Random.value equivale al rango entre 0f y 1f
 
         foreach (Collider hit in hits)
@@ -37,7 +39,7 @@ public class AutoAttack_Melee : AutoAttack
             if (!hit.CompareTag("Enemy")) continue;
             hit.GetComponentInParent<EnemyStats>().TakeDamageServerRpc(
             PS.m_Damage * PS.m_DamageMultiplier,
-            elements,
+            BuildElementArray(),
             isCrit,
             PS.m_CriticExtra,
             EnemyStats.Killer.Player,

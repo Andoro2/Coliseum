@@ -24,37 +24,44 @@ public class PlayerGenericProjectile : MonoBehaviour
             transform.LookAt(m_Target.transform);
             transform.position = Vector3.MoveTowards(transform.position, m_Target.transform.position, m_Speed * Time.deltaTime);
         }
-
-        /*foreach (ElementDamage item in elements)
-        {
-            if()
-            ListaDeElementos.Add(item.Element);
-        }*/
+        else transform.position += transform.forward * m_Speed * Time.deltaTime;
     }
-    public void ProjectileData(GameObject target, float damage, Dictionary<WorldElements, float> attackElements, bool isCrit, float critExtra, ulong attackerClientId)
+    public void ProjectileData(GameObject target, float damage, ElementDamage[] attackElements, bool isCrit, float critExtra, ulong attackerClientId)
     {
+        ListaDeElementos.Clear();
+
         m_Target = target;
         m_Damage = damage;
-
+        m_PlayerNetworkID = attackerClientId;
+        /*
         // --- transformar el diccionario de autoAttackElements a un array para que el Netcode pueda enviarlo --- //
-        elements = new ElementDamage[attackElements.Count + 1];
-        elements[0] = new ElementDamage { Element = WorldElements.Null, Percentage = 0 };
+        elements = new ElementDamage[attackElements.Length + 1];
+
+        elements[0] = new ElementDamage { Element = WorldElements.Null, Percentage = 1f };
+        ListaDeElementos.Add(elements[0].Element);
+
         int i = 1;
-        foreach (var kvp in attackElements)
-        { 
-            elements[i++] = new ElementDamage { Element = kvp.Key, Percentage = kvp.Value };
-            ListaDeElementos.Add(kvp.Key);
+        foreach (ElementDamage element in attackElements)
+        {
+            elements[i++] = new ElementDamage { Element = element.Element, Percentage = element.Percentage };
+            if (!ListaDeElementos.Contains(element.Element))
+                ListaDeElementos.Add(element.Element);
         }
         // --- //
+        */
+
+        elements = attackElements;
+        foreach (ElementDamage element in attackElements)
+        {
+            if (!ListaDeElementos.Contains(element.Element))
+                ListaDeElementos.Add(element.Element);
+        }
 
         if (isCrit)
         {
             m_IsCrit = isCrit;
             m_CritExtra = critExtra;
         }
-
-        // m_AttackElements = attackElements;
-        m_PlayerNetworkID = attackerClientId;
     }
     private void OnTriggerEnter(Collider other)
     {

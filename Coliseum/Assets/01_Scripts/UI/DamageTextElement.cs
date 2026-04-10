@@ -24,8 +24,18 @@ public class DamageTextElement : MonoBehaviour
             if (type.m_DmgElement == element.Element)
             {
                 m_TextMeshPro.color = type.m_ElementColor;
-                if(type.m_DmgElement != WorldElements.Null) m_Image.sprite = type.m_ElementIcon;
-                else m_Image.gameObject.SetActive(false);
+                if (element.Element != WorldElements.Null)
+                {
+                    if (m_Image != null)
+                    {
+                        m_Image.gameObject.SetActive(true);
+                        m_Image.sprite = type.m_ElementIcon;
+                    }
+                }
+                else
+                {
+                    if (m_Image != null) m_Image.gameObject.SetActive(false);
+                }
             }
         }
     }

@@ -169,7 +169,7 @@ PrefabInstance:
     - target: {fileID: 8051582786298585620, guid: e36f77405e5b3904d8078f3b6b52afb4,
         type: 3}
       propertyPath: m_Damage
-      value: 27.48
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 8051582786298585620, guid: e36f77405e5b3904d8078f3b6b52afb4,
         type: 3}
@@ -195,7 +195,7 @@ PrefabInstance:
     - target: {fileID: 8051582786298585620, guid: e36f77405e5b3904d8078f3b6b52afb4,
         type: 3}
       propertyPath: m_DamageMultiplier
-      value: 12
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
@@ -246,7 +246,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1176706451
+  GlobalObjectIdHash: 2652947327
   InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -289,7 +289,7 @@ MonoBehaviour:
   m_BonusResistAllies: 0.05
   m_Aura: {fileID: 6327916681691007440}
   AA: {fileID: 0}
-  m_ElementBonus: 6.7
+  m_ElementBonus: 0.05
   elementoAleatorio: 0
 --- !u!114 &5280550356611417014
 MonoBehaviour:

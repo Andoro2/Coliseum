@@ -169,26 +169,37 @@ public class EnemyStats : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     public void TakeDamageServerRpc(float damage, ElementDamage[] attackElements, bool isCrit, float critExtra, Killer source, ulong attackerClientId = 0)
     {
-        float totalLifeDamage = 0f;
-        int y = 0;
-        foreach (var ed in attackElements)
+        if (attackElements == null || attackElements.Length == 0)
+            attackElements = new ElementDamage[] { new ElementDamage { Element = WorldElements.Null, Percentage = 1f } };
+
+        //float totalLifeDamage = 0f;
+
+        foreach (ElementDamage ed in attackElements)
         {
-            Debug.Log("Resibí daño ah");
             float resistance = CheckDamageResistance(ed.Element);
             float initialDmg;
+            //float elementDmg;
+            float remainingDmg;
 
-            if (isCrit) initialDmg = (damage * critExtra * (1 + ed.Percentage)) * (1f - resistance);
-            else initialDmg = (damage * ed.Percentage) * (1f - resistance);
+            if (isCrit) initialDmg = (damage * critExtra);
+            else initialDmg = damage;
+            //if (isCrit) initialDmg = (damage * critExtra * ed.Percentage) * (1f - resistance);
+            //else initialDmg = (damage * ed.Percentage) * (1f - resistance);
 
-            float remainingDmg = AbsorbElementalDamage(ed.Element, initialDmg);
+            //elementDmg = AbsorbElementalDamage(ed.Element, initialDmg * ed.Percentage);
+
+            if (ed.Element == WorldElements.Null) remainingDmg = initialDmg;
+            else remainingDmg = AbsorbElementalDamage(ed.Element, initialDmg * ed.Percentage);
+
+            //remainingDmg = Mathf.Max(0f, remainingDmg - m_Armor);
 
             if (remainingDmg > 0)
             {
-                Debug.Log("enemigo recibe daño");
-                totalLifeDamage += remainingDmg;
+                m_CurrentHealth.Value = Mathf.Max(0f, m_CurrentHealth.Value - remainingDmg);
+
                 OnDamageTaken?.Invoke(remainingDmg, ed.Element);
 
-                ShowDamageTextClientRpc(remainingDmg, attackElements[y], isCrit);
+                ShowDamageTextClientRpc(remainingDmg, ed, isCrit);
                 /*
                 GameObject damageText = Instantiate(DamageText, transform.position, transform.rotation);
 
@@ -198,10 +209,7 @@ public class EnemyStats : NetworkBehaviour
                 );
                 */
             }
-            y++;
         }
-
-        m_CurrentHealth.Value = Mathf.Max(0f, m_CurrentHealth.Value - totalLifeDamage);
 
         if (m_CurrentHealth.Value <= 0) Die(source, attackerClientId);
     }
@@ -209,7 +217,13 @@ public class EnemyStats : NetworkBehaviour
     [ClientRpc]
     private void ShowDamageTextClientRpc(float damageAmount, ElementDamage element, bool isCrit)
     {
-        GameObject damageText = Instantiate(DamageText, transform.position, Quaternion.identity);
+        Vector3 spawnOffset = new Vector3(
+            Random.Range(-0.5f, 0.5f),
+            Random.Range(0.5f, 1.5f),
+            Random.Range(-0.5f, 0.5f)
+        );
+
+        GameObject damageText = Instantiate(DamageText, transform.position + spawnOffset, Quaternion.identity);
 
         damageText.GetComponentInChildren<DamageTextElement>().GetDamageInfo(element, damageAmount);
         /*

@@ -52,11 +52,12 @@ public class Class_Bard : NetworkBehaviour
     {
         if (m_PassiveLevel12)
         {
-            m_PlayerStats.RemoveAutoAttackElement(elementoAleatorio, m_ElementBonus);
+            if (elementoAleatorio != WorldElements.Null)
+                m_PlayerStats.RemoveAutoAttackElement(elementoAleatorio, m_ElementBonus);
 
-            elementoAleatorio = m_WorldElementsArray[Random.Range(1, m_WorldElementsArray.Length)];
-
+            elementoAleatorio = m_WorldElementsArray[Random.Range(0, m_WorldElementsArray.Length)];
             m_PlayerStats.AddAutoAttackElement(elementoAleatorio, m_ElementBonus);
+            //Debug.Log("bonus: "+ m_ElementBonus);
         }
     }
     private void OnLevelUp(int newLevel)

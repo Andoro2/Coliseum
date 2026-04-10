@@ -302,23 +302,32 @@ public class PlayerStats : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     public void TakeDamageServerRpc(float damage, ElementDamage[] attackElements, bool isCrit, float critExtra, ulong attackerClientId = 0)
     {
-        float totalLifeDamage = 0f;
-        int y = 0;
+        if (attackElements == null || attackElements.Length == 0)
+            attackElements = new ElementDamage[] { new ElementDamage { Element = WorldElements.Null, Percentage = 1f } };
+
         foreach (ElementDamage ed in attackElements)
         {
             float resistance = CheckDamageResistance(ed.Element);
             float initialDmg;
+            //float elementDmg;
+            float remainingDmg;
 
-            if (isCrit) initialDmg = (damage * critExtra * (1 + ed.Percentage)) * (1f - resistance);
-            else initialDmg = (damage * ed.Percentage) * (1f - resistance);
+            if (isCrit) initialDmg = (damage * critExtra);
+            else initialDmg = damage;
+            //if (isCrit) initialDmg = (damage * critExtra * ed.Percentage) * (1f - resistance);
+            //else initialDmg = (damage * ed.Percentage) * (1f - resistance);
 
-            float remainingDmg = AbsorbElementalDamage(ed.Element, initialDmg);
+            //float remainingDmg = AbsorbElementalDamage(ed.Element, initialDmg);
+            if (ed.Element == WorldElements.Null) remainingDmg = initialDmg;
+            else remainingDmg = AbsorbElementalDamage(ed.Element, initialDmg * ed.Percentage);
 
             if (remainingDmg > 0)
             {
-                totalLifeDamage += remainingDmg;
+                m_CurrentHealth.Value = Mathf.Max(0f, m_CurrentHealth.Value - remainingDmg);
 
-                ShowDamageTextClientRpc(remainingDmg, attackElements[y], isCrit);
+                //totalLifeDamage += remainingDmg;
+
+                ShowDamageTextClientRpc(remainingDmg, ed, isCrit);
                 /*
                 GameObject damageText = Instantiate(DamageText, transform.position, transform.rotation);
 
@@ -328,19 +337,23 @@ public class PlayerStats : NetworkBehaviour
                 );
                 */
             }
-            y++;
         }
 
-        totalLifeDamage = Mathf.Max(0f, totalLifeDamage - m_Armor); // REVISAR TEMA DE LA ARMADURA
+        //totalLifeDamage = Mathf.Max(0f, totalLifeDamage - m_Armor); // REVISAR TEMA DE LA ARMADURA
 
-        m_CurrentHealth.Value = Mathf.Max(0f, m_CurrentHealth.Value - totalLifeDamage);
 
         if (m_CurrentHealth.Value <= 0) Die();
     }
     [ClientRpc]
     private void ShowDamageTextClientRpc(float damageAmount, ElementDamage element, bool isCrit)
     {
-        GameObject damageText = Instantiate(DamageText, transform.position, Quaternion.identity);
+        Vector3 spawnOffset = new Vector3(
+            Random.Range(-0.5f, 0.5f),
+            Random.Range(0.5f, 1.5f),
+            Random.Range(-0.5f, 0.5f)
+        );
+
+        GameObject damageText = Instantiate(DamageText, transform.position + spawnOffset, Quaternion.identity);
 
         damageText.GetComponentInChildren<DamageTextElement>().GetDamageInfo(element, damageAmount);
         /*

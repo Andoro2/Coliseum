@@ -24,7 +24,7 @@ public struct ElementDamage : INetworkSerializable
     public WorldElements Element;
     public float Percentage;
 
-    public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter // traductor a bytes para enviarlo por la red
+    public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
     {
         serializer.SerializeValue(ref Element);
         serializer.SerializeValue(ref Percentage);

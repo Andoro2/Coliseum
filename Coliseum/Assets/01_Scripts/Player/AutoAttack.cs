@@ -94,4 +94,14 @@ public abstract class AutoAttack : MonoBehaviour
     {
         m_AutoAim = !m_AutoAim;
     }
+    protected ElementDamage[] BuildElementArray()
+    {
+        List<ElementDamage> elements = new List<ElementDamage>();
+        elements.Add(new ElementDamage { Element = WorldElements.Null, Percentage = 1f });
+
+        foreach (var kvp in PS.m_AutoAttackElements)
+            elements.Add(new ElementDamage { Element = kvp.Key, Percentage = kvp.Value });
+
+        return elements.ToArray();
+    }
 }

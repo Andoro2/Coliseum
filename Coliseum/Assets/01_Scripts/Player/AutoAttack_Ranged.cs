@@ -28,10 +28,12 @@ public class AutoAttack_Ranged : AutoAttack
         projectile.GetComponent<PlayerGenericProjectile>().ProjectileData(
         m_Target,
         PS.m_Damage * PS.m_DamageMultiplier,
-        PS.m_AutoAttackElements,
+        BuildElementArray(),
         isCrit,
         PS.m_CriticExtra,
         NetworkManager.Singleton.LocalClientId
         );
     }
+
+    //[ServerRpc(RequireOwnership = false)]]
 }
