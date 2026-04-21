@@ -33,6 +33,8 @@ public class AutoAttack_Ranged : AutoAttack
         PS.m_CriticExtra,
         NetworkManager.Singleton.LocalClientId
         );
+
+        if (m_BardDoubleHit) projectile.GetComponent<PlayerGenericProjectile>().BardDoubleHit();
     }
 
     //[ServerRpc(RequireOwnership = false)]]

@@ -8,8 +8,6 @@ using UnityEngine.SceneManagement;
 
 public class HexGameMultiplayer : NetworkBehaviour
 {
-
-
     private const int PlayerMaxAmount = 6;
 
     public static HexGameMultiplayer Instance { get; private set; }

@@ -30,6 +30,19 @@ public class Class_Bard : NetworkBehaviour
     public WorldElements elementoAleatorio = WorldElements.Null;
     private WorldElements[] m_WorldElementsArray;
 
+    [Header("Pasiva nivel 16:")]
+    public float m_AutoAttackReductor = 0.5f;
+    public float m_TimeToRepeat = 10f;
+    private float m_LastDoubleAttack;
+
+    [Header("Pasiva nivel 20:")]
+    public float m_LegendBuffDuration = 30f;
+    private float m_BuffTimeStamp;
+    public float m_BuffStatsPercentageElite = 5f;
+    public float m_BuffStatsPercentageRoundBoss = 15f;
+    public bool m_IsBuffed = false;
+    private EnemyStats.EnemyClasses m_LastKillClass;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -38,6 +51,8 @@ public class Class_Bard : NetworkBehaviour
 
         GameObject.FindWithTag("GameController").GetComponent<GameManager>().SetClassPresent(GameManager.ClassEnum.Bard);
 
+        m_LastDoubleAttack = Time.time;
+
         // Suscribirse al evento de subida de nivel
         m_PlayerStats.OnLevelUp += OnLevelUp;
     }
@@ -45,9 +60,29 @@ public class Class_Bard : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (m_PassiveLevel20 && m_IsBuffed)
+        {
+            if(Time.time > (m_BuffTimeStamp + m_LegendBuffDuration))
+            {
+                m_IsBuffed = false;
+                LegendBuff(false, m_LastKillClass);
+            }
+        }
     }
+    public void ReduceDoubleAttackCooldown()
+    {
+        if (Time.time > (m_LastDoubleAttack + m_TimeToRepeat))
+        {
+            AA.BardDoubleHitSwitch();
+            m_LastDoubleAttack = Time.time;
+        }
+        else
+        {
+            m_LastDoubleAttack -= m_AutoAttackReductor;
+            if(AA.BardDoubleHitCheck()) AA.BardDoubleHitSwitch();
+        }
 
+    }
     private void BardRandomElement()
     {
         if (m_PassiveLevel12)
@@ -89,6 +124,8 @@ public class Class_Bard : NetworkBehaviour
         }
         if (newLevel >= 16 && !m_PassiveLevel16)
         {
+            if (AA != null) AA.OnAttack += ReduceDoubleAttackCooldown;
+
             m_PassiveLevel16 = true;
         }
         if (newLevel >= 20 && !m_PassiveLevel20)
@@ -106,6 +143,39 @@ public class Class_Bard : NetworkBehaviour
         m_Aura.SetActive(true);
         //ApplyGroupBonusServerRpc();
     }
+
+    public void LegendBuff(bool activationSwitch, EnemyStats.EnemyClasses enemyClass)
+    {
+        if (m_LastKillClass == enemyClass) return; // clase dferente o no
+
+        float buff = 0f;
+        if (enemyClass == EnemyStats.EnemyClasses.Elite) buff = m_BuffStatsPercentageElite;
+        if (enemyClass == EnemyStats.EnemyClasses.RoundBoss) buff = m_BuffStatsPercentageRoundBoss;
+
+        if (activationSwitch && !m_IsBuffed) // se bufa
+        {
+            m_PlayerStats.ApplyDamageBonus(buff);
+            m_PlayerStats.ApplyAttackSpeedBonus(buff);
+            m_PlayerStats.ApplySpeedBonus(buff);
+            m_PlayerStats.ApplyHealthBonus(buff);
+
+            m_IsBuffed = true;
+            m_BuffTimeStamp = Time.time;
+        }
+        else // se debufa
+        {
+            m_PlayerStats.ApplyDamageBonus(-buff);
+            m_PlayerStats.ApplyAttackSpeedBonus(-buff);
+            m_PlayerStats.ApplySpeedBonus(-buff);
+            m_PlayerStats.ApplyHealthBonus(-buff);
+
+            m_IsBuffed = false;
+        }
+
+        m_LastKillClass = enemyClass;
+    }
+
+    
     /*[ServerRpc(RequireOwnership = false)]
     private void ApplyGroupBonusServerRpc()
     {

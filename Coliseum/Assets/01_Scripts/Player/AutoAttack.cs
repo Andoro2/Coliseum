@@ -16,6 +16,10 @@ public abstract class AutoAttack : MonoBehaviour
     public float m_AttackRange = 5f;
     private float m_LastAttackTime = 0f;
 
+
+    // BARD
+    protected bool m_BardDoubleHit = false;
+
     protected Animator m_Anim;
 
     [SerializeField] private Button m_AutoAimButton;
@@ -40,7 +44,7 @@ public abstract class AutoAttack : MonoBehaviour
         {
             m_Target = GetNearestEnemy();
 
-            if(m_AutoAim)
+            if (m_AutoAim)
                 PC.m_AutoAimTarget = m_Target != null ? m_Target.transform : null;
             else
                 PC.m_AutoAimTarget = null;
@@ -103,5 +107,20 @@ public abstract class AutoAttack : MonoBehaviour
             elements.Add(new ElementDamage { Element = kvp.Key, Percentage = kvp.Value });
 
         return elements.ToArray();
+    }
+
+    public void BardDoubleHitSwitch()
+    {
+        if (m_BardDoubleHit) m_BardDoubleHit = false;
+        else m_BardDoubleHit = true;
+    }
+    public bool BardDoubleHitCheck()
+    {
+        bool DoubleHitActive = false;
+
+        if (m_BardDoubleHit) DoubleHitActive = false;
+        else DoubleHitActive = true;
+
+        return DoubleHitActive;
     }
 }

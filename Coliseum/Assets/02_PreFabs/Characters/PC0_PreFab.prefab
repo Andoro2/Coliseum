@@ -5076,6 +5076,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4465646293676528456}
+  - component: {fileID: 5173115471663278014}
   - component: {fileID: 8051582786298585620}
   m_Layer: 0
   m_Name: PC0_PreFab
@@ -5101,6 +5102,27 @@ Transform:
   - {fileID: 2514104827335304807}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5173115471663278014
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7990890279652666815}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 865939388
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!114 &8051582786298585620
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5114,10 +5136,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_MaxHealth: 0
-  m_CurrentHealth: 0
+  m_CurrentHealth:
+    m_InternalValue: 0
   m_Speed: 0
+  m_Damage: 15
   m_DamageMultiplier: 1
+  m_CriticChance: 0.1
+  m_CriticExtra: 1.5
   m_Armor: 0
+  m_CriticResistance: 0
   m_LifeRegen: 0
   m_CD: 0
   m_Level: 0
@@ -5198,6 +5225,7 @@ MonoBehaviour:
   m_Wrath: 0
   m_Ki: 0
   m_Magic: 0
+  DamageText: {fileID: 0}
 --- !u!1001 &5332470017983993008
 PrefabInstance:
   m_ObjectHideFlags: 0

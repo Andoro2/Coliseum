@@ -163,6 +163,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8051582786298585620, guid: e36f77405e5b3904d8078f3b6b52afb4,
         type: 3}
+      propertyPath: m_Level
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8051582786298585620, guid: e36f77405e5b3904d8078f3b6b52afb4,
+        type: 3}
       propertyPath: m_Speed
       value: 25
       objectReference: {fileID: 0}
@@ -291,6 +296,8 @@ MonoBehaviour:
   AA: {fileID: 0}
   m_ElementBonus: 0.05
   elementoAleatorio: 0
+  m_TimeToRepeat: 10
+  m_LastDoubleAttack: 0
 --- !u!114 &5280550356611417014
 MonoBehaviour:
   m_ObjectHideFlags: 0

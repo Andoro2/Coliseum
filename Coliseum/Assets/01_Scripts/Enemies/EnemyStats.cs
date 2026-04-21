@@ -8,6 +8,16 @@ using static UnityEngine.GraphicsBuffer;
 
 public class EnemyStats : NetworkBehaviour
 {
+    public enum EnemyClasses
+    {
+        Runner,
+        Fighter,
+        Elite,
+        RoundBoss,
+        FinalBoss
+    }
+    public EnemyClasses m_EnemyClass;
+
     // --- Vida ---
     [Header("Vida")]
     public float m_MaxHealth;
@@ -240,6 +250,21 @@ public class EnemyStats : NetworkBehaviour
     public void Die(Killer source, ulong attackerClientId)
     {
         OnDeath?.Invoke(source, attackerClientId);
+        if(m_EnemyClass == EnemyClasses.Elite || m_EnemyClass == EnemyClasses.RoundBoss)
+        NotifyDeathClientRpc(source, attackerClientId, m_EnemyClass);
+        GetComponent<NetworkObject>().Despawn();
+    }
+
+    // detectar info del eliminador
+    [ClientRpc]
+    private void NotifyDeathClientRpc(Killer source, ulong attackerClientId, EnemyClasses enemyClass)
+    {
+        if (source != Killer.Player) return;
+        if (NetworkManager.Singleton.LocalClientId != attackerClientId) return;
+
+        Class_Bard isBard = PlayerController.LocalInstance.GetComponentInChildren<Class_Bard>();
+        if (isBard != null)
+            isBard.LegendBuff(true, enemyClass);
     }
 
     // -------------------------------------------------------------------------

@@ -12,6 +12,9 @@ public class Class_Cleric : MonoBehaviour
     public bool m_PassiveLevel12 = false;
     public bool m_PassiveLevel16 = false;
     public bool m_PassiveLevel20 = false;
+
+    [Header("Pasiva nivel 20:")]
+    public bool m_ClericRevive = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -48,9 +51,17 @@ public class Class_Cleric : MonoBehaviour
         }
         if (newLevel >= 20 && !m_PassiveLevel20)
         {
+            ClericReliveSwitch();
+
             m_PassiveLevel20 = true;
 
             m_PlayerStats.OnLevelUp -= OnLevelUp;
         }
+    }
+
+    public void ClericReliveSwitch()
+    {
+        if (m_ClericRevive) m_ClericRevive = false;
+        else m_ClericRevive = true;
     }
 }

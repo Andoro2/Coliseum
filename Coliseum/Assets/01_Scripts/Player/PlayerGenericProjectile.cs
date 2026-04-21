@@ -16,6 +16,8 @@ public class PlayerGenericProjectile : MonoBehaviour
     public ulong m_PlayerNetworkID;
     public GameObject m_Impact_VFX;
 
+    private bool m_BardDoubleHit = false;
+
     // Update is called once per frame
     void Update()
     {
@@ -33,22 +35,6 @@ public class PlayerGenericProjectile : MonoBehaviour
         m_Target = target;
         m_Damage = damage;
         m_PlayerNetworkID = attackerClientId;
-        /*
-        // --- transformar el diccionario de autoAttackElements a un array para que el Netcode pueda enviarlo --- //
-        elements = new ElementDamage[attackElements.Length + 1];
-
-        elements[0] = new ElementDamage { Element = WorldElements.Null, Percentage = 1f };
-        ListaDeElementos.Add(elements[0].Element);
-
-        int i = 1;
-        foreach (ElementDamage element in attackElements)
-        {
-            elements[i++] = new ElementDamage { Element = element.Element, Percentage = element.Percentage };
-            if (!ListaDeElementos.Contains(element.Element))
-                ListaDeElementos.Add(element.Element);
-        }
-        // --- //
-        */
 
         elements = attackElements;
         foreach (ElementDamage element in attackElements)
@@ -80,8 +66,25 @@ public class PlayerGenericProjectile : MonoBehaviour
                 );
             //}
 
-            if(m_Impact_VFX != null) Instantiate(m_Impact_VFX, transform.position, Quaternion.identity);
+            if (m_BardDoubleHit)
+            {
+                Debug.Log("Bard double hit");
+                other.GetComponent<EnemyStats>().TakeDamageServerRpc(
+                    m_Damage,
+                    elements,
+                    m_IsCrit,
+                    m_CritExtra,
+                    EnemyStats.Killer.Player,
+                    m_PlayerNetworkID
+                );
+            }
+
+            if (m_Impact_VFX != null) Instantiate(m_Impact_VFX, transform.position, Quaternion.identity);
             Destroy(gameObject);
         }
+    }
+    public void BardDoubleHit()
+    {
+        m_BardDoubleHit = true;
     }
 }

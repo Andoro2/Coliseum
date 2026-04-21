@@ -262,9 +262,11 @@ MonoBehaviour:
     PJPreFab: {fileID: 0}
   - PJName: John Baker
     PJID: 13
-    PJIcon: {fileID: 0}
-    PJVisual: {fileID: 0}
-    PJPreFab: {fileID: 0}
+    PJIcon: {fileID: 21300000, guid: 0d0c07a5377a46b40912e2009d0173b7, type: 3}
+    PJVisual: {fileID: 4366383568224032390, guid: dcae1ed9112c1bc45b2b0b3cffabf769,
+      type: 3}
+    PJPreFab: {fileID: 7523863442507751814, guid: d073044e6c6dcc24fa97cec2fc0acad8,
+      type: 3}
   - PJName: Kataploff
     PJID: 14
     PJIcon: {fileID: 0}

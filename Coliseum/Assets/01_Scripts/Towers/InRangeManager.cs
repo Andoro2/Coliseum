@@ -15,27 +15,25 @@ public class InRangeManager : NetworkBehaviour
         WeakToElement,
     }
 
-    // Longitud de un lado del hexágono. Es el único valor que hay que ajustar para cambiar el rango.
-    public float hexSize = 3f;
+    // Longitud de un lado del hexágono
+    public float m_HexSize = 3f;
 
     // Altura del área de detección
     public float detectionHeight = 2f;
 
-    // Derivados internos
-    private float HexWidth  => hexSize * Mathf.Sqrt(3f) * 2f;
-    private float HexHeight => hexSize * 2f;
+    private float HexWidth  => m_HexSize * Mathf.Sqrt(3f) * 2f;
+    private float HexHeight => m_HexSize * 2f;
 
     public float checkInterval = 0.1f;
     public LayerMask enemyLayer;
 
-    // Prioridad elegida por el jugador desde la UI
+    // Prioridad elegida
     private NetworkVariable<TargetPriority> targetPriority = new NetworkVariable<TargetPriority>(
         TargetPriority.FirstInList,
         NetworkVariableReadPermission.Everyone,
         NetworkVariableWritePermission.Server
     );
 
-    // Elementos configurados por el diseñador desde el Inspector
     public List<WorldElements> targetElements = new List<WorldElements>();
 
     public HashSet<GameObject> enemiesInRange = new HashSet<GameObject>();
@@ -154,9 +152,9 @@ public class InRangeManager : NetworkBehaviour
             float angleDeg = 60f * i + 30f;
             float angleRad = angleDeg * Mathf.Deg2Rad;
             vertices[i] = transform.position + new Vector3(
-                Mathf.Cos(angleRad) * hexSize,
+                Mathf.Cos(angleRad) * m_HexSize,
                 0f,
-                Mathf.Sin(angleRad) * hexSize
+                Mathf.Sin(angleRad) * m_HexSize
             );
         }
 

@@ -13,7 +13,6 @@ public class AutoAttack_Melee : AutoAttack
     protected override void Start()
     {
         base.Start();
-
     }
 
     // Update is called once per frame
@@ -37,14 +36,24 @@ public class AutoAttack_Melee : AutoAttack
         foreach (Collider hit in hits)
         {
             if (!hit.CompareTag("Enemy")) continue;
-            hit.GetComponentInParent<EnemyStats>().TakeDamageServerRpc(
-            PS.m_Damage * PS.m_DamageMultiplier,
-            BuildElementArray(),
-            isCrit,
-            PS.m_CriticExtra,
-            EnemyStats.Killer.Player,
-            NetworkManager.Singleton.LocalClientId
-            );
+                hit.GetComponentInParent<EnemyStats>().TakeDamageServerRpc(
+                    PS.m_Damage * PS.m_DamageMultiplier,
+                    BuildElementArray(),
+                    isCrit,
+                    PS.m_CriticExtra,
+                    EnemyStats.Killer.Player,
+                    NetworkManager.Singleton.LocalClientId
+                );
+                if(m_BardDoubleHit)
+                        Debug.Log("Bard double hit");
+                    hit.GetComponentInParent<EnemyStats>().TakeDamageServerRpc(
+                        PS.m_Damage * PS.m_DamageMultiplier,
+                        BuildElementArray(),
+                        isCrit,
+                        PS.m_CriticExtra,
+                        EnemyStats.Killer.Player,
+                        NetworkManager.Singleton.LocalClientId
+                    );
         }
 
         if(m_VFX != null)

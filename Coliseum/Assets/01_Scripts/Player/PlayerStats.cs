@@ -375,6 +375,17 @@ public class PlayerStats : NetworkBehaviour
 
     private void Die()
     {
+        // -------------------------------------------------------------------------
+        // Revive level bard 20
+        // -------------------------------------------------------------------------
+        if (GetComponent<Class_Cleric>() != null)
+        {
+            if (GetComponent<Class_Cleric>().m_ClericRevive)
+            {
+                HealServerRpc(m_MaxHealth/2);
+                GetComponent<Class_Cleric>().ClericReliveSwitch();
+            }
+        }
         // Tu lógica de muerte aquí
     }
 
@@ -418,10 +429,10 @@ public class PlayerStats : NetworkBehaviour
         m_CurrentHealth.Value = Mathf.Min(m_CurrentHealth.Value, m_MaxHealth);
         m_HealthSlider.maxValue = m_MaxHealth;
     }
-    public void ApplySpeedBonus(float percent)
+    public void ApplyDamageBonus(float percent)
     {
-        m_SpeedBonusPercent += percent;
-        m_Speed = transform.parent.GetComponent<PlayerController>().m_Speed * (1f + m_SpeedBonusPercent);
+        m_DamageBonusPercent += percent;
+        m_DamageMultiplier = 1f + m_DamageBonusPercent;
     }
     public void ApplyAttackSpeedBonus(float percent)
     {
@@ -429,17 +440,16 @@ public class PlayerStats : NetworkBehaviour
         //m_Speed = GetComponent<PlayerController>().m_Speed
         m_AttackSpeedBonusPercent *= (1f + m_SpeedBonusPercent);
     }
-    public void ApplyDamageBonus(float percent)
+    public void ApplySpeedBonus(float percent)
     {
-        m_DamageBonusPercent += percent;
-        m_DamageMultiplier = 1f + m_DamageBonusPercent;
+        m_SpeedBonusPercent += percent;
+        m_Speed = transform.parent.GetComponent<PlayerController>().m_Speed * (1f + m_SpeedBonusPercent);
     }
 
     public void ApplyExpBonus(float percent)
     {
         m_ExpBonusPercent += percent;
     }
-
     public void ApplyFlatArmor(float amount)
     {
         m_FlatArmorBonus += amount;
@@ -488,7 +498,7 @@ public class PlayerStats : NetworkBehaviour
     {
         m_CriticChance += extraChance;
     }
-    public void GetCritDamagew(float extraDmg)
+    public void GetCritDamage(float extraDmg)
     {
         m_CriticExtra += extraDmg;
     }
