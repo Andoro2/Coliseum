@@ -24,6 +24,7 @@ public class PlayerStats : NetworkBehaviour
     public float m_DamageMultiplier = 1f;
     public float m_CriticChance = 0.1f;
     public float m_CriticExtra = 1.5f;
+    public float m_AreaSize = 3f;
 
     // --- Armadura ---
     [Header("Armadura")]

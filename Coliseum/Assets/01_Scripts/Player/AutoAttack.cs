@@ -16,9 +16,12 @@ public abstract class AutoAttack : MonoBehaviour
     public float m_AttackRange = 5f;
     private float m_LastAttackTime = 0f;
 
-
     // BARD
     protected bool m_BardDoubleHit = false;
+    // CLERIC
+    public GameObject m_ClericAreaLevel4;
+    public GameObject m_ClericAreaLevel12;
+
 
     protected Animator m_Anim;
 
@@ -109,6 +112,7 @@ public abstract class AutoAttack : MonoBehaviour
         return elements.ToArray();
     }
 
+    #region BARD
     public void BardDoubleHitSwitch()
     {
         if (m_BardDoubleHit) m_BardDoubleHit = false;
@@ -123,4 +127,5 @@ public abstract class AutoAttack : MonoBehaviour
 
         return DoubleHitActive;
     }
+    #endregion
 }

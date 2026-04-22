@@ -8,11 +8,20 @@ public class AreaElementDamage : MonoBehaviour
     private PlayerStats PS;
 
     public float m_HexSize = 3f;
+
     public float m_DetectionHeight = 2f;
     private float HexWidth => m_HexSize * Mathf.Sqrt(3f) * 2f;
     private float HexHeight => m_HexSize * 2f;
 
+    public float m_Duration = 0f;
+    public float m_EffectTickTimer = 1f;
+    public bool m_DamageEffect = false, m_HealEffect = false;
+    private float m_DeathTime;
+
+    public float m_HealValue;
+
     public Dictionary<WorldElements, float> m_AttackElements = new Dictionary<WorldElements, float>();
+    
     public void AddAutoAttackElement(WorldElements element, float percentage)
     {
         if (m_AttackElements.ContainsKey(element))
@@ -21,7 +30,7 @@ public class AreaElementDamage : MonoBehaviour
             m_AttackElements[element] = Mathf.Clamp01(percentage);
     }
 
-    public HashSet<GameObject> m_EnemiesInRange = new HashSet<GameObject>();
+    public HashSet<GameObject> m_ThingsInRange = new HashSet<GameObject>();
 
     public LayerMask m_EnemyLayer;
     private static readonly Quaternion[] boxRotations = new Quaternion[]
@@ -37,16 +46,26 @@ public class AreaElementDamage : MonoBehaviour
         PS = GameObject.FindWithTag("Player").gameObject.transform.GetComponent<PlayerStats>();
 
         DamageInArea();
+
+        if (m_Duration != 0f)
+        {
+            m_DeathTime = Time.time + m_Duration;
+            if (m_DamageEffect) InvokeRepeating("DamageInArea", 0f, m_EffectTickTimer);
+            if (m_HealEffect) InvokeRepeating("HealInArea", 0f, m_EffectTickTimer);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (Time.time > m_DeathTime)
+        {
+            Destroy(gameObject);
+        }
     }
     private void DamageInArea()
     {
-        m_EnemiesInRange.Clear();
+        m_ThingsInRange.Clear();
 
         Vector3 halfExtents = new Vector3(HexWidth / 2f, m_DetectionHeight / 2f, HexHeight / 2f);
 
@@ -61,22 +80,36 @@ public class AreaElementDamage : MonoBehaviour
 
             foreach (Collider col in hits)
             {
-                if (col.CompareTag("Enemy"))
-                    m_EnemiesInRange.Add(col.gameObject);
+                if (m_DamageEffect)
+                {
+                    if (col.CompareTag("Enemy"))
+                        m_ThingsInRange.Add(col.gameObject);
+                }
+                if (m_HealEffect)
+                {
+                    if (col.CompareTag("Player"))
+                        m_ThingsInRange.Add(col.gameObject);
+                }
             }
         }
 
-        foreach (GameObject enemy in m_EnemiesInRange)
+        foreach (GameObject thing in m_ThingsInRange)
         {
-            if (!enemy.CompareTag("Enemy")) continue;
-            enemy.GetComponentInParent<EnemyStats>().TakeDamageServerRpc(
+            if (thing.CompareTag("Enemy"))
+            {
+                thing.GetComponentInParent<EnemyStats>().TakeDamageServerRpc(
                 PS.m_Damage * PS.m_DamageMultiplier,
                 BuildElementArray(),
                 false,
                 0f,
                 EnemyStats.Killer.Player,
                 NetworkManager.Singleton.LocalClientId
-            );
+                );
+            }
+            if(thing.CompareTag("Player"))
+            {
+                thing.GetComponentInChildren<PlayerStats>().HealServerRpc(m_HealValue);
+            }
         }
     }
     private ElementDamage[] BuildElementArray()
