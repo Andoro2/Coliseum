@@ -13,6 +13,10 @@ public class PlayerGenericProjectile : MonoBehaviour
     // private Dictionary<WorldElements, float> m_AttackElements;
     public ElementDamage[] elements;
     public List<WorldElements> ListaDeElementos = new List<WorldElements>();
+
+    private List<GameObject> m_AreaAttackPrefabs;
+    private float m_DamageMultiplier;
+
     public ulong m_PlayerNetworkID;
     public GameObject m_Impact_VFX;
 
@@ -28,7 +32,7 @@ public class PlayerGenericProjectile : MonoBehaviour
         }
         else transform.position += transform.forward * m_Speed * Time.deltaTime;
     }
-    public void ProjectileData(GameObject target, float damage, ElementDamage[] attackElements, bool isCrit, float critExtra, ulong attackerClientId)
+    public void ProjectileData(GameObject target, float damage, ElementDamage[] attackElements, bool isCrit, float critExtra, List<GameObject> areaPrefabs, float damageMultiplier, ulong attackerClientId)
     {
         ListaDeElementos.Clear();
 
@@ -48,6 +52,9 @@ public class PlayerGenericProjectile : MonoBehaviour
             m_IsCrit = isCrit;
             m_CritExtra = critExtra;
         }
+
+        m_AreaAttackPrefabs = areaPrefabs;
+        m_DamageMultiplier = damageMultiplier;
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -79,7 +86,20 @@ public class PlayerGenericProjectile : MonoBehaviour
                 );
             }
 
+            foreach (GameObject areaPrefab in m_AreaAttackPrefabs)
+            {
+                if (areaPrefab == null) continue;
+                GameObject area = Instantiate(areaPrefab, transform.position, Quaternion.identity);
+                area.GetComponent<HexAreaDamage>().Initialize(
+                    m_Damage,
+                    m_IsCrit,
+                    m_CritExtra,
+                    m_PlayerNetworkID
+                );
+            }
+
             if (m_Impact_VFX != null) Instantiate(m_Impact_VFX, transform.position, Quaternion.identity);
+
             Destroy(gameObject);
         }
     }

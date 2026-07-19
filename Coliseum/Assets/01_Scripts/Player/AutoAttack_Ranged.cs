@@ -31,6 +31,8 @@ public class AutoAttack_Ranged : AutoAttack
         BuildElementArray(),
         isCrit,
         PS.m_CriticExtra,
+        PS.m_AreaAttackPrefabs,
+        PS.m_DamageMultiplier,
         NetworkManager.Singleton.LocalClientId
         );
 

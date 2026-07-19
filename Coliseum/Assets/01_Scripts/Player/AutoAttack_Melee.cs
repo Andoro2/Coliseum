@@ -56,7 +56,9 @@ public class AutoAttack_Melee : AutoAttack
                     );
         }
 
-        if(m_VFX != null)
+        SpawnAreaDamage(PC.transform.position + PC.transform.forward * m_AttackRange * 0.5f, isCrit);
+
+        if (m_VFX != null)
             Instantiate(m_VFX, PC.transform.position + PC.transform.forward, PC.transform.rotation);
     }
 }

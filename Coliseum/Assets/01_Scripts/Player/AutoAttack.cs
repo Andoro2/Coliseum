@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -18,9 +19,6 @@ public abstract class AutoAttack : MonoBehaviour
 
     // BARD
     protected bool m_BardDoubleHit = false;
-    // CLERIC
-    public GameObject m_ClericAreaLevel4;
-    public GameObject m_ClericAreaLevel12;
 
 
     protected Animator m_Anim;
@@ -110,6 +108,22 @@ public abstract class AutoAttack : MonoBehaviour
             elements.Add(new ElementDamage { Element = kvp.Key, Percentage = kvp.Value });
 
         return elements.ToArray();
+    }
+
+    protected void SpawnAreaDamage(Vector3 position, bool isCrit)
+    {
+        foreach (GameObject areaPrefab in PS.m_AreaAttackPrefabs)
+        {
+            if (areaPrefab == null) continue;
+            GameObject area = Instantiate(areaPrefab, position, Quaternion.identity);
+            area.GetComponent<HexAreaDamage>().Initialize(
+                PS.m_Damage * PS.m_DamageMultiplier,
+                isCrit,
+                PS.m_CriticExtra,
+                NetworkManager.Singleton.LocalClientId
+            );
+        }
+
     }
 
     #region BARD
