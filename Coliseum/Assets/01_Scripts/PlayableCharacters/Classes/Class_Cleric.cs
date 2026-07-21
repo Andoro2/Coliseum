@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Netcode;
 
 public class Class_Cleric : MonoBehaviour
 {
@@ -12,6 +13,12 @@ public class Class_Cleric : MonoBehaviour
     public bool m_PassiveLevel12 = false;
     public bool m_PassiveLevel16 = false;
     public bool m_PassiveLevel20 = false;
+
+    [Header("Pasiva nivel 4:")]
+    public GameObject m_RadiantAoEPrefab;
+
+    [Header("Pasiva nivel 8:")]
+    public float m_DropChance = 0.1f;
 
     [Header("Pasiva nivel 20:")]
     public bool m_ClericRevive = false;
@@ -35,33 +42,55 @@ public class Class_Cleric : MonoBehaviour
     {
         if (newLevel >= 4 && !m_PassiveLevel4)
         {
+            m_PlayerStats.m_AreaAttackPrefabs.Add(m_RadiantAoEPrefab);
+
             m_PassiveLevel4 = true;
         }
         if (newLevel >= 8 && !m_PassiveLevel8)
         {
+            EnemyStats.OnAnyEnemyDeath += OnEnemyDeath;
+
             m_PassiveLevel8 = true;
         }
         if (newLevel >= 12 && !m_PassiveLevel12)
         {
             m_PassiveLevel12 = true;
+            m_DropChance += 0.1f;
         }
         if (newLevel >= 16 && !m_PassiveLevel16)
         {
             m_PassiveLevel16 = true;
+            m_DropChance += 0.1f;
         }
         if (newLevel >= 20 && !m_PassiveLevel20)
         {
             ClericReliveSwitch();
 
             m_PassiveLevel20 = true;
+            m_DropChance += 0.1f;
 
             m_PlayerStats.OnLevelUp -= OnLevelUp;
         }
+    }
+
+    // level 8
+    private void OnEnemyDeath(Vector3 position, EnemyStats.Killer source, ulong attackerClientId)
+    {
+        if (source != EnemyStats.Killer.Player) return;
+        if (attackerClientId != m_PlayerStats.OwnerClientId) return;
+        if (Random.value >= m_DropChance) return;
+
+        m_PlayerStats.transform.parent.GetComponent<PlayerController>().SpawnObjectServerRpc(position, PlayerStats.SpawnableObject.ClericHealItem);
     }
 
     public void ClericReliveSwitch()
     {
         if (m_ClericRevive) m_ClericRevive = false;
         else m_ClericRevive = true;
+    }
+
+    private void OnDestroy()
+    {
+        EnemyStats.OnAnyEnemyDeath -= OnEnemyDeath;
     }
 }

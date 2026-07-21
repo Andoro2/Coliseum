@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
-using Unity.Netcode;
+using static PlayerStats;
 
 public class PlayerStats : NetworkBehaviour
 {
@@ -225,6 +226,7 @@ public class PlayerStats : NetworkBehaviour
 
     private PlayerController PC;
     public GameObject DamageText;
+
     public override void OnNetworkSpawn()
     {
         if (IsServer)
@@ -233,11 +235,17 @@ public class PlayerStats : NetworkBehaviour
         }
 
         m_CurrentHealth.OnValueChanged += (oldValue, newValue) => {
-            m_HealthSlider.value = newValue;
-            m_HPCurrent.text = Mathf.CeilToInt(newValue).ToString();
+            if (m_HealthSlider != null) m_HealthSlider.value = newValue;
+            if (m_HPCurrent != null) m_HPCurrent.text = Mathf.CeilToInt(newValue).ToString();
         };
 
         // Aquí pones el resto de tu lógica de inicialización de UI que tenías en Start
+    }
+     private void Awake()
+    {
+        m_Level = 1;
+        if (m_LevelsArray != null && m_LevelsArray.Count > 1)
+            m_MaxHealth = m_LevelsArray[m_Level].m_MaxHealth;
     }
     private void Start()
     {
@@ -246,10 +254,15 @@ public class PlayerStats : NetworkBehaviour
         PC.AbilityEUsed += AbilityE;
         PC.UltimateUsed += Ultimate;
 
+        m_Level = 1;
+        m_MaxHealth = m_LevelsArray[m_Level].m_MaxHealth;
+
         foreach (DynamicDamageSource source in System.Enum.GetValues(typeof(DynamicDamageSource)))
             m_DynamicDamageBonus[source] = 0f;
         foreach (DynamicLifeRegenSource source in System.Enum.GetValues(typeof(DynamicLifeRegenSource)))
             m_DynamicLifeRegenBonus[source] = 0f;
+        foreach (SpawnableEntry entry in m_SpawnableList)
+            m_SpawnablePrefabs[entry.Key] = entry.Prefab;
 
         // UI — misma lógica que tenías en PlayerController
         GameObject fightingUI = GameObject.FindWithTag("UICanvas").transform.GetChild(0).GetChild(0).gameObject;
@@ -369,7 +382,7 @@ public class PlayerStats : NetworkBehaviour
         */
     }
 
-    [ServerRpc]
+    [ServerRpc(RequireOwnership = false)]
     public void HealServerRpc(float amount)
     {
         m_CurrentHealth.Value = Mathf.Min(m_CurrentHealth.Value + amount, m_MaxHealth);
@@ -509,6 +522,30 @@ public class PlayerStats : NetworkBehaviour
 
     }
     public void SetBonusCD(float CD) => m_CD += CD;
+
+    // drops on enemykill
+    public enum SpawnableObject
+    {
+        ClericHealItem,
+    }
+    public Dictionary<SpawnableObject, GameObject> m_SpawnablePrefabs = new Dictionary<SpawnableObject, GameObject>();
+
+    [System.Serializable]
+    public class SpawnableEntry
+    {
+        public SpawnableObject Key;
+        public GameObject Prefab;
+    }
+
+    public List<SpawnableEntry> m_SpawnableList = new List<SpawnableEntry>();
+
+    [ServerRpc(RequireOwnership = false)]
+    public void SpawnObjectServerRpc(Vector3 position, SpawnableObject objectType)
+    {
+        if (!m_SpawnablePrefabs.ContainsKey(objectType)) return;
+        GameObject item = Instantiate(m_SpawnablePrefabs[objectType], position, Quaternion.identity);
+        item.GetComponent<NetworkObject>().Spawn();
+    }
 
     // -------------------------------------------------------------------------
     // Ajustes de estadísticas por clase

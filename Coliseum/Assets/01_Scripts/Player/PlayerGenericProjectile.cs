@@ -60,6 +60,7 @@ public class PlayerGenericProjectile : MonoBehaviour
     {
         if (other.CompareTag("Enemy"))
         {
+            Debug.Log("DMG");
             //Collider[] hits = Physics.OverlapSphere(transform.position, m_AttackRange * 0.5f);
 
             // foreach (Collider hit in hits)            {
@@ -75,7 +76,6 @@ public class PlayerGenericProjectile : MonoBehaviour
 
             if (m_BardDoubleHit)
             {
-                Debug.Log("Bard double hit");
                 other.GetComponent<EnemyStats>().TakeDamageServerRpc(
                     m_Damage,
                     elements,

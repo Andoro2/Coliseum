@@ -5109,7 +5109,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7990890279652666815}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
@@ -5143,6 +5143,7 @@ MonoBehaviour:
   m_DamageMultiplier: 1
   m_CriticChance: 0.1
   m_CriticExtra: 1.5
+  m_AreaAttackPrefabs: []
   m_Armor: 0
   m_CriticResistance: 0
   m_LifeRegen: 0
@@ -5226,6 +5227,7 @@ MonoBehaviour:
   m_Ki: 0
   m_Magic: 0
   DamageText: {fileID: 0}
+  m_SpawnableList: []
 --- !u!1001 &5332470017983993008
 PrefabInstance:
   m_ObjectHideFlags: 0

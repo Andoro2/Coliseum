@@ -153,6 +153,9 @@ public class GameManager : NetworkBehaviour
     private void Awake()
     {
         Instance = this;
+
+        foreach (ClassEnum clase in System.Enum.GetValues(typeof(ClassEnum)))
+            m_PresentClasses[clase] = false;
     }
 
     public override void OnNetworkSpawn()

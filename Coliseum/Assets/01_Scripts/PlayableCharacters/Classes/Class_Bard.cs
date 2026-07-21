@@ -5,7 +5,7 @@ using Unity.Netcode;
 using UnityEngine;
 using static UnityEditor.Rendering.FilterWindow;
 
-public class Class_Bard : NetworkBehaviour
+public class Class_Bard : MonoBehaviour
 {
     private PlayerStats m_PlayerStats;
 

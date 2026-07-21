@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5486442201781786819}
   - component: {fileID: 4806153755704111215}
   m_Layer: 0
-  m_Name: HexAreaDamage
+  m_Name: AoE_ClericL12Heal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

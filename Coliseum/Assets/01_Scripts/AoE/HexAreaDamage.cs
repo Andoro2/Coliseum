@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Rendering;
 
 public class HexAreaDamage : MonoBehaviour
 {
-    public bool m_AllyDamage = true; // true = daño a enemigos | false = daño a aliados
+    public bool m_TargetEnemy = true; // true = daño a enemigos | false = daño a aliados
 
     [System.Serializable]
     public class AreaElement
@@ -33,7 +34,7 @@ public class HexAreaDamage : MonoBehaviour
 
         ApplyHexDamage();
 
-        Destroy(gameObject, m_Lifetime);
+        GetComponent<NetworkObject>().Despawn();
     }
 
     private void ApplyHexDamage()
@@ -50,7 +51,7 @@ public class HexAreaDamage : MonoBehaviour
 
             foreach (Collider col in colliders)
             {
-                string tag = m_AllyDamage ? "Enemy" : "Player"; // si es daño aliado, tag = enemy, si es daño enemigo, tag = player
+                string tag = m_TargetEnemy ? "Enemy" : "Player"; // si es daño aliado, tag = enemy, si es daño enemigo, tag = player
 
                 if (!col.CompareTag(tag)) continue;
                 if (alreadyHit.Contains(col.gameObject)) continue;
@@ -61,7 +62,7 @@ public class HexAreaDamage : MonoBehaviour
                 for (int j = 0; j < m_Elements.Count; j++)
                     elements[j] = new ElementDamage { Element = m_Elements[j].Element, Percentage = m_Elements[j].Percentage };
 
-                if (m_AllyDamage)
+                if (m_TargetEnemy)
                 {
                     col.GetComponentInParent<EnemyStats>().TakeDamageServerRpc(
                         m_Damage,

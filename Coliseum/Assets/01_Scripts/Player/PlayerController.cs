@@ -203,6 +203,15 @@ public class PlayerController : NetworkBehaviour
             //ObtainExp(10f);
             GetComponentInChildren<PlayerStats>().ObtainExp(50f);
         }
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            ElementDamage[] testDamage = new ElementDamage[]
+            {
+            new ElementDamage { Element = WorldElements.Null, Percentage = 1f }
+            };
+
+            GetComponentInChildren<PlayerStats>().TakeDamageServerRpc(10f, testDamage, false, 1.5f);
+        }
 
         if (m_MainCam.transform.parent.GetComponent<CameraFollow>().FollowPlayer)
         {
@@ -374,6 +383,15 @@ public class PlayerController : NetworkBehaviour
             m_RespawnFromFall = other.transform;
         }
     }*/
+
+    [ServerRpc(RequireOwnership = false)]
+    public void SpawnObjectServerRpc(Vector3 position, PlayerStats.SpawnableObject objectType)
+    {
+        PlayerStats ps = GetComponentInChildren<PlayerStats>();
+        if (!ps.m_SpawnablePrefabs.ContainsKey(objectType)) return;
+        GameObject item = Instantiate(ps.m_SpawnablePrefabs[objectType], position, Quaternion.identity);
+        item.GetComponent<NetworkObject>().Spawn();
+    }
 
     #region Level managing
     /*

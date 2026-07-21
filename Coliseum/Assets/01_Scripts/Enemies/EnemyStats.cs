@@ -141,6 +141,8 @@ public class EnemyStats : NetworkBehaviour
     public event System.Action<Killer, ulong> OnDeath;
     public event System.Action<float, WorldElements> OnDamageTaken;
     //public event System.Action<float> OnHealthChanged;
+    public static event System.Action<Vector3, EnemyStats.Killer, ulong> OnAnyEnemyDeath;
+
 
     public GameObject DamageText;
     public override void OnNetworkSpawn()
@@ -186,6 +188,8 @@ public class EnemyStats : NetworkBehaviour
 
         foreach (ElementDamage ed in attackElements)
         {
+            if (m_CurrentHealth.Value <= 0) break;
+
             float resistance = CheckDamageResistance(ed.Element);
             float initialDmg;
             //float elementDmg;
@@ -247,12 +251,26 @@ public class EnemyStats : NetworkBehaviour
         */
     }
 
+    private bool m_IsDead = false;
     public void Die(Killer source, ulong attackerClientId)
     {
+        //pot ser a vegades s'invoque molt ràpid i de duplique d'alguna forma, es per a evitar-ho
+        if (m_IsDead) return;
+        m_IsDead = true;
+
         OnDeath?.Invoke(source, attackerClientId);
-        if(m_EnemyClass == EnemyClasses.Elite || m_EnemyClass == EnemyClasses.RoundBoss)
-        NotifyDeathClientRpc(source, attackerClientId, m_EnemyClass);
+        NotifyAnyDeathClientRpc(transform.position, source, attackerClientId);
+
+        if (m_EnemyClass == EnemyClasses.Elite || m_EnemyClass == EnemyClasses.RoundBoss)
+            NotifyDeathClientRpc(source, attackerClientId, m_EnemyClass);
+
         GetComponent<NetworkObject>().Despawn();
+    }
+
+    [ClientRpc]
+    private void NotifyAnyDeathClientRpc(Vector3 position, Killer source, ulong attackerClientId)
+    {
+        OnAnyEnemyDeath?.Invoke(position, source, attackerClientId);
     }
 
     // detectar info del eliminador
