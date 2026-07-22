@@ -108,7 +108,7 @@ public class AreaElementDamage : MonoBehaviour
             }
             if(thing.CompareTag("Player"))
             {
-                thing.GetComponentInChildren<PlayerStats>().HealServerRpc(m_HealValue);
+                thing.GetComponent<PlayerController>().HealServerRpc(m_HealValue);
             }
         }
     }

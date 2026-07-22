@@ -241,7 +241,7 @@ public class PlayerStats : NetworkBehaviour
 
         // Aquí pones el resto de tu lógica de inicialización de UI que tenías en Start
     }
-     private void Awake()
+    private void Awake()
     {
         m_Level = 1;
         if (m_LevelsArray != null && m_LevelsArray.Count > 1)
@@ -314,8 +314,7 @@ public class PlayerStats : NetworkBehaviour
     // Daño y curación
     // -------------------------------------------------------------------------
 
-    [ServerRpc(RequireOwnership = false)]
-    public void TakeDamageServerRpc(float damage, ElementDamage[] attackElements, bool isCrit, float critExtra, ulong attackerClientId = 0)
+    public void TakeDamage(float damage, ElementDamage[] attackElements, bool isCrit, float critExtra)
     {
         if (attackElements == null || attackElements.Length == 0)
             attackElements = new ElementDamage[] { new ElementDamage { Element = WorldElements.Null, Percentage = 1f } };
@@ -382,8 +381,7 @@ public class PlayerStats : NetworkBehaviour
         */
     }
 
-    [ServerRpc(RequireOwnership = false)]
-    public void HealServerRpc(float amount)
+    public void Heal(float amount)
     {
         m_CurrentHealth.Value = Mathf.Min(m_CurrentHealth.Value + amount, m_MaxHealth);
     }
@@ -397,7 +395,7 @@ public class PlayerStats : NetworkBehaviour
         {
             if (GetComponent<Class_Cleric>().m_ClericRevive)
             {
-                HealServerRpc(m_MaxHealth/2);
+                GetComponentInParent<PlayerController>().HealServerRpc(m_MaxHealth/2);
                 GetComponent<Class_Cleric>().ClericReliveSwitch();
             }
         }
@@ -526,7 +524,8 @@ public class PlayerStats : NetworkBehaviour
     // drops on enemykill
     public enum SpawnableObject
     {
-        ClericHealItem,
+        ClericAreaL4,
+        ClericHealL8,
     }
     public Dictionary<SpawnableObject, GameObject> m_SpawnablePrefabs = new Dictionary<SpawnableObject, GameObject>();
 

@@ -4,7 +4,7 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Rendering;
 
-public class HexAreaDamage : MonoBehaviour
+public class HexAreaDamageOverTime : MonoBehaviour
 {
     public bool m_TargetEnemy = true; // true = daño a enemigos | false = daño a aliados
 
@@ -75,12 +75,11 @@ public class HexAreaDamage : MonoBehaviour
                 }
                 else
                 {
-                    col.GetComponentInParent<PlayerStats>().TakeDamageServerRpc(
+                    col.GetComponentInParent<PlayerController>().TakeDamageServerRpc(
                         m_Damage,
                         elements,
                         m_IsCrit,
-                        m_CritExtra,
-                        m_AttackerClientId
+                        m_CritExtra
                     );
                 }
             }

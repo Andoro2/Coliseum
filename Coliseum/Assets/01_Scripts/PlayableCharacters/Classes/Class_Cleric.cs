@@ -14,9 +14,6 @@ public class Class_Cleric : MonoBehaviour
     public bool m_PassiveLevel16 = false;
     public bool m_PassiveLevel20 = false;
 
-    [Header("Pasiva nivel 4:")]
-    public GameObject m_RadiantAoEPrefab;
-
     [Header("Pasiva nivel 8:")]
     public float m_DropChance = 0.1f;
 
@@ -42,7 +39,7 @@ public class Class_Cleric : MonoBehaviour
     {
         if (newLevel >= 4 && !m_PassiveLevel4)
         {
-            m_PlayerStats.m_AreaAttackPrefabs.Add(m_RadiantAoEPrefab);
+            GetComponentInChildren<AutoAttack>().OnAttack += SpawnRadiantArea;
 
             m_PassiveLevel4 = true;
         }
@@ -73,6 +70,14 @@ public class Class_Cleric : MonoBehaviour
         }
     }
 
+    // level 4
+    private void SpawnRadiantArea()
+    {
+        Vector3 spawnPos = m_PlayerStats.transform.position + m_PlayerStats.transform.forward * 2f;
+        m_PlayerStats.transform.parent.GetComponent<PlayerController>()
+            .SpawnObjectServerRpc(spawnPos, PlayerStats.SpawnableObject.ClericAreaL4);
+    }
+
     // level 8
     private void OnEnemyDeath(Vector3 position, EnemyStats.Killer source, ulong attackerClientId)
     {
@@ -80,7 +85,7 @@ public class Class_Cleric : MonoBehaviour
         if (attackerClientId != m_PlayerStats.OwnerClientId) return;
         if (Random.value >= m_DropChance) return;
 
-        m_PlayerStats.transform.parent.GetComponent<PlayerController>().SpawnObjectServerRpc(position, PlayerStats.SpawnableObject.ClericHealItem);
+        m_PlayerStats.transform.parent.GetComponent<PlayerController>().SpawnObjectServerRpc(position, PlayerStats.SpawnableObject.ClericHealL8);
     }
 
     public void ClericReliveSwitch()

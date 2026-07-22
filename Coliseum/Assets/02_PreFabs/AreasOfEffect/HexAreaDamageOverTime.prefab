@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5486442201781786819}
   - component: {fileID: 4806153755704111215}
   m_Layer: 0
-  m_Name: HexAreaDamage
+  m_Name: HexAreaDamageOverTime
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -42,7 +42,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2935206265883907237}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 61078009b0470f44e9e712c3314e7d9b, type: 3}
+  m_Script: {fileID: 11500000, guid: f2e6ba8114c4e654fb7215b0bc7b5b1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_TargetEnemy: 1

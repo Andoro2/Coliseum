@@ -203,6 +203,7 @@ public class PlayerController : NetworkBehaviour
             //ObtainExp(10f);
             GetComponentInChildren<PlayerStats>().ObtainExp(50f);
         }
+        /*
         if (Input.GetKeyDown(KeyCode.C))
         {
             ElementDamage[] testDamage = new ElementDamage[]
@@ -210,8 +211,9 @@ public class PlayerController : NetworkBehaviour
             new ElementDamage { Element = WorldElements.Null, Percentage = 1f }
             };
 
-            GetComponentInChildren<PlayerStats>().TakeDamageServerRpc(10f, testDamage, false, 1.5f);
+            GetComponentInChildren<PlayerStats>().TakeDamage(10f, testDamage, false, 1.5f);
         }
+        */
 
         if (m_MainCam.transform.parent.GetComponent<CameraFollow>().FollowPlayer)
         {
@@ -391,6 +393,17 @@ public class PlayerController : NetworkBehaviour
         if (!ps.m_SpawnablePrefabs.ContainsKey(objectType)) return;
         GameObject item = Instantiate(ps.m_SpawnablePrefabs[objectType], position, Quaternion.identity);
         item.GetComponent<NetworkObject>().Spawn();
+    }
+    [ServerRpc(RequireOwnership = false)]
+    public void TakeDamageServerRpc(float damage, ElementDamage[] elements, bool isCrit, float critExtra)
+    {
+        GetComponentInChildren<PlayerStats>().TakeDamage(damage, elements, isCrit, critExtra);
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void HealServerRpc(float amount)
+    {
+        GetComponentInChildren<PlayerStats>().Heal(amount);
     }
 
     #region Level managing

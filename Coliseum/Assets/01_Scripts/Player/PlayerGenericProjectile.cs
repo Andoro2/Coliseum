@@ -90,7 +90,7 @@ public class PlayerGenericProjectile : MonoBehaviour
             {
                 if (areaPrefab == null) continue;
                 GameObject area = Instantiate(areaPrefab, transform.position, Quaternion.identity);
-                area.GetComponent<HexAreaDamage>().Initialize(
+                area.GetComponent<HexAreaDamageOverTime>().Initialize(
                     m_Damage,
                     m_IsCrit,
                     m_CritExtra,

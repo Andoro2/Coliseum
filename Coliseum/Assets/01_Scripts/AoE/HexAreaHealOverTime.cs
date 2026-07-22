@@ -13,11 +13,21 @@ public class HexAreaHealOverTime : MonoBehaviour
         m_CurationInterval = 0.5f,
         m_AreaSize = 1f;
     // Start is called before the first frame update
-    void Start()
+
+    public bool m_Permanent = false;
+    public float m_LifeTime;
+
+    public void Start()
     {
         InvokeRepeating("HealArea", 0f, m_CurationInterval);
-        Invoke("Despawn", m_Lifetime);
+
+        if (!m_Permanent) Invoke(nameof(Despawn), m_LifeTime);
     }
+    public void Despawn()
+    {
+        GetComponent<NetworkObject>().Despawn();
+    }
+
 
     public void HealArea()
     {
@@ -38,7 +48,7 @@ public class HexAreaHealOverTime : MonoBehaviour
 
                 if (m_HealAllies)
                 {
-                    col.GetComponentInParent<PlayerStats>().HealServerRpc(
+                    col.GetComponent<PlayerController>().HealServerRpc(
                         col.GetComponentInParent<PlayerStats>().m_MaxHealth * m_HealPercent
                     );
                 }
@@ -56,10 +66,5 @@ public class HexAreaHealOverTime : MonoBehaviour
                 }
             }
         }
-    }
-
-    public void Despawn()
-    {
-        GetComponent<NetworkObject>().Despawn();
     }
 }

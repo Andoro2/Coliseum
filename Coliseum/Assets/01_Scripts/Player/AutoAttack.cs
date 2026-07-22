@@ -112,16 +112,19 @@ public abstract class AutoAttack : MonoBehaviour
 
     protected void SpawnAreaDamage(Vector3 position, bool isCrit)
     {
+        if (PS == null) return;
+        if (PS.m_AreaAttackPrefabs == null || PS.m_AreaAttackPrefabs.Count == 0) return;
+
         foreach (GameObject areaPrefab in PS.m_AreaAttackPrefabs)
         {
             if (areaPrefab == null) continue;
             GameObject area = Instantiate(areaPrefab, position, Quaternion.identity);
-            area.GetComponent<HexAreaDamage>().Initialize(
+            /*area.GetComponent<HexAreaDamageOnContact>().Initialize(
                 PS.m_Damage * PS.m_DamageMultiplier,
                 isCrit,
                 PS.m_CriticExtra,
                 NetworkManager.Singleton.LocalClientId
-            );
+            );*/
         }
 
     }
