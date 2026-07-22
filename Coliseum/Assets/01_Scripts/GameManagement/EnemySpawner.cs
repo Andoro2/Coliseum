@@ -1,11 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Unity.Netcode;
 using System.Linq;
 using static HexPathCreator;
 
-public class EnemySpawner : NetworkBehaviour
+public class EnemySpawner : MonoBehaviour
 {
     #region EnemySpawn 
     public List<PathSpawn> m_PathSpawns = new List<PathSpawn>();
@@ -24,11 +23,10 @@ public class EnemySpawner : NetworkBehaviour
         m_StaticPathSpawns = m_PathSpawns;
         if (Input.GetKeyDown(KeyCode.M))
         {
-            if (m_PathSpawns.Count > 0) SpawnEnemyServerRpc();
+            if (m_PathSpawns.Count > 0) SpawnEnemy();
         }
     }
-    [ServerRpc(RequireOwnership = false)]
-    private void SpawnEnemyServerRpc()
+    private void SpawnEnemy()
     {
         for (int p = 0; p < m_PathSpawns.Count; p++)
         {
@@ -36,9 +34,9 @@ public class EnemySpawner : NetworkBehaviour
             enemy.GetComponent<EnemyMovement>().AssignPath(m_PathSpawns[p].m_PathSpawnPoint);
 
 
-            NetworkObject EnemyNetworkObject = enemy.GetComponent<NetworkObject>();
-            EnemyNetworkObject.Spawn(true);
-            EnemyNetworkObject.GetComponent<EnemyMovement>().AssignPathClientRpc(p);
+            //NetworkObject EnemyNetworkObject = enemy.GetComponent<NetworkObject>();
+            //EnemyNetworkObject.Spawn(true);
+            //EnemyNetworkObject.GetComponent<EnemyMovement>().AssignPathClientRpc(p);
 
         }
 
@@ -118,10 +116,6 @@ public class EnemySpawner : NetworkBehaviour
         Earth,
         Blood,
         Lightning
-    }
-    public static class Type
-    {
-        public static Types Element = Types.Normal;
     }
 
     public enum States

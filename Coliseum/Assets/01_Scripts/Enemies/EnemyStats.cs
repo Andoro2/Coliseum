@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.Netcode;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UI;
+using static EnemyStats;
 using static UnityEngine.GraphicsBuffer;
 
-public class EnemyStats : NetworkBehaviour
+public class EnemyStats : MonoBehaviour
 {
     public enum EnemyClasses
     {
@@ -18,12 +19,29 @@ public class EnemyStats : NetworkBehaviour
     }
     public EnemyClasses m_EnemyClass;
 
+    public enum EnemyTypes
+    {
+        Aberration,
+        Beast,
+        Celestial,
+        Construct,
+        Dragon,
+        Elemental,
+        Fey,
+        Fiend,
+        Giant,
+        Humanoid,
+        Monstrosity,
+        Ooze,
+        Plant,
+        Undead
+    }
+    public List<EnemyTypes> m_EnemyTypeList = new List<EnemyTypes>();
+
     // --- Vida ---
     [Header("Vida")]
-    public float m_MaxHealth;
-    public NetworkVariable<float> m_CurrentHealth = new NetworkVariable<float>(
-        0f, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server
-    );
+    public float m_MaxHealth,
+        m_CurrentHealth;
 
     // --- Movimiento ---
     [Header("Movimiento")]
@@ -145,12 +163,7 @@ public class EnemyStats : NetworkBehaviour
 
 
     public GameObject DamageText;
-    public override void OnNetworkSpawn()
-    {
         //m_CurrentHealth.OnValueChanged += OnHealthChanged;
-
-        if (IsServer)
-            m_CurrentHealth.Value = m_MaxHealth;
         
         // m_HPCurrent = fightingUI.transform.GetChild(3).GetChild(0).GetComponent<TMP_Text>();
         // m_HPMax = fightingUI.transform.GetChild(3).GetChild(1).GetComponent<TMP_Text>();
@@ -160,26 +173,28 @@ public class EnemyStats : NetworkBehaviour
 
         // m_HPCurrent.text = m_CurrentHealth.ToString();
         // m_HPMax.text = "/" + m_MaxHealth;
+    
+    private void Start()
+    {
+        m_CurrentHealth = m_MaxHealth;
     }
 
     private void Update()
     {
-        if(!IsServer) return;
 
         // m_HealthSlider.value = m_CurrentHealth;
         // m_HPCurrent.text = m_CurrentHealth.ToString();
 
-        if (Input.GetKeyDown(KeyCode.L))
+        /*if (Input.GetKeyDown(KeyCode.L))
         {
-            //TakeDamageServerRpc(5f, 0.5f, WorldElements.Null, Killer.Player, NetworkManager.Singleton.LocalClientId);
-        }
+            TakeDamage(5f, 0.5f, WorldElements.Null, Killer.Player, NetworkManager.Singleton.LocalClientId);
+        }*/
     }
 
     // -------------------------------------------------------------------------
     // Recibir daño
     // -------------------------------------------------------------------------
-    [ServerRpc(RequireOwnership = false)]
-    public void TakeDamageServerRpc(float damage, ElementDamage[] attackElements, bool isCrit, float critExtra, Killer source, ulong attackerClientId = 0)
+    public void TakeDamage(float damage, ElementDamage[] attackElements, bool isCrit, float critExtra, Killer source, ulong attackerClientId = 0)
     {
         if (attackElements == null || attackElements.Length == 0)
             attackElements = new ElementDamage[] { new ElementDamage { Element = WorldElements.Null, Percentage = 1f } };
@@ -188,7 +203,7 @@ public class EnemyStats : NetworkBehaviour
 
         foreach (ElementDamage ed in attackElements)
         {
-            if (m_CurrentHealth.Value <= 0) break;
+            if (m_CurrentHealth <= 0) break;
 
             float resistance = CheckDamageResistance(ed.Element);
             float initialDmg;
@@ -209,11 +224,11 @@ public class EnemyStats : NetworkBehaviour
 
             if (remainingDmg > 0)
             {
-                m_CurrentHealth.Value = Mathf.Max(0f, m_CurrentHealth.Value - remainingDmg);
+                m_CurrentHealth = Mathf.Max(0f, m_CurrentHealth - remainingDmg);
 
                 OnDamageTaken?.Invoke(remainingDmg, ed.Element);
 
-                ShowDamageTextClientRpc(remainingDmg, ed, isCrit);
+                ShowDamageText(remainingDmg, ed, isCrit);
                 /*
                 GameObject damageText = Instantiate(DamageText, transform.position, transform.rotation);
 
@@ -225,11 +240,17 @@ public class EnemyStats : NetworkBehaviour
             }
         }
 
-        if (m_CurrentHealth.Value <= 0) Die(source, attackerClientId);
+        // cleric level 12
+        /*if (Player)
+        {
+            Class_Cleric isCleric = PlayerController.LocalInstance.GetComponentInChildren<Class_Cleric>();
+            if (isCleric != null) if(m_EnemyTypeList.Contains(EnemyTypes.Undead) && isCleric.m_PassiveLevel12) Die(source, attackerClientId);
+        }*/
+
+        if (m_CurrentHealth <= 0) Die(source, attackerClientId);
     }
 
-    [ClientRpc]
-    private void ShowDamageTextClientRpc(float damageAmount, ElementDamage element, bool isCrit)
+    private void ShowDamageText(float damageAmount, ElementDamage element, bool isCrit)
     {
         Vector3 spawnOffset = new Vector3(
             Random.Range(-0.5f, 0.5f),
@@ -259,30 +280,26 @@ public class EnemyStats : NetworkBehaviour
         m_IsDead = true;
 
         OnDeath?.Invoke(source, attackerClientId);
-        NotifyAnyDeathClientRpc(transform.position, source, attackerClientId);
+        NotifyAnyDeath(transform.position, source, attackerClientId);
 
         if (m_EnemyClass == EnemyClasses.Elite || m_EnemyClass == EnemyClasses.RoundBoss)
-            NotifyDeathClientRpc(source, attackerClientId, m_EnemyClass);
+            NotifyDeath(source, attackerClientId, m_EnemyClass);
 
-        GetComponent<NetworkObject>().Despawn();
+        Destroy(gameObject);
     }
 
-    [ClientRpc]
-    private void NotifyAnyDeathClientRpc(Vector3 position, Killer source, ulong attackerClientId)
+    private void NotifyAnyDeath(Vector3 position, Killer source, ulong attackerClientId)
     {
         OnAnyEnemyDeath?.Invoke(position, source, attackerClientId);
     }
 
     // detectar info del eliminador
-    [ClientRpc]
-    private void NotifyDeathClientRpc(Killer source, ulong attackerClientId, EnemyClasses enemyClass)
+    private void NotifyDeath(Killer source, ulong attackerClientId, EnemyClasses enemyClass)
     {
         if (source != Killer.Player) return;
-        if (NetworkManager.Singleton.LocalClientId != attackerClientId) return;
 
-        Class_Bard isBard = PlayerController.LocalInstance.GetComponentInChildren<Class_Bard>();
-        if (isBard != null)
-            isBard.LegendBuff(true, enemyClass);
+        Class_Bard isBard = GameObject.FindWithTag("Player").gameObject.transform.GetComponentInChildren<Class_Bard>(); //PlayerController.GetComponentInChildren<Class_Bard>();
+        if (isBard) isBard.LegendBuff(true, enemyClass);
     }
 
     // -------------------------------------------------------------------------
@@ -293,7 +310,7 @@ public class EnemyStats : NetworkBehaviour
     {
         m_HealthBonusPercent += percent;
         m_MaxHealth = m_MaxHealth * (1f + m_HealthBonusPercent);
-        m_CurrentHealth.Value = Mathf.Min(m_CurrentHealth.Value, m_MaxHealth);
+        m_CurrentHealth = Mathf.Min(m_CurrentHealth, m_MaxHealth);
         // m_HealthSlider.maxValue = m_MaxHealth;
     }
 

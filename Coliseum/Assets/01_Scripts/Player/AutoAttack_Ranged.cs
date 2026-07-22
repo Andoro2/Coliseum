@@ -6,7 +6,7 @@ using Unity.Netcode;
 public class AutoAttack_Ranged : AutoAttack
 {
     public GameObject m_ProjectilePrefab;
-   
+
     // Start is called before the first frame update
     protected override void Start()
     {
@@ -32,12 +32,10 @@ public class AutoAttack_Ranged : AutoAttack
         isCrit,
         PS.m_CriticExtra,
         PS.m_AreaAttackPrefabs,
-        PS.m_DamageMultiplier,
-        NetworkManager.Singleton.LocalClientId
+        PS.m_DamageMultiplier
         );
 
         if (m_BardDoubleHit) projectile.GetComponent<PlayerGenericProjectile>().BardDoubleHit();
     }
 
-    //[ServerRpc(RequireOwnership = false)]]
 }

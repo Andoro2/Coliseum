@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
 
+
 public class AutoAttack_Melee : AutoAttack
 {
     public float m_ElementalPercent;
@@ -21,7 +22,7 @@ public class AutoAttack_Melee : AutoAttack
         m_Anim.SetTrigger("AttackMelee");
         Collider[] hits = Physics.OverlapSphere(PC.transform.position + PC.transform.forward * (m_AttackRange * 0.5f), m_AttackRange * 0.5f);
         /*
-        // --- transformar el diccionario de autoAttackElements a un array para que el Netcode pueda enviarlo --- //
+        // --- transformar el diccionario de autoAttackElements a un array --- //
         ElementDamage[] elements = new ElementDamage[PS.m_AutoAttackElements.Count + 1];
 
         int i = 0;
@@ -36,24 +37,22 @@ public class AutoAttack_Melee : AutoAttack
         foreach (Collider hit in hits)
         {
             if (!hit.CompareTag("Enemy")) continue;
-                hit.GetComponentInParent<EnemyStats>().TakeDamageServerRpc(
-                    PS.m_Damage * PS.m_DamageMultiplier,
-                    BuildElementArray(),
-                    isCrit,
-                    PS.m_CriticExtra,
-                    EnemyStats.Killer.Player,
-                    NetworkManager.Singleton.LocalClientId
-                );
-                if(m_BardDoubleHit)
-                        Debug.Log("Bard double hit");
-                    hit.GetComponentInParent<EnemyStats>().TakeDamageServerRpc(
-                        PS.m_Damage * PS.m_DamageMultiplier,
-                        BuildElementArray(),
-                        isCrit,
-                        PS.m_CriticExtra,
-                        EnemyStats.Killer.Player,
-                        NetworkManager.Singleton.LocalClientId
-                    );
+            hit.GetComponentInParent<EnemyStats>().TakeDamage(
+                PS.m_Damage * PS.m_DamageMultiplier,
+                BuildElementArray(),
+                isCrit,
+                PS.m_CriticExtra,
+                EnemyStats.Killer.Player
+            );
+            if (m_BardDoubleHit)
+                Debug.Log("Bard double hit");
+            hit.GetComponentInParent<EnemyStats>().TakeDamage(
+                PS.m_Damage * PS.m_DamageMultiplier,
+                BuildElementArray(),
+                isCrit,
+                PS.m_CriticExtra,
+                EnemyStats.Killer.Player
+            );
         }
 
         SpawnAreaDamage(PC.transform.position + PC.transform.forward * m_AttackRange * 0.5f, isCrit);

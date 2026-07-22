@@ -2,16 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Unity.Netcode;
 using UnityEngine.InputSystem;
 using TMPro;
 using Unity.VisualScripting;
 using static HexPathCreator;
 using UnityEngine.SceneManagement;
 
-public class PlayerController : NetworkBehaviour
+public class PlayerController : MonoBehaviour
 {
-    public static PlayerController LocalInstance { get; private set; }
     public enum PlayerStates { Fighting, Building }
     public PlayerStates m_State;
     private GameObject m_FightingUI, m_BuildingUI,
@@ -25,7 +23,7 @@ public class PlayerController : NetworkBehaviour
     public Transform m_AutoAimTarget;
 
     public bool isPC;
-    
+
     //dash
     public float dashSpeed = 15f, dashDuration = 0.2f;
     private bool isDashing = false;
@@ -35,7 +33,7 @@ public class PlayerController : NetworkBehaviour
     private TMP_Text m_InteractionTMP;
     private DetectInteraction DI;
 
-    public Vector3 m_RespawnFromFall = new Vector3(0,10f,0);
+    public Vector3 m_RespawnFromFall = new Vector3(0, 10f, 0);
 
     private Animator m_Anim;
 
@@ -46,57 +44,31 @@ public class PlayerController : NetworkBehaviour
     public event System.Action AbilityQUsed;
     public event System.Action AbilityEUsed;
     public event System.Action UltimateUsed;
-    public override void OnNetworkSpawn()
-    {
-        if (IsOwner)
-        {
-            LocalInstance = this;
-            GameObject.FindWithTag("GameController").GetComponent<GameManager>().SetLocalPlayerStats(GetComponentInChildren<PlayerStats>());
-        }
-
-        if((int)OwnerClientId > 5) transform.position = m_SpawanPositionList[5];
-
-        else transform.position = m_SpawanPositionList[HexGameMultiplayer.Instance.GetPlayerDataIndexFromClientID(OwnerClientId)];
-
-        if (IsServer)
-        {
-            NetworkManager.Singleton.OnClientDisconnectCallback += NetworkManager_OnClientDisconnectCallback;
-        }
-    }
-
-    private void NetworkManager_OnClientDisconnectCallback(ulong clientId)
-    {
-        Debug.Log(clientId + "has disconnected.");
-    }
 
     private void Awake()
-    {        
-       //m_MainCam = GameObject.FindWithTag("MainCamera").gameObject;
-       //m_MainCam.GetComponent<CameraFollow>().target = transform;
+    {
+        //m_MainCam = GameObject.FindWithTag("MainCamera").gameObject;
+        //m_MainCam.GetComponent<CameraFollow>().target = transform;
     }
     #region CONTROL
     public void OnMove(InputAction.CallbackContext context)
     {
-        if (!IsOwner) return;
-
+        m_PlayerMovement = context.ReadValue<Vector2>();
+    }
+    public void ToggleAutoAim(InputAction.CallbackContext context)
+    {
         m_PlayerMovement = context.ReadValue<Vector2>();
     }
     public void OnMouseLook(InputAction.CallbackContext context)
     {
-        if (!IsOwner) return;
-
         m_MouseLook = context.ReadValue<Vector2>();
     }
     public void OnJoystickLook(InputAction.CallbackContext context)
     {
-        if (!IsOwner) return;
-
         m_JoystickLook = context.ReadValue<Vector2>();
     }
     public void OnChangeMode(InputAction.CallbackContext context)
     {
-        if (!IsOwner) return;
-
         if (context.performed)
         {
             bool changeMode = context.ReadValueAsButton();
@@ -109,43 +81,29 @@ public class PlayerController : NetworkBehaviour
     }
     public void Dash(InputAction.CallbackContext context)
     {
-        if (!IsOwner) return;
-
         if (context.performed) StartCoroutine(DashCoroutine());
     }
     public void Interact(InputAction.CallbackContext context)
     {
-        if (!IsOwner) return;
-
         if (DI.m_Interact && context.performed) Interact();
     }
     public void AbilityQ(InputAction.CallbackContext context)
     {
-        if (!IsOwner) return;
-
         if (context.performed) UseAbilityQ();
     }
     public void AbilityE(InputAction.CallbackContext context)
     {
-        if (!IsOwner) return;
-
         if (context.performed) UseAbilityE();
     }
     public void Ultimate(InputAction.CallbackContext context)
     {
-        if (!IsOwner) return;
-
         if (context.performed) UseUltimate();
     }
     #endregion
     void Start()
     {
         // character visuals
-        PlayerData playerData = HexGameMultiplayer.Instance.GetPlayerDataFromClientID(OwnerClientId);
-        playerVisual.SetPlayerPJ(playerData.selectedPJID);
-
-        if (IsOwner) m_State = PlayerStates.Fighting;
-        else GetComponent<PlayerController>().enabled = false;
+        m_State = PlayerStates.Fighting;
 
         m_MainCam = GameObject.FindWithTag("MainCamera").gameObject;
         m_Anim = playerVisual.currentModel.transform.GetChild(0).transform.GetChild(0).transform.GetComponent<Animator>();
@@ -165,10 +123,10 @@ public class PlayerController : NetworkBehaviour
         //m_HealthSlider.value = m_CurrentHealth;
         //m_ExpSlider.value = m_CurrentExp;
         //m_HPCurrent.text = m_CurrentHealth.ToString();
-        
+
 
         #region Mode change
-        if (Input.GetKeyDown(KeyCode.Tab) && IsOwner)
+        if (Input.GetKeyDown(KeyCode.Tab))
         {
             if (m_State == PlayerStates.Building)
             {
@@ -217,8 +175,6 @@ public class PlayerController : NetworkBehaviour
 
         if (m_MainCam.transform.parent.GetComponent<CameraFollow>().FollowPlayer)
         {
-            if (!IsOwner) return;
-
             if (isPC)
             {
                 RaycastHit hit;
@@ -386,24 +342,11 @@ public class PlayerController : NetworkBehaviour
         }
     }*/
 
-    [ServerRpc(RequireOwnership = false)]
-    public void SpawnObjectServerRpc(Vector3 position, PlayerStats.SpawnableObject objectType)
+    public void SpawnObject(Vector3 position, PlayerStats.SpawnableObject objectType)
     {
         PlayerStats ps = GetComponentInChildren<PlayerStats>();
         if (!ps.m_SpawnablePrefabs.ContainsKey(objectType)) return;
         GameObject item = Instantiate(ps.m_SpawnablePrefabs[objectType], position, Quaternion.identity);
-        item.GetComponent<NetworkObject>().Spawn();
-    }
-    [ServerRpc(RequireOwnership = false)]
-    public void TakeDamageServerRpc(float damage, ElementDamage[] elements, bool isCrit, float critExtra)
-    {
-        GetComponentInChildren<PlayerStats>().TakeDamage(damage, elements, isCrit, critExtra);
-    }
-
-    [ServerRpc(RequireOwnership = false)]
-    public void HealServerRpc(float amount)
-    {
-        GetComponentInChildren<PlayerStats>().Heal(amount);
     }
 
     #region Level managing

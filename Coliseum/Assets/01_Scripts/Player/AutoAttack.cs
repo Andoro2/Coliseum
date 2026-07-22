@@ -35,7 +35,7 @@ public abstract class AutoAttack : MonoBehaviour
         m_AutoAimButton = GameObject.FindWithTag("UICanvas").gameObject.transform.GetChild(1).transform.GetChild(0).GetComponent<Button>(); ;
         m_AutoAimButton.onClick.AddListener(() =>
         {
-            PlayerController.LocalInstance.GetComponentInChildren<AutoAttack>().ToggleAutoAim();
+            ToggleAutoAim();
         });
     }
 
@@ -122,8 +122,7 @@ public abstract class AutoAttack : MonoBehaviour
             /*area.GetComponent<HexAreaDamageOnContact>().Initialize(
                 PS.m_Damage * PS.m_DamageMultiplier,
                 isCrit,
-                PS.m_CriticExtra,
-                NetworkManager.Singleton.LocalClientId
+                PS.m_CriticExtra
             );*/
         }
 

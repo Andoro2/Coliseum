@@ -75,17 +75,16 @@ public class Class_Cleric : MonoBehaviour
     {
         Vector3 spawnPos = m_PlayerStats.transform.position + m_PlayerStats.transform.forward * 2f;
         m_PlayerStats.transform.parent.GetComponent<PlayerController>()
-            .SpawnObjectServerRpc(spawnPos, PlayerStats.SpawnableObject.ClericAreaL4);
+            .SpawnObject(spawnPos, PlayerStats.SpawnableObject.ClericAreaL4);
     }
 
     // level 8
     private void OnEnemyDeath(Vector3 position, EnemyStats.Killer source, ulong attackerClientId)
     {
         if (source != EnemyStats.Killer.Player) return;
-        if (attackerClientId != m_PlayerStats.OwnerClientId) return;
         if (Random.value >= m_DropChance) return;
 
-        m_PlayerStats.transform.parent.GetComponent<PlayerController>().SpawnObjectServerRpc(position, PlayerStats.SpawnableObject.ClericHealL8);
+        m_PlayerStats.transform.parent.GetComponent<PlayerController>().SpawnObject(position, PlayerStats.SpawnableObject.ClericHealL8);
     }
 
     public void ClericReliveSwitch()

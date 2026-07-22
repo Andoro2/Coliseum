@@ -1,19 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 using static PlayerStats;
 
-public class PlayerStats : NetworkBehaviour
+public class PlayerStats : MonoBehaviour
 {
     // --- Vida ---
     [Header("Vida")]
     public float m_MaxHealth;
-    public NetworkVariable<float> m_CurrentHealth = new NetworkVariable<float>(
-        0f, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server
-    );
+    public float m_CurrentHealth;
 
     // --- Movimiento ---
     [Header("Movimiento")]
@@ -227,25 +224,13 @@ public class PlayerStats : NetworkBehaviour
     private PlayerController PC;
     public GameObject DamageText;
 
-    public override void OnNetworkSpawn()
-    {
-        if (IsServer)
-        {
-            m_CurrentHealth.Value = m_MaxHealth;
-        }
-
-        m_CurrentHealth.OnValueChanged += (oldValue, newValue) => {
-            if (m_HealthSlider != null) m_HealthSlider.value = newValue;
-            if (m_HPCurrent != null) m_HPCurrent.text = Mathf.CeilToInt(newValue).ToString();
-        };
-
-        // Aquí pones el resto de tu lógica de inicialización de UI que tenías en Start
-    }
     private void Awake()
     {
         m_Level = 1;
-        if (m_LevelsArray != null && m_LevelsArray.Count > 1)
+        if (m_LevelsArray != null && m_LevelsArray.Count >= 1) {
             m_MaxHealth = m_LevelsArray[m_Level].m_MaxHealth;
+            m_CurrentHealth = m_MaxHealth;
+        }
     }
     private void Start()
     {
@@ -284,11 +269,11 @@ public class PlayerStats : NetworkBehaviour
 
     private void Update()
     {
-        m_HealthSlider.value = m_CurrentHealth.Value;
+        m_HealthSlider.value = m_CurrentHealth;
         m_ExpSlider.value = m_CurrentExp;
         m_HPCurrent.text = m_CurrentHealth.ToString();
 
-        if (m_CurrentHealth.Value <= 0)
+        if (m_CurrentHealth <= 0)
             Die();
 
         if (Input.GetKeyDown(KeyCode.O))
@@ -337,11 +322,11 @@ public class PlayerStats : NetworkBehaviour
 
             if (remainingDmg > 0)
             {
-                m_CurrentHealth.Value = Mathf.Max(0f, m_CurrentHealth.Value - remainingDmg);
+                m_CurrentHealth = Mathf.Max(0f, m_CurrentHealth - remainingDmg);
 
                 //totalLifeDamage += remainingDmg;
 
-                ShowDamageTextClientRpc(remainingDmg, ed, isCrit);
+                ShowDamageText(remainingDmg, ed, isCrit);
                 /*
                 GameObject damageText = Instantiate(DamageText, transform.position, transform.rotation);
 
@@ -356,10 +341,9 @@ public class PlayerStats : NetworkBehaviour
         //totalLifeDamage = Mathf.Max(0f, totalLifeDamage - m_Armor); // REVISAR TEMA DE LA ARMADURA
 
 
-        if (m_CurrentHealth.Value <= 0) Die();
+        if (m_CurrentHealth <= 0) Die();
     }
-    [ClientRpc]
-    private void ShowDamageTextClientRpc(float damageAmount, ElementDamage element, bool isCrit)
+    private void ShowDamageText(float damageAmount, ElementDamage element, bool isCrit)
     {
         Vector3 spawnOffset = new Vector3(
             Random.Range(-0.5f, 0.5f),
@@ -383,7 +367,7 @@ public class PlayerStats : NetworkBehaviour
 
     public void Heal(float amount)
     {
-        m_CurrentHealth.Value = Mathf.Min(m_CurrentHealth.Value + amount, m_MaxHealth);
+        m_CurrentHealth = Mathf.Min(m_CurrentHealth + amount, m_MaxHealth);
     }
 
     private void Die()
@@ -391,13 +375,10 @@ public class PlayerStats : NetworkBehaviour
         // -------------------------------------------------------------------------
         // Revive level bard 20
         // -------------------------------------------------------------------------
-        if (GetComponent<Class_Cleric>() != null)
+        if (GetComponent<Class_Cleric>() && GetComponent<Class_Cleric>().m_ClericRevive)
         {
-            if (GetComponent<Class_Cleric>().m_ClericRevive)
-            {
-                GetComponentInParent<PlayerController>().HealServerRpc(m_MaxHealth/2);
-                GetComponent<Class_Cleric>().ClericReliveSwitch();
-            }
+            Heal(m_MaxHealth / 2);
+            GetComponent<Class_Cleric>().ClericReliveSwitch();
         }
         // Tu lógica de muerte aquí
     }
@@ -416,11 +397,11 @@ public class PlayerStats : NetworkBehaviour
         {
             m_Level++;
 
-            m_MaxHealth      = m_LevelsArray[m_Level].m_MaxHealth;
-            m_CurrentHealth.Value  = m_MaxHealth;
+            m_MaxHealth = m_LevelsArray[m_Level].m_MaxHealth;
+            m_CurrentHealth = m_MaxHealth;
 
             m_HealthSlider.maxValue = m_MaxHealth;
-            m_HealthSlider.value    = m_MaxHealth;
+            m_HealthSlider.value = m_MaxHealth;
 
             m_ExpSlider.minValue = m_LevelsArray[m_Level - 1].m_ExpToAdvance;
             m_ExpSlider.maxValue = m_LevelsArray[m_Level].m_ExpToAdvance;
@@ -439,7 +420,7 @@ public class PlayerStats : NetworkBehaviour
     {
         m_HealthBonusPercent += percent;
         m_MaxHealth = m_LevelsArray[m_Level].m_MaxHealth * (1f + m_HealthBonusPercent);
-        m_CurrentHealth.Value = Mathf.Min(m_CurrentHealth.Value, m_MaxHealth);
+        m_CurrentHealth = Mathf.Min(m_CurrentHealth, m_MaxHealth);
         m_HealthSlider.maxValue = m_MaxHealth;
     }
     public void ApplyDamageBonus(float percent)
@@ -451,14 +432,13 @@ public class PlayerStats : NetworkBehaviour
     {
         m_AttackSpeedBonusPercent += percent;
         //m_Speed = GetComponent<PlayerController>().m_Speed
-        m_AttackSpeedBonusPercent *= (1f + m_SpeedBonusPercent);
+        m_AttackSpeedBonusPercent *= (1f + m_AttackSpeedBonusPercent);
     }
     public void ApplySpeedBonus(float percent)
     {
         m_SpeedBonusPercent += percent;
         m_Speed = transform.parent.GetComponent<PlayerController>().m_Speed * (1f + m_SpeedBonusPercent);
     }
-
     public void ApplyExpBonus(float percent)
     {
         m_ExpBonusPercent += percent;
@@ -489,7 +469,7 @@ public class PlayerStats : NetworkBehaviour
     public void SetImmunity(StatusEffect effect, bool immune)
     {
         if (immune) m_Immunities.Add(effect);
-        else        m_Immunities.Remove(effect);
+        else m_Immunities.Remove(effect);
     }
 
     public bool IsImmuneTo(StatusEffect effect)
@@ -538,12 +518,10 @@ public class PlayerStats : NetworkBehaviour
 
     public List<SpawnableEntry> m_SpawnableList = new List<SpawnableEntry>();
 
-    [ServerRpc(RequireOwnership = false)]
-    public void SpawnObjectServerRpc(Vector3 position, SpawnableObject objectType)
+    public void SpawnObject(Vector3 position, SpawnableObject objectType)
     {
         if (!m_SpawnablePrefabs.ContainsKey(objectType)) return;
         GameObject item = Instantiate(m_SpawnablePrefabs[objectType], position, Quaternion.identity);
-        item.GetComponent<NetworkObject>().Spawn();
     }
 
     // -------------------------------------------------------------------------

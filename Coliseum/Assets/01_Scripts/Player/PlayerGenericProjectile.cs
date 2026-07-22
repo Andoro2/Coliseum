@@ -17,7 +17,6 @@ public class PlayerGenericProjectile : MonoBehaviour
     private List<GameObject> m_AreaAttackPrefabs;
     private float m_DamageMultiplier;
 
-    public ulong m_PlayerNetworkID;
     public GameObject m_Impact_VFX;
 
     private bool m_BardDoubleHit = false;
@@ -32,13 +31,12 @@ public class PlayerGenericProjectile : MonoBehaviour
         }
         else transform.position += transform.forward * m_Speed * Time.deltaTime;
     }
-    public void ProjectileData(GameObject target, float damage, ElementDamage[] attackElements, bool isCrit, float critExtra, List<GameObject> areaPrefabs, float damageMultiplier, ulong attackerClientId)
+    public void ProjectileData(GameObject target, float damage, ElementDamage[] attackElements, bool isCrit, float critExtra, List<GameObject> areaPrefabs, float damageMultiplier)
     {
         ListaDeElementos.Clear();
 
         m_Target = target;
         m_Damage = damage;
-        m_PlayerNetworkID = attackerClientId;
 
         elements = attackElements;
         foreach (ElementDamage element in attackElements)
@@ -64,25 +62,23 @@ public class PlayerGenericProjectile : MonoBehaviour
             //Collider[] hits = Physics.OverlapSphere(transform.position, m_AttackRange * 0.5f);
 
             // foreach (Collider hit in hits)            {
-            other.GetComponent<EnemyStats>().TakeDamageServerRpc(
+            other.GetComponent<EnemyStats>().TakeDamage(
                 m_Damage,
                 elements,
                 m_IsCrit,
                 m_CritExtra,
-                EnemyStats.Killer.Player,
-                m_PlayerNetworkID
+                EnemyStats.Killer.Player
                 );
             //}
 
             if (m_BardDoubleHit)
             {
-                other.GetComponent<EnemyStats>().TakeDamageServerRpc(
+                other.GetComponent<EnemyStats>().TakeDamage(
                     m_Damage,
                     elements,
                     m_IsCrit,
                     m_CritExtra,
-                    EnemyStats.Killer.Player,
-                    m_PlayerNetworkID
+                    EnemyStats.Killer.Player
                 );
             }
 
@@ -93,8 +89,7 @@ public class PlayerGenericProjectile : MonoBehaviour
                 area.GetComponent<HexAreaDamageOverTime>().Initialize(
                     m_Damage,
                     m_IsCrit,
-                    m_CritExtra,
-                    m_PlayerNetworkID
+                    m_CritExtra
                 );
             }
 

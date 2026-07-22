@@ -2,14 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using Unity.Netcode;
 // using UnityEngine.SceneManagement;
 
-public class GameManager : NetworkBehaviour
+public class GameManager : MonoBehaviour
 {
     //public enum GameStates { Fighting, Building }
     //public GameStates m_State = GameStates.Fighting;
     //public GameObject m_FightingUI, m_BuildingUI;
+    public enum PlayerClasses { Artificer, Barbarian, Bard, Cleric, Druid, Fighter, Monk, Paladin, Ranger, Rogue, Warlock, Wizard }
+    public PlayerClasses m_PlayerClass;
+
     [Header("Attack stuff:")]
     public bool IsFighting;
 
@@ -27,7 +29,7 @@ public class GameManager : NetworkBehaviour
     {
         Artificer, Barbarian, Bard, Cleric, Druid, Fighter, Monk, Paladin, Ranger, Rogue, Warlock, Wizard,
     }
-    private PlayerStats PS;
+    public PlayerStats PS;
 
     public void SetClassPresent(ClassEnum m_Class)
     { 
@@ -41,7 +43,7 @@ public class GameManager : NetworkBehaviour
 
         m_MainCam = GameObject.FindWithTag("MainCamera");
 
-        PS = PlayerController.LocalInstance.GetComponentInChildren<PlayerStats>();
+        //PS = PlayerController.LocalInstance.GetComponentInChildren<PlayerStats>();
 
         m_TowerCurrentLife = m_TowerMaxLife;
     }
@@ -55,7 +57,7 @@ public class GameManager : NetworkBehaviour
 
         if (PS != null)
         {
-            if (int.Parse(m_HealthTMP.text) != PS.m_CurrentHealth.Value)
+            if (int.Parse(m_HealthTMP.text) != PS.m_CurrentHealth)
             {
                 m_HealthTMP.text = "" + PS.m_CurrentHealth;
             }
@@ -156,23 +158,6 @@ public class GameManager : NetworkBehaviour
 
         foreach (ClassEnum clase in System.Enum.GetValues(typeof(ClassEnum)))
             m_PresentClasses[clase] = false;
-    }
-
-    public override void OnNetworkSpawn()
-    {
-        if (IsServer)
-        {
-            NetworkManager.Singleton.SceneManager.OnLoadEventCompleted += SceneManager_OnLoadEventCompleted;
-        }
-    }
-
-    private void SceneManager_OnLoadEventCompleted(string sceneName, UnityEngine.SceneManagement.LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
-    {
-        foreach (ulong clientID in NetworkManager.Singleton.ConnectedClientsIds)
-        {
-            Transform playerTransform = Instantiate(playerPrefab);
-            playerTransform.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientID, true);
-        }
     }
     public void SetLocalPlayerStats(PlayerStats ps)
     {

@@ -16,7 +16,7 @@ public class HealItem : NetworkBehaviour
 
         if (other.CompareTag("Player"))
         {
-            other.GetComponentInParent<PlayerController>().HealServerRpc(m_HealAmount);
+            other.GetComponent<PlayerStats>().Heal(m_HealAmount);
             //if (m_Impact_VFX != null) SpawnVFXClientRpc();
             GetComponentInParent<NetworkObject>().Despawn();
         }

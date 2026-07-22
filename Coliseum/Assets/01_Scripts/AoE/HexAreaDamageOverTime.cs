@@ -25,12 +25,11 @@ public class HexAreaDamageOverTime : MonoBehaviour
     private float m_CritExtra;
     private ulong m_AttackerClientId;
 
-    public void Initialize(float damage, bool isCrit, float critExtra, ulong attackerClientId)
+    public void Initialize(float damage, bool isCrit, float critExtra)
     {
         m_Damage = damage * m_DamagePercent;
         m_IsCrit = isCrit;
         m_CritExtra = critExtra;
-        m_AttackerClientId = attackerClientId;
 
         ApplyHexDamage();
 
@@ -64,7 +63,7 @@ public class HexAreaDamageOverTime : MonoBehaviour
 
                 if (m_TargetEnemy)
                 {
-                    col.GetComponentInParent<EnemyStats>().TakeDamageServerRpc(
+                    col.GetComponentInParent<EnemyStats>().TakeDamage(
                         m_Damage,
                         elements,
                         m_IsCrit,
@@ -75,7 +74,7 @@ public class HexAreaDamageOverTime : MonoBehaviour
                 }
                 else
                 {
-                    col.GetComponentInParent<PlayerController>().TakeDamageServerRpc(
+                    col.GetComponent<PlayerStats>().TakeDamage(
                         m_Damage,
                         elements,
                         m_IsCrit,

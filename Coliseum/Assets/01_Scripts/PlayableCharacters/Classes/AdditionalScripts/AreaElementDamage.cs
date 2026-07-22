@@ -97,7 +97,7 @@ public class AreaElementDamage : MonoBehaviour
         {
             if (thing.CompareTag("Enemy"))
             {
-                thing.GetComponentInParent<EnemyStats>().TakeDamageServerRpc(
+                thing.GetComponentInParent<EnemyStats>().TakeDamage(
                 PS.m_Damage * PS.m_DamageMultiplier,
                 BuildElementArray(),
                 false,
@@ -108,7 +108,7 @@ public class AreaElementDamage : MonoBehaviour
             }
             if(thing.CompareTag("Player"))
             {
-                thing.GetComponent<PlayerController>().HealServerRpc(m_HealValue);
+                thing.GetComponent<PlayerStats>().Heal(m_HealValue);
             }
         }
     }

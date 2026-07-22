@@ -31,7 +31,7 @@ public class Race_Aasimar : MonoBehaviour
     }
     void Hands()
     {
-        if(m_PlayerStats.m_CurrentHealth.Value <= m_PlayerStats.m_MaxHealth * 0.3)
+        if(m_PlayerStats.m_CurrentHealth <= m_PlayerStats.m_MaxHealth * 0.3)
         {
             if (!HandsApplied)
             {

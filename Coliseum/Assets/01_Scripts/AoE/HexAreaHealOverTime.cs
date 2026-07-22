@@ -48,7 +48,7 @@ public class HexAreaHealOverTime : MonoBehaviour
 
                 if (m_HealAllies)
                 {
-                    col.GetComponent<PlayerController>().HealServerRpc(
+                    col.GetComponent<PlayerStats>().Heal(
                         col.GetComponentInParent<PlayerStats>().m_MaxHealth * m_HealPercent
                     );
                 }
