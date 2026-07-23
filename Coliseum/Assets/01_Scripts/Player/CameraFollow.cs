@@ -1,49 +1,33 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.Netcode;
 using UnityEngine;
-using static TileElementAsigned;
 
-public class CameraFollow : NetworkBehaviour
+public class CameraFollow : MonoBehaviour
 {
     public bool FollowPlayer = false;
     public Transform target;
     public float smoothTime = 0.3f;
     public Vector3 offset;
     private Vector3 velocity = Vector3.zero;
-
     void Start()
     {
         target = null;
         transform.position = Vector3.zero;
     }
-    //[ClientRpc]
-    public void AssignTarget()//ClientRpc()
+    public void AssignTarget()
     {
-        //target = GameObject.FindObjectWithTag("Player").gameObject.transform;
-
-        //List<Object> players = new List<GameObject>(GameObject.FindGameObjectsWithTag("Player"));
-        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
-
-        foreach (GameObject p in players)
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (player != null)
         {
-            NetworkObject netObj = p.GetComponent<NetworkObject>();
-
-            if (netObj != null && netObj.IsOwner)
-            {
-                target = p.transform;
-            }
+            target = player.transform;
         }
-        
     }
     void Update()
     {
-        if (target == null) AssignTarget();// ClientRpc(); 
-
+        if (target == null) AssignTarget();
         if (target != null && FollowPlayer)
-            {
+        {
             Vector3 targetPos = target.position + offset;
-
             transform.position = Vector3.SmoothDamp(transform.position, targetPos, ref velocity, smoothTime);
         }
         else
@@ -64,7 +48,6 @@ public class CameraFollow : NetworkBehaviour
         {
             transform.Translate(Vector3.back * moveSpeed * Time.deltaTime);
         }
-
         // Movimiento lateral (A/D)
         if (Input.GetKey(KeyCode.A))
         {
@@ -74,13 +57,11 @@ public class CameraFollow : NetworkBehaviour
         {
             transform.Translate(Vector3.right * moveSpeed * Time.deltaTime);
         }
-
         // Rotación con Q y E
         if (Input.GetKey(KeyCode.Q))
         {
             transform.Rotate(Vector3.up, -rotationSpeed * Time.deltaTime);
         }
-
         if (Input.GetKey(KeyCode.E))
         {
             transform.Rotate(Vector3.up, rotationSpeed * Time.deltaTime);

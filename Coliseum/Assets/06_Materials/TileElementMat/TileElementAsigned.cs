@@ -1,12 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.Netcode;
 //using UnityEditor.UIElements;
 using UnityEngine;
 using static GameManager;
 using static HexPathCreator;
 
-public class TileElementAsigned : NetworkBehaviour
+public class TileElementAsigned : MonoBehaviour
 {
     //public enum TileElements { Null, Fire, Ice, Lightning, Water }
     public WorldElements TileElement = WorldElements.Null;
@@ -18,8 +17,7 @@ public class TileElementAsigned : NetworkBehaviour
         transform.GetChild(0).GetChild(0).GetComponent<MeshRenderer>().material = TileElementData.TileMat;
     }
 
-    [ClientRpc]
-    public void AssignElementClientRpc(int MaterialIndex)
+    public void AssignElement(int MaterialIndex)
     {
         //AssignElement(TileElementsData[elementIndex]);
 

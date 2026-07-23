@@ -5,9 +5,9 @@ using UnityEngine.UI;
 
 public class CharacterSelectButton : MonoBehaviour
 {
-    [SerializeField] private int PJId;
     [SerializeField] private string PJName;
-    //[SerializeField] GameObject PJModel;
+    public Sprite PJIcon;
+    [SerializeField] GameObject PJModel;
     //[SerializeField] private GameObject selectedGameObject;  //per a alguna imatge que marque que es el personatge preseleccionat
 
 
@@ -15,9 +15,12 @@ public class CharacterSelectButton : MonoBehaviour
     {
         GetComponent<Button>().onClick.AddListener(() =>
         {
-            HexGameMultiplayer.Instance.ChangePlayerPJ(PJId);
+            //HexGameMultiplayer.Instance.ChangePlayerPJ(PJId);
         });
+        PJIcon = GetComponent<Image>().sprite;
     }
+
+
 
     /*private void Start()
     {

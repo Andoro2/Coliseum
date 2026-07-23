@@ -1,11 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UIElements;
 using static HexPathCreator;
 
-public class TowerCreator : NetworkBehaviour
+public class TowerCreator : MonoBehaviour
 {
     public GameObject m_TurretSketch;
     public List<GameObject> m_TurretsToBuild = new List<GameObject>();
@@ -16,8 +15,7 @@ public class TowerCreator : NetworkBehaviour
 
     public bool OnGround = false, OverTowers = false;
 
-    [ServerRpc(RequireOwnership = false)]
-    private void SpawnTurretServerRpc(int TurretIndex, Vector3 turretPos)
+    private void SpawnTurret(int TurretIndex, Vector3 turretPos)
     {
         GameObject turret;
         if (TurretIndex == 0)
@@ -29,17 +27,6 @@ public class TowerCreator : NetworkBehaviour
             turret = Instantiate(m_TurretsToBuild[TurretIndex], turretPos, Quaternion.identity);
         }
         //InstancedTurretSketch = turret;
-
-        NetworkObject TileNetworkObject = turret.GetComponent<NetworkObject>();
-        TileNetworkObject.Spawn(true);
-    }
-    [ServerRpc(RequireOwnership = false)]
-    private void DestroySketchTurretServerRpc()
-    {
-        NetworkObject TileNetworkObject = InstancedTurretSketch.GetComponent<NetworkObject>();
-        TileNetworkObject.Despawn(true);
-        InstancedTurretSketch = null;
-        Destroy(InstancedTurretSketch);
     }
     void Update()
     {
@@ -78,7 +65,7 @@ public class TowerCreator : NetworkBehaviour
             if (Input.GetMouseButtonDown(0) && OnGround && !OverTowers && InstancedTurretSketch != null
                 && GetComponent<GameManager>().m_Currency >= m_TurretsToBuild[m_TurretIndex].GetComponent<TowerStats>().m_TurretStats.m_Price)
             {
-                SpawnTurretServerRpc(m_TurretIndex, targetPos);
+                SpawnTurret(m_TurretIndex, targetPos);
 
                 GetComponent<GameManager>().SpendMoney(m_TurretsToBuild[m_TurretIndex].GetComponent<TowerStats>().m_TurretStats.m_Price);
 

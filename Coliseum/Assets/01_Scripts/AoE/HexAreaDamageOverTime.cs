@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -17,8 +16,10 @@ public class HexAreaDamageOverTime : MonoBehaviour
 
     public List<AreaElement> m_Elements = new List<AreaElement>();
     public float m_DamagePercent = 0.3f;
-    public float m_Lifetime = 0.1f;
     public float m_AreaSize = 1f;
+
+    public bool m_IsPermanent = false;
+    public float m_Lifetime = 0.1f;
 
     private float m_Damage;
     private bool m_IsCrit;
@@ -33,7 +34,7 @@ public class HexAreaDamageOverTime : MonoBehaviour
 
         ApplyHexDamage();
 
-        GetComponent<NetworkObject>().Despawn();
+        if(!m_IsPermanent) Destroy(gameObject, m_Lifetime);
     }
 
     private void ApplyHexDamage()

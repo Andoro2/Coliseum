@@ -2,12 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
-using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEngine;
 using static EnemySpawner;
 
-public class EnemyMovement : NetworkBehaviour
+public class EnemyMovement : MonoBehaviour
 {
     public float m_Speed = 5f;
     public List<Transform> m_Path = new List<Transform>();
@@ -55,8 +54,7 @@ public class EnemyMovement : NetworkBehaviour
             m_TurretsTargetedBy.Add(other.gameObject);
         }
     }
-    [ClientRpc]
-    public void AssignPathClientRpc(int pathIndex)
+    public void AssignPath(int pathIndex)
     {
         List<PathSpawn> PathSpawns = new List<PathSpawn>();
         PathSpawns = m_StaticPathSpawns;

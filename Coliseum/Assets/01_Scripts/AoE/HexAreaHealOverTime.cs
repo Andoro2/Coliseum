@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.Netcode;
 using UnityEngine;
 
 public class HexAreaHealOverTime : MonoBehaviour
@@ -21,11 +20,7 @@ public class HexAreaHealOverTime : MonoBehaviour
     {
         InvokeRepeating("HealArea", 0f, m_CurationInterval);
 
-        if (!m_Permanent) Invoke(nameof(Despawn), m_LifeTime);
-    }
-    public void Despawn()
-    {
-        GetComponent<NetworkObject>().Despawn();
+        if (!m_Permanent) Destroy(gameObject, m_LifeTime);
     }
 
 

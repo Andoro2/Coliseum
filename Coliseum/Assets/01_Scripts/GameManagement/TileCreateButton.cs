@@ -1,9 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.Netcode;
 using UnityEngine;
 
-public class TileCreateButton : NetworkBehaviour
+public class TileCreateButton : MonoBehaviour
 {
     public HexPathCreator.PathDetails m_ThisWay;
     public HexPathCreator HexPath;

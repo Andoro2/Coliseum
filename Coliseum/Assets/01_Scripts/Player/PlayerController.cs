@@ -37,8 +37,7 @@ public class PlayerController : MonoBehaviour
 
     private Animator m_Anim;
 
-    [SerializeField] private List<Vector3> m_SpawanPositionList;
-    [SerializeField] private PlayerCharVisual playerVisual;
+    [SerializeField] private GameObject playerVisual;
 
     public event System.Action OnDashEnd;
     public event System.Action AbilityQUsed;
@@ -106,7 +105,7 @@ public class PlayerController : MonoBehaviour
         m_State = PlayerStates.Fighting;
 
         m_MainCam = GameObject.FindWithTag("MainCamera").gameObject;
-        m_Anim = playerVisual.currentModel.transform.GetChild(0).transform.GetChild(0).transform.GetComponent<Animator>();
+        m_Anim = playerVisual.transform.GetChild(0).transform.GetChild(0).transform.GetComponent<Animator>();
 
         DI = GetComponentInChildren<DetectInteraction>();
 

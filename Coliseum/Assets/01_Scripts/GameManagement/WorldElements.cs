@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Unity.Netcode;
 
 public enum WorldElements
 {
@@ -19,16 +18,10 @@ public enum WorldElements
     Thunder
 }
 
-public struct ElementDamage : INetworkSerializable
+public struct ElementDamage
 {
     public WorldElements Element;
     public float Percentage;
-
-    public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
-    {
-        serializer.SerializeValue(ref Element);
-        serializer.SerializeValue(ref Percentage);
-    }
 }
 // Crear elemento
 // ElementDamage fire = new ElementDamage { Element = WorldElements.Fire, Percentage = 0.5f };

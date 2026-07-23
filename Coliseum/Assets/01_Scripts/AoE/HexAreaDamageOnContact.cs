@@ -15,13 +15,13 @@ public class HexAreaDamageOnContact : MonoBehaviour
     public List<AreaElement> m_Elements = new List<AreaElement>();
     public float m_Damage = 50f;
 
-    public bool m_Permanent = false;
+    public bool m_IsPermanent = false;
     public float m_LifeTime;
 
     public void Start()
     {
         if (m_LifeTime <= 0f) m_LifeTime = 0.5f;
-        if (!m_Permanent) Destroy(gameObject, m_LifeTime);
+        if (!m_IsPermanent) Destroy(gameObject, m_LifeTime);
     }
 
     private void OnTriggerEnter(Collider other)

@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Unity.Netcode;
 
 public class AreaElementDamage : MonoBehaviour
 {
@@ -102,8 +101,7 @@ public class AreaElementDamage : MonoBehaviour
                 BuildElementArray(),
                 false,
                 0f,
-                EnemyStats.Killer.Player,
-                NetworkManager.Singleton.LocalClientId
+                EnemyStats.Killer.Player
                 );
             }
             if(thing.CompareTag("Player"))

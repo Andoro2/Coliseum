@@ -1,8 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Unity.Netcode;
-public class SetTowerToBuild : NetworkBehaviour
+public class SetTowerToBuild : MonoBehaviour
 {
     public int m_TurretIndex;
     public TowerCreator TurretMaker;

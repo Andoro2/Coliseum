@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Unity.Netcode;
 using Unity.VisualScripting;
 //using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -12,7 +11,7 @@ using static GameManager;
 //using static UnityEngine.Rendering.DebugUI;
 //using UnityEditor.Experimental.GraphView;
 
-public class HexPathCreator : NetworkBehaviour
+public class HexPathCreator : MonoBehaviour
 {
     public enum HexOrientation { Zero, One, Two, Three, Four, Five, End }
     public List<HexTileDetails> m_HexTiles = new List<HexTileDetails>();
@@ -22,8 +21,7 @@ public class HexPathCreator : NetworkBehaviour
     private Vector2 StartPathValues = new Vector2(45, 30 * Mathf.Sqrt(3));
     public bool m_PathZero, m_PathOne, m_PathTwo, m_PathThree, m_PathFour, m_PathFive;
 
-    public GameObject m_TileContainer, m_PathHolder;
-    public NetworkObject m_NextTileChecker;
+    public GameObject m_TileContainer, m_PathHolder, m_NextTileChecker;
 
     private bool flag = false;
     private GameObject LastTileCretaedAUX;
@@ -53,8 +51,6 @@ public class HexPathCreator : NetworkBehaviour
 
         for (int i = 0; i < paths.Length; i++)
         {
-            if (!IsServer) return;
-
             if (paths[i])
             {
                 PathDetails path = new PathDetails();
@@ -81,20 +77,8 @@ public class HexPathCreator : NetworkBehaviour
         }*/
         //InvokeRepeating("AutoGenerate", 0f, 0.1f);
     }
-    public void DoSomethingWithDelay()
-    {
-        Debug.Log("WAIT");
-        StartCoroutine(WaitAndExecute());
-    }
-
-    private IEnumerator WaitAndExecute()
-    {
-        yield return new WaitForSeconds(5f);
-    }
     public void StartingTiles(bool flagUpStops)
     {
-        if (!IsServer) return;
-        //DoSomethingWithDelay();
         if (!flagUpStops)
         {
             List<Vector3> m_PathStartPositions = new List<Vector3>
@@ -147,7 +131,7 @@ public class HexPathCreator : NetworkBehaviour
                     GameObject TileButton = path.m_NextTileChecker.gameObject.transform.Find("Canvas").gameObject;
                     TileButton.GetComponent<TileCreateButton>().m_ThisWay = path;
 
-                    TileCheckerServerRpc(i);
+                    TileChecker(i);
 
                     BuildTrack(path, m_TheTiles, m_PathStartPositions[i]);
                 }
@@ -171,8 +155,6 @@ public class HexPathCreator : NetworkBehaviour
         }*/
         if (Input.GetKeyDown(KeyCode.Space) && m_PathList.Count > 0)
         {
-            if (!IsServer) return;
-
             int SelectedPath = Random.Range(0, m_PathList.Count);
             while (!m_PathList[SelectedPath].m_PathActive)
             {
@@ -257,7 +239,7 @@ public class HexPathCreator : NetworkBehaviour
         GameObject TileButton = path.m_NextTileChecker.gameObject.transform.Find("Canvas").gameObject;
         TileButton.GetComponent<TileCreateButton>().m_ThisWay = path;
 
-        TileCheckerServerRpc(pathIndex);
+        TileChecker(pathIndex);
 
         GetComponent<EnemySpawner>().UpdatePathList(path, GeneratedTile);
     }    
@@ -416,7 +398,7 @@ public class HexPathCreator : NetworkBehaviour
         if (m_AvailablePaths.Count == 0 || Path.PathOrientation == HexOrientation.End)
         {
             int pathIndex = m_PathList.IndexOf(Path);
-            DestroyTileCheckerServerRpc(pathIndex);
+            DestroyTileChecker(pathIndex);
             //Debug.Log("No hay caminos disponibles, fin del camino.");
             return;
         }
@@ -467,7 +449,7 @@ public class HexPathCreator : NetworkBehaviour
             }
         }
         
-        SpawnNewTileServerRpc(SelectedTileIndex, NextTilePos, Path.PathOrientation);
+        SpawnNewTile(SelectedTileIndex, NextTilePos, Path.PathOrientation);
 
         int bifurcation = 0;
         if (CheckDivisions(Tile) > 1)
@@ -548,8 +530,7 @@ public class HexPathCreator : NetworkBehaviour
             }
         }
     }
-    [ServerRpc(RequireOwnership = false)]
-    private void SpawnNewTileServerRpc(int TileIndex, Vector3 NextTilePosition, HexOrientation PathOrientation)
+    private void SpawnNewTile(int TileIndex, Vector3 NextTilePosition, HexOrientation PathOrientation)
     {
         GameObject GeneratedTile = Instantiate(m_TheTiles[TileIndex].HexTile, NextTilePosition, Quaternion.identity);
         m_TheTiles.Clear();
@@ -561,26 +542,24 @@ public class HexPathCreator : NetworkBehaviour
         float yRotation = AdjustRotation(PathOrientation) % 360;
         GeneratedTile.transform.rotation = Quaternion.Euler(0, yRotation, 0);
 
-        NetworkObject TileNetworkObject = GeneratedTile.GetComponent<NetworkObject>();
-        TileNetworkObject.Spawn(true);
+        //NetworkObject TileNetworkObject = GeneratedTile.GetComponent<NetworkObject>();
+        //TileNetworkObject.Spawn(true);
 
-        TileNetworkObject.GetComponent<TileElementAsigned>().AssignElementClientRpc(ElementIndex);
+        GeneratedTile.GetComponent<TileElementAsigned>().AssignElement(ElementIndex);
     }
-    /*[ServerRpc(RequireOwnership = false)]
-    private void SpawnTileCheckerServerRpc(int pathIndex, Vector3 tileCheckPosition, float tileCheckYRotation)
+    /*
+    private void SpawnTileChecker(int pathIndex, Vector3 tileCheckPosition, float tileCheckYRotation)
     {
         NetworkObject NextTileChecker = Instantiate(m_NextTileChecker, tileCheckPosition, Quaternion.Euler(0, tileCheckYRotation, 0));
         m_PathList[pathIndex].m_NextTileChecker = NextTileChecker;
         //path.m_NextTileChecker = Instantiate(m_NextTileChecker, m_PathStartPositions[i], Quaternion.Euler(0, yRotation, 0));
         m_PathList[pathIndex].m_NextTileChecker.name = "TileChecker_" + m_PathList[pathIndex].ID;
     }*/
-    [ServerRpc(RequireOwnership = false)]
-    private void DestroyTileCheckerServerRpc(int pathIndex)
+    private void DestroyTileChecker(int pathIndex)
     {
         Destroy(m_PathList[pathIndex].m_NextTileChecker.gameObject);
     }
-    [ServerRpc(RequireOwnership = false)]
-    private void TileCheckerServerRpc(int pathIndex)
+    private void TileChecker(int pathIndex)
     {
         GameObject TileButton = m_PathList[pathIndex].m_NextTileChecker.gameObject.transform.Find("Canvas").gameObject;
         TileButton.GetComponent<TileCreateButton>().m_ThisWay = m_PathList[pathIndex];
@@ -617,7 +596,7 @@ public class HexPathCreator : NetworkBehaviour
             Path.PathOrientation = HexOrientation.End;
             //GeneratedTile.gameObject.transform.SetParent(Path.m_Container.gameObject.transform);
             GetComponent<EnemySpawner>().UpdatePathList(Path, GeneratedTile);
-            DestroyTileCheckerServerRpc(m_PathList.IndexOf(Path));
+            DestroyTileChecker(m_PathList.IndexOf(Path));
             m_PathList.Remove(Path);
             return;
         }
@@ -1159,7 +1138,7 @@ public class HexPathCreator : NetworkBehaviour
         public HexOrientation PathOrientation = HexOrientation.Zero;
         public Vector3 m_PathNextPosition;
         public GameObject m_Container;
-        public NetworkObject m_NextTileChecker;
+        public GameObject m_NextTileChecker;
     }
     public bool CheckPosition(Vector3 position)
     {

@@ -1,9 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
-using Unity.Netcode;
 using UnityEngine;
 
-public class InRangeManager : NetworkBehaviour
+public class InRangeManager : MonoBehaviour
 {
     public enum TargetPriority
     {
@@ -21,18 +20,14 @@ public class InRangeManager : NetworkBehaviour
     // Altura del área de detección
     public float detectionHeight = 2f;
 
-    private float HexWidth  => m_HexSize * Mathf.Sqrt(3f) * 2f;
+    private float HexWidth => m_HexSize * Mathf.Sqrt(3f) * 2f;
     private float HexHeight => m_HexSize * 2f;
 
     public float checkInterval = 0.1f;
     public LayerMask enemyLayer;
 
     // Prioridad elegida
-    private NetworkVariable<TargetPriority> targetPriority = new NetworkVariable<TargetPriority>(
-        TargetPriority.FirstInList,
-        NetworkVariableReadPermission.Everyone,
-        NetworkVariableWritePermission.Server
-    );
+    private TargetPriority targetPriority = TargetPriority.FirstInList;
 
     public List<WorldElements> targetElements = new List<WorldElements>();
 
@@ -48,10 +43,9 @@ public class InRangeManager : NetworkBehaviour
         Quaternion.Euler(0, 120, 0)
     };
 
-    public override void OnNetworkSpawn()
+    private void Start()
     {
-        if (IsServer)
-            InvokeRepeating(nameof(UpdateEnemiesInRange), 0f, checkInterval);
+        InvokeRepeating(nameof(UpdateEnemiesInRange), 0f, checkInterval);
     }
 
     private void UpdateEnemiesInRange()
@@ -87,7 +81,7 @@ public class InRangeManager : NetworkBehaviour
 
         if (enemiesInRange.Count == 0) return null;
 
-        switch (targetPriority.Value)
+        switch (targetPriority)
         {
             case TargetPriority.FirstInList:
                 return enemiesInRange.First();
@@ -130,10 +124,9 @@ public class InRangeManager : NetworkBehaviour
     }
 
     // Llamado desde la UI cuando el jugador cambia la prioridad
-    [ServerRpc(RequireOwnership = false)]
-    public void SetPriorityServerRpc(TargetPriority newPriority)
+    public void SetPriority(TargetPriority newPriority)
     {
-        targetPriority.Value = newPriority;
+        targetPriority = newPriority;
     }
 
     public void RemoveFromList(GameObject obj)

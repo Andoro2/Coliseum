@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,12 +12,12 @@ public class CharacterSelectionUI : MonoBehaviour
     {
         mainMenuButton.onClick.AddListener(() =>
         {
-            NetworkManager.Singleton.Shutdown();
-            SceneLoader.Load(SceneLoader.Scene.MainMenuScene);
+            //NetworkManager.Singleton.Shutdown();
+            //SceneLoader.Load(SceneLoader.Scene.MainMenuScene);
         });
         readyButton.onClick.AddListener(() =>
         {
-            if(HexGameMultiplayer.Instance.HasSelectedAPJ()) CharacterSelectReady.Instance.SetPlayerReady();
+            //if(HexGameMultiplayer.Instance.HasSelectedAPJ()) CharacterSelectReady.Instance.SetPlayerReady();
         });
     }
 }
