@@ -235,9 +235,12 @@ public class PlayerStats : MonoBehaviour
     private void Start()
     {
         PC = transform.parent.GetComponent<PlayerController>();
-        PC.AbilityQUsed += AbilityQ;
-        PC.AbilityEUsed += AbilityE;
-        PC.UltimateUsed += Ultimate;
+        if (PC)
+        {
+            PC.AbilityQUsed += AbilityQ;
+            PC.AbilityEUsed += AbilityE;
+            PC.UltimateUsed += Ultimate;
+        }
 
         m_Level = 1;
         m_MaxHealth = m_LevelsArray[m_Level].m_MaxHealth;
@@ -269,12 +272,8 @@ public class PlayerStats : MonoBehaviour
 
     private void Update()
     {
-        m_HealthSlider.value = m_CurrentHealth;
-        m_ExpSlider.value = m_CurrentExp;
-        m_HPCurrent.text = m_CurrentHealth.ToString();
-
-        if (m_CurrentHealth <= 0)
-            Die();
+        //if (m_CurrentHealth <= 0)
+        //    Die();
 
         if (Input.GetKeyDown(KeyCode.O))
         {
@@ -340,8 +339,12 @@ public class PlayerStats : MonoBehaviour
 
         //totalLifeDamage = Mathf.Max(0f, totalLifeDamage - m_Armor); // REVISAR TEMA DE LA ARMADURA
 
-
-        if (m_CurrentHealth <= 0) Die();
+        if (m_HealthSlider != null && m_HPCurrent != null)
+        {
+            m_HealthSlider.value = m_CurrentHealth;
+            m_HPCurrent.text = m_CurrentHealth.ToString();
+        }
+        if (m_CurrentHealth <= 0) m_HealthSlider.value = 0f; Die();
     }
     private void ShowDamageText(float damageAmount, ElementDamage element, bool isCrit)
     {
@@ -368,6 +371,11 @@ public class PlayerStats : MonoBehaviour
     public void Heal(float amount)
     {
         m_CurrentHealth = Mathf.Min(m_CurrentHealth + amount, m_MaxHealth);
+        if (m_HealthSlider != null && m_HPCurrent != null)
+        {
+            m_HealthSlider.value = m_CurrentHealth;
+            m_HPCurrent.text = m_CurrentHealth.ToString();
+        }
     }
 
     private void Die()
@@ -410,6 +418,7 @@ public class PlayerStats : MonoBehaviour
 
             OnLevelUp?.Invoke(m_Level);
         }
+        if (m_ExpSlider != null) m_ExpSlider.value = m_CurrentExp;
     }
 
     // -------------------------------------------------------------------------

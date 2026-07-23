@@ -15,6 +15,7 @@ TagManager:
   - TurretRange
   - Base
   - UICanvas
+  - GameData
   layers:
   - Default
   - TransparentFX

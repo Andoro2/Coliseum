@@ -149,7 +149,7 @@ PrefabInstance:
     - target: {fileID: 7990890279652666815, guid: e36f77405e5b3904d8078f3b6b52afb4,
         type: 3}
       propertyPath: m_Name
-      value: PC09_Arthurrias
+      value: PC_Arthurrias
       objectReference: {fileID: 0}
     - target: {fileID: 7990890279652666815, guid: e36f77405e5b3904d8078f3b6b52afb4,
         type: 3}
@@ -206,16 +206,13 @@ PrefabInstance:
     m_RemovedGameObjects:
     - {fileID: 7868676542064945985, guid: e36f77405e5b3904d8078f3b6b52afb4, type: 3}
     - {fileID: 2579831908809565662, guid: e36f77405e5b3904d8078f3b6b52afb4, type: 3}
+    - {fileID: 5766642595176746731, guid: e36f77405e5b3904d8078f3b6b52afb4, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 4465646293676528456, guid: e36f77405e5b3904d8078f3b6b52afb4,
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 8671066132837772994}
     m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 7990890279652666815, guid: e36f77405e5b3904d8078f3b6b52afb4,
-        type: 3}
-      insertIndex: 1
-      addedObject: {fileID: 547845200728485397}
     - targetCorrespondingSourceObject: {fileID: 7990890279652666815, guid: e36f77405e5b3904d8078f3b6b52afb4,
         type: 3}
       insertIndex: -1
@@ -239,27 +236,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 4960424071224928282}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &547845200728485397
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3040966821503632805}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2652947327
-  InScenePlacedSourceGlobalObjectIdHash: 0
-  AlwaysReplicateAsRoot: 0
-  SynchronizeTransform: 1
-  ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
-  SpawnWithObservers: 1
-  DontDestroyWithOwner: 0
-  AutoObjectParentSync: 1
 --- !u!114 &5102931274015348413
 MonoBehaviour:
   m_ObjectHideFlags: 0

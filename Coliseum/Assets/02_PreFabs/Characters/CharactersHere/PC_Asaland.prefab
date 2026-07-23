@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &3036588805620030231
+--- !u!1001 &2915691465631329039
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -12,7 +12,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 67a2d85f44a7d674d9f7171c529e3c9a, type: 2}
+      objectReference: {fileID: 2100000, guid: 5a86999866c9fb140bb3c77ca9a86b82, type: 2}
     - target: {fileID: 4465646293676528456, guid: e36f77405e5b3904d8078f3b6b52afb4,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -66,84 +66,60 @@ PrefabInstance:
     - target: {fileID: 7990890279652666815, guid: e36f77405e5b3904d8078f3b6b52afb4,
         type: 3}
       propertyPath: m_Name
-      value: PC01_Andrath
+      value: PC_Asaland
       objectReference: {fileID: 0}
-    - target: {fileID: 8051582786298585620, guid: e36f77405e5b3904d8078f3b6b52afb4,
-        type: 3}
-      propertyPath: DamageText
-      value: 
-      objectReference: {fileID: 4542012624017028618, guid: 781d68e251a410140aa1b4c2e36a4eca,
-        type: 3}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 7868676542064945985, guid: e36f77405e5b3904d8078f3b6b52afb4, type: 3}
+    - {fileID: 2579831908809565662, guid: e36f77405e5b3904d8078f3b6b52afb4, type: 3}
+    - {fileID: 5766642595176746731, guid: e36f77405e5b3904d8078f3b6b52afb4, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 7990890279652666815, guid: e36f77405e5b3904d8078f3b6b52afb4,
         type: 3}
-      insertIndex: 1
-      addedObject: {fileID: -2511059444581470021}
+      insertIndex: -1
+      addedObject: {fileID: 4653618989212370411}
     - targetCorrespondingSourceObject: {fileID: 7990890279652666815, guid: e36f77405e5b3904d8078f3b6b52afb4,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 9217457615732013843}
+      addedObject: {fileID: 4557405845722520036}
     - targetCorrespondingSourceObject: {fileID: 7990890279652666815, guid: e36f77405e5b3904d8078f3b6b52afb4,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 7661981916566688281}
+      addedObject: {fileID: 8467854985452907436}
     - targetCorrespondingSourceObject: {fileID: 7990890279652666815, guid: e36f77405e5b3904d8078f3b6b52afb4,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: -4134732915075154511}
+      addedObject: {fileID: 1488848968442314780}
   m_SourcePrefab: {fileID: 100100000, guid: e36f77405e5b3904d8078f3b6b52afb4, type: 3}
---- !u!1 &4954374317287241384 stripped
+--- !u!1 &5085625762028340912 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7990890279652666815, guid: e36f77405e5b3904d8078f3b6b52afb4,
     type: 3}
-  m_PrefabInstance: {fileID: 3036588805620030231}
+  m_PrefabInstance: {fileID: 2915691465631329039}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &-2511059444581470021
+--- !u!114 &4653618989212370411
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4954374317287241384}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2589846904
-  InScenePlacedSourceGlobalObjectIdHash: 0
-  AlwaysReplicateAsRoot: 0
-  SynchronizeTransform: 1
-  ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
-  SpawnWithObservers: 1
-  DontDestroyWithOwner: 0
-  AutoObjectParentSync: 1
---- !u!114 &9217457615732013843
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4954374317287241384}
+  m_GameObject: {fileID: 5085625762028340912}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4379fc71e1319bd4ca9b086f6fdbfc0f, type: 3}
+  m_Script: {fileID: 11500000, guid: a1953ed0e03aaa142a83fbeee588b0a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &7661981916566688281
+--- !u!114 &4557405845722520036
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4954374317287241384}
+  m_GameObject: {fileID: 5085625762028340912}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a45b416c4b381664baa2217dc85fef40, type: 3}
+  m_Script: {fileID: 11500000, guid: 5c458e1731cac52439d2bd13b0b58cc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_PassiveLevel4: 0
@@ -151,20 +127,31 @@ MonoBehaviour:
   m_PassiveLevel12: 0
   m_PassiveLevel16: 0
   m_PassiveLevel20: 0
-  m_ArtificerUpgrades: 0
-  m_BonusCDPercent: 0.3
-  m_DMGAbilityPercent: 0.5
-  m_ArmorPercent: 1
---- !u!114 &-4134732915075154511
+--- !u!114 &8467854985452907436
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4954374317287241384}
+  m_GameObject: {fileID: 5085625762028340912}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 958e35103fd5f4c499b484a44326adf7, type: 3}
+  m_Script: {fileID: 11500000, guid: af2050f59ba68e8408d1f94e3261ab18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_PassiveLevel1: 0
+  m_PassiveLevel10: 0
+  m_PassiveLevel20: 0
+--- !u!114 &1488848968442314780
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5085625762028340912}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8fe3b6887988f14ca86e076a816c8f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Target: {fileID: 0}
@@ -172,5 +159,5 @@ MonoBehaviour:
   m_AttackCooldown: 1
   m_AttackRange: 5
   m_AutoAimButton: {fileID: 0}
-  m_ProjectilePrefab: {fileID: 1872292829029996938, guid: f60b85c28e3e4724488492f97cddd3c5,
-    type: 3}
+  m_ElementalPercent: 0
+  m_VFX: {fileID: 0}
