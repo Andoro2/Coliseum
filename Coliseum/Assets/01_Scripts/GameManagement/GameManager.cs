@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEngine.UI;
 using UnityEngine;
 // using UnityEngine.SceneManagement;
 
@@ -19,6 +20,7 @@ public class GameManager : MonoBehaviour
 
     public int m_TowerMaxLife = 20, m_TowerCurrentLife, m_Currency = 500, m_Wave = 1;
     public TextMeshProUGUI m_HealthTMP, m_WaveTMP, m_CurrencyTMP;
+    public Image m_CharProphilePic;
     private List<GameObject> tileCanvases = new List<GameObject>();
     [HideInInspector] public bool currencyFlag = false;
 
@@ -29,6 +31,7 @@ public class GameManager : MonoBehaviour
     {
         Artificer, Barbarian, Bard, Cleric, Druid, Fighter, Monk, Paladin, Ranger, Rogue, Warlock, Wizard,
     }
+    public GameSession GS;
     public PlayerStats PS;
 
     public void SetClassPresent(ClassEnum m_Class)
@@ -41,11 +44,15 @@ public class GameManager : MonoBehaviour
         m_WaveTMP.text = "" + m_Wave;
         m_CurrencyTMP.text = "" + m_Currency;
 
+
         m_MainCam = GameObject.FindWithTag("MainCamera");
 
         //PS = PlayerController.LocalInstance.GetComponentInChildren<PlayerStats>();
 
         m_TowerCurrentLife = m_TowerMaxLife;
+
+        GS = GameObject.FindWithTag("GameData").GetComponent<GameSession>();
+        if (m_CharProphilePic != null) m_CharProphilePic.sprite = GS.m_PlayerCharacterData.PJIcon;
     }
 
     void Update()
