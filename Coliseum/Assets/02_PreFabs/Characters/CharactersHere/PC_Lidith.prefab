@@ -220,4 +220,5 @@ MonoBehaviour:
   m_AttackCooldown: 1
   m_AttackRange: 14.47
   m_AutoAimButton: {fileID: 0}
-  m_ProjectilePrefab: {fileID: 3040966821503632805}
+  m_ProjectilePrefab: {fileID: 1872292829029996938, guid: f60b85c28e3e4724488492f97cddd3c5,
+    type: 3}

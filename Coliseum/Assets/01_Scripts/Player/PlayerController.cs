@@ -105,6 +105,13 @@ public class PlayerController : MonoBehaviour
         m_State = PlayerStates.Fighting;
 
         m_MainCam = GameObject.FindWithTag("MainCamera").gameObject;
+
+        GameObject PJModelPrefab = GameObject.FindWithTag("GameData").GetComponent<GameSession>().m_PlayerCharacterData.PJModel;
+        
+        playerVisual = Instantiate(PJModelPrefab, transform); // "transform" = hijo del propio PlayerController
+        playerVisual.transform.localPosition = Vector3.zero + Vector3.down;
+        playerVisual.transform.localRotation = Quaternion.identity;
+
         m_Anim = playerVisual.transform.GetChild(0).transform.GetChild(0).transform.GetComponent<Animator>();
 
         DI = GetComponentInChildren<DetectInteraction>();

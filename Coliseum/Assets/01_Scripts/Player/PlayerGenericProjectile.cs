@@ -57,7 +57,7 @@ public class PlayerGenericProjectile : MonoBehaviour
     {
         if (other.CompareTag("Enemy"))
         {
-            Debug.Log("DMG");
+            //Debug.Log("DMG");
             //Collider[] hits = Physics.OverlapSphere(transform.position, m_AttackRange * 0.5f);
 
             // foreach (Collider hit in hits)            {

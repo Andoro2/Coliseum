@@ -234,7 +234,7 @@ public class PlayerStats : MonoBehaviour
     }
     private void Start()
     {
-        PC = transform.parent.GetComponent<PlayerController>();
+        PC = transform.parent.GetComponentInParent<PlayerController>();
         if (PC)
         {
             PC.AbilityQUsed += AbilityQ;

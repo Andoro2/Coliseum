@@ -6,7 +6,6 @@ public class GameSession : MonoBehaviour
 {
     public static GameSession Instance { get; private set; }
 
-    [Header("Player character data")]
    
     public PlayerCharacterData m_PlayerCharacterData = new PlayerCharacterData();
 
