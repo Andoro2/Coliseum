@@ -68,6 +68,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PC_Andrum
       objectReference: {fileID: 0}
+    - target: {fileID: 8051582786298585620, guid: e36f77405e5b3904d8078f3b6b52afb4,
+        type: 3}
+      propertyPath: m_BaseSpeed
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 7868676542064945985, guid: e36f77405e5b3904d8078f3b6b52afb4, type: 3}

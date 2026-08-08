@@ -32,6 +32,8 @@ public class Class_Druid : MonoBehaviour
     {
         if (newLevel >= 4 && !m_PassiveLevel4)
         {
+            m_PlayerStats.SetImmunity(StatusEffect.Slow, true);
+
             m_PassiveLevel4 = true;
         }
         if (newLevel >= 8 && !m_PassiveLevel8)

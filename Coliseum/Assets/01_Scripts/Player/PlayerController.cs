@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using TMPro;
-using Unity.VisualScripting;
 using static HexPathCreator;
 using UnityEngine.SceneManagement;
 
@@ -15,7 +14,7 @@ public class PlayerController : MonoBehaviour
     private GameObject m_FightingUI, m_BuildingUI,
         m_MainCam;
 
-    public float m_Speed;
+    private float m_Speed;
     private Vector2 m_PlayerMovement,
         m_MouseLook, m_JoystickLook;
 
@@ -129,7 +128,7 @@ public class PlayerController : MonoBehaviour
         //m_HealthSlider.value = m_CurrentHealth;
         //m_ExpSlider.value = m_CurrentExp;
         //m_HPCurrent.text = m_CurrentHealth.ToString();
-
+        m_Speed = GetComponentInChildren<PlayerStats>().m_Speed;
 
         #region Mode change
         if (Input.GetKeyDown(KeyCode.Tab))

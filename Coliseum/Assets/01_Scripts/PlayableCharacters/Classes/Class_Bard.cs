@@ -155,7 +155,7 @@ public class Class_Bard : MonoBehaviour
         {
             m_PlayerStats.ApplyDamageBonus(buff);
             m_PlayerStats.ApplyAttackSpeedBonus(buff);
-            m_PlayerStats.ApplySpeedBonus(buff);
+            m_PlayerStats.ApplySpeedBonus(buff, null);
             m_PlayerStats.ApplyHealthBonus(buff);
 
             m_IsBuffed = true;
@@ -165,7 +165,7 @@ public class Class_Bard : MonoBehaviour
         {
             m_PlayerStats.ApplyDamageBonus(-buff);
             m_PlayerStats.ApplyAttackSpeedBonus(-buff);
-            m_PlayerStats.ApplySpeedBonus(-buff);
+            m_PlayerStats.ApplySpeedBonus(-buff, null);
             m_PlayerStats.ApplyHealthBonus(-buff);
 
             m_IsBuffed = false;

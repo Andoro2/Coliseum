@@ -14,6 +14,7 @@ public class PlayerStats : MonoBehaviour
 
     // --- Movimiento ---
     [Header("Movimiento")]
+    public float m_BaseSpeed = 10f;
     public float m_Speed;
 
     // --- Daño ---
@@ -178,7 +179,7 @@ public class PlayerStats : MonoBehaviour
 
     // --- Experiencia y nivel ---
     [Header("Nivel")]
-    public int m_Level = 0;
+    public int m_Level = 1;
     public float m_CurrentExp;
     public List<LevelAttributes> m_LevelsArray;
 
@@ -222,11 +223,10 @@ public class PlayerStats : MonoBehaviour
     public event System.Action<float> OnDamageTaken;
 
     private PlayerController PC;
-    public GameObject DamageText;
+    public GameObject m_DamageText, m_StateText;
 
     private void Awake()
     {
-        m_Level = 1;
         if (m_LevelsArray != null && m_LevelsArray.Count >= 1) {
             m_MaxHealth = m_LevelsArray[m_Level].m_MaxHealth;
             m_CurrentHealth = m_MaxHealth;
@@ -242,7 +242,7 @@ public class PlayerStats : MonoBehaviour
             PC.UltimateUsed += Ultimate;
         }
 
-        m_Level = 1;
+        // m_Level = 0;
         m_MaxHealth = m_LevelsArray[m_Level].m_MaxHealth;
 
         foreach (DynamicDamageSource source in System.Enum.GetValues(typeof(DynamicDamageSource)))
@@ -268,6 +268,8 @@ public class PlayerStats : MonoBehaviour
 
         m_HPCurrent.text = m_CurrentHealth.ToString();
         m_HPMax.text = "/" + m_MaxHealth;
+
+        m_Speed = m_BaseSpeed;
     }
 
     private void Update()
@@ -277,8 +279,10 @@ public class PlayerStats : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.O))
         {
-            OnDamageTaken?.Invoke(10f);
+            TakeDamage(10f, null, false, 1f);
         }
+
+
     }
 
     public void AbilityQ()
@@ -324,7 +328,7 @@ public class PlayerStats : MonoBehaviour
                 m_CurrentHealth = Mathf.Max(0f, m_CurrentHealth - remainingDmg);
 
                 //totalLifeDamage += remainingDmg;
-
+                OnDamageTaken?.Invoke(remainingDmg);
                 ShowDamageText(remainingDmg, ed, isCrit);
                 /*
                 GameObject damageText = Instantiate(DamageText, transform.position, transform.rotation);
@@ -344,7 +348,11 @@ public class PlayerStats : MonoBehaviour
             m_HealthSlider.value = m_CurrentHealth;
             m_HPCurrent.text = m_CurrentHealth.ToString();
         }
-        if (m_CurrentHealth <= 0) m_HealthSlider.value = 0f; Die();
+        if (m_CurrentHealth <= 0)
+        {
+            m_HealthSlider.value = 0f;
+            Die();
+        }
     }
     private void ShowDamageText(float damageAmount, ElementDamage element, bool isCrit)
     {
@@ -354,7 +362,7 @@ public class PlayerStats : MonoBehaviour
             Random.Range(-0.5f, 0.5f)
         );
 
-        GameObject damageText = Instantiate(DamageText, transform.position + spawnOffset, Quaternion.identity);
+        GameObject damageText = Instantiate(m_DamageText, transform.position + spawnOffset, Quaternion.identity);
 
         damageText.GetComponentInChildren<DamageTextElement>().GetDamageInfo(element, damageAmount);
         /*
@@ -375,6 +383,7 @@ public class PlayerStats : MonoBehaviour
         {
             m_HealthSlider.value = m_CurrentHealth;
             m_HPCurrent.text = m_CurrentHealth.ToString();
+            CreateText("+" + amount.ToString(), Color.green);
         }
     }
 
@@ -403,13 +412,17 @@ public class PlayerStats : MonoBehaviour
         if (m_CurrentExp >= m_LevelsArray[m_Level].m_ExpToAdvance
             && m_Level + 1 < m_LevelsArray.Count)
         {
+            float previousMax = m_LevelsArray[m_Level].m_MaxHealth;
             m_Level++;
+            float newMax = m_LevelsArray[m_Level].m_MaxHealth;
 
-            m_MaxHealth = m_LevelsArray[m_Level].m_MaxHealth;
-            m_CurrentHealth = m_MaxHealth;
+            m_MaxHealth = newMax;
+
+            Heal(newMax - previousMax);
 
             m_HealthSlider.maxValue = m_MaxHealth;
-            m_HealthSlider.value = m_MaxHealth;
+            m_HealthSlider.value = m_CurrentHealth;
+            m_HPCurrent.text = m_CurrentHealth.ToString();
 
             m_ExpSlider.minValue = m_LevelsArray[m_Level - 1].m_ExpToAdvance;
             m_ExpSlider.maxValue = m_LevelsArray[m_Level].m_ExpToAdvance;
@@ -417,6 +430,8 @@ public class PlayerStats : MonoBehaviour
             m_HPMax.text = "/" + m_MaxHealth;
 
             OnLevelUp?.Invoke(m_Level);
+
+            CreateText("Level up!", Color.magenta);
         }
         if (m_ExpSlider != null) m_ExpSlider.value = m_CurrentExp;
     }
@@ -443,10 +458,15 @@ public class PlayerStats : MonoBehaviour
         //m_Speed = GetComponent<PlayerController>().m_Speed
         m_AttackSpeedBonusPercent *= (1f + m_AttackSpeedBonusPercent);
     }
-    public void ApplySpeedBonus(float percent)
+    public void ApplySpeedBonus(float percent, string msg)
     {
         m_SpeedBonusPercent += percent;
-        m_Speed = transform.parent.GetComponent<PlayerController>().m_Speed * (1f + m_SpeedBonusPercent);
+        m_Speed = m_BaseSpeed * (1f + m_SpeedBonusPercent);
+
+        if (msg != null)
+        {
+            CreateText(msg, Color.white);
+        }
     }
     public void ApplyExpBonus(float percent)
     {
@@ -533,11 +553,23 @@ public class PlayerStats : MonoBehaviour
         GameObject item = Instantiate(m_SpawnablePrefabs[objectType], position, Quaternion.identity);
     }
 
+    public void CreateText(string texto, Color coloreishon)
+    {
+        GameObject text = Instantiate(m_StateText, transform.position + new Vector3(0f, 1.5f, 0f), Quaternion.identity);
+        text.GetComponentInChildren<TextMeshProUGUI>().text = texto;
+        text.transform.SetParent(gameObject.transform);
+
+        if(coloreishon != null)
+        {
+            text.GetComponentInChildren<TextMeshProUGUI>().color = coloreishon;
+        }
+    }
+
     // -------------------------------------------------------------------------
     // Ajustes de estadísticas por clase
     // -------------------------------------------------------------------------
 
-    // BARBARIAN
+        // BARBARIAN
     public void StackWrath(float wrath)
     {
         if ((m_Wrath + wrath) > m_MaxWrath) m_Wrath = m_MaxWrath;

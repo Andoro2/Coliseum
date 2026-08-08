@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class JustToDie : MonoBehaviour
 {
+    public GameObject m_ToDestroy;
     public void Die()
     {
-        Destroy(transform.root.gameObject);
+        Destroy(m_ToDestroy);
     }
 }
