@@ -18,7 +18,8 @@ public abstract class AutoAttack : MonoBehaviour
 
     // BARD
     protected bool m_BardDoubleHit = false;
-
+    // DRUID
+    protected bool m_DruidArmorDebuff = false;
 
     protected Animator m_Anim;
 
@@ -143,4 +144,9 @@ public abstract class AutoAttack : MonoBehaviour
         return DoubleHitActive;
     }
     #endregion
+
+    public void DruidArmorDebuff()
+    {
+        if (!m_DruidArmorDebuff) m_DruidArmorDebuff = true;
+    }
 }

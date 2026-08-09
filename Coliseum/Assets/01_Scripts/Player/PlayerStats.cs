@@ -28,7 +28,10 @@ public class PlayerStats : MonoBehaviour
 
     // --- Armadura ---
     [Header("Armadura")]
-    public float m_Armor = 0f;
+    public float m_BaseArmor = 0f;
+    public float m_FlatArmorBonus = 0f;
+    [SerializeField] private float m_Armor = 0f;
+    public float Armor => m_Armor;
     public float m_CriticResistance = 0f;
 
     // --- Regeneración ---
@@ -190,7 +193,6 @@ public class PlayerStats : MonoBehaviour
     public float m_AttackSpeedBonusPercent = 0f;
     public float m_DamageBonusPercent = 0f;
     public float m_ExpBonusPercent = 0f;
-    public float m_FlatArmorBonus = 0f;
     public float m_LifeRegenBonusPercent = 0f;
 
     // --- Resistencias elementales ---

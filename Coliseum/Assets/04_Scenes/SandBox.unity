@@ -868,7 +868,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_PlayerCharacterData.PJIcon
       value: 
-      objectReference: {fileID: 21300000, guid: 1f8caf4f8d9aad546b8924560c6470b6,
+      objectReference: {fileID: 21300000, guid: 262ca31fd4e73594cbbc52d93dbe5fa0,
         type: 3}
     - target: {fileID: 7749521272557395914, guid: ab1a5d657ec116447ade5a7bc39d013b,
         type: 3}
@@ -3026,13 +3026,13 @@ MonoBehaviour:
   m_DamageMultiplier: 1
   m_DamageToTower: 2
   m_LifeRegen: 0
-  m_Armor: 0
+  m_BaseArmor: 0
+  m_FlatArmorBonus: 10
+  m_Armor: 10
   m_HealthBonusPercent: 0
   m_SpeedBonusPercent: 0
   m_AttackSpeedBonusPercent: 0
   m_DamageBonusPercent: 0
-  m_ExpBonusPercent: 0
-  m_FlatArmorBonus: 0
   m_LifeRegenBonusPercent: 0
   DamageText: {fileID: 4542012624017028618, guid: 781d68e251a410140aa1b4c2e36a4eca,
     type: 3}
@@ -3966,6 +3966,7 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 6879255883371957677, guid: 1e40f70f90218e942af8e2c5dc2f3aac, type: 3}
     - {fileID: 4950250537489264965, guid: 1e40f70f90218e942af8e2c5dc2f3aac, type: 3}
+    - {fileID: 1050200236044561886, guid: 1e40f70f90218e942af8e2c5dc2f3aac, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -4000,13 +4001,13 @@ MonoBehaviour:
   m_DamageMultiplier: 1
   m_DamageToTower: 2
   m_LifeRegen: 0
-  m_Armor: 0
+  m_BaseArmor: 10
+  m_FlatArmorBonus: 2
+  m_Armor: 10
   m_HealthBonusPercent: 0
   m_SpeedBonusPercent: 0
   m_AttackSpeedBonusPercent: 0
   m_DamageBonusPercent: 0
-  m_ExpBonusPercent: 0
-  m_FlatArmorBonus: 0
   m_LifeRegenBonusPercent: 0
   DamageText: {fileID: 4542012624017028618, guid: 781d68e251a410140aa1b4c2e36a4eca,
     type: 3}
@@ -5003,6 +5004,7 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 6879255883371957677, guid: 1e40f70f90218e942af8e2c5dc2f3aac, type: 3}
     - {fileID: 4950250537489264965, guid: 1e40f70f90218e942af8e2c5dc2f3aac, type: 3}
+    - {fileID: 1050200236044561886, guid: 1e40f70f90218e942af8e2c5dc2f3aac, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -5037,13 +5039,13 @@ MonoBehaviour:
   m_DamageMultiplier: 1
   m_DamageToTower: 2
   m_LifeRegen: 0
-  m_Armor: 0
+  m_BaseArmor: 0
+  m_FlatArmorBonus: 10
+  m_Armor: 10
   m_HealthBonusPercent: 0
   m_SpeedBonusPercent: 0
   m_AttackSpeedBonusPercent: 0
   m_DamageBonusPercent: 0
-  m_ExpBonusPercent: 0
-  m_FlatArmorBonus: 0
   m_LifeRegenBonusPercent: 0
   DamageText: {fileID: 4542012624017028618, guid: 781d68e251a410140aa1b4c2e36a4eca,
     type: 3}
@@ -6034,6 +6036,7 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 6879255883371957677, guid: 1e40f70f90218e942af8e2c5dc2f3aac, type: 3}
     - {fileID: 4950250537489264965, guid: 1e40f70f90218e942af8e2c5dc2f3aac, type: 3}
+    - {fileID: 1050200236044561886, guid: 1e40f70f90218e942af8e2c5dc2f3aac, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -6616,6 +6619,7 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 6879255883371957677, guid: 1e40f70f90218e942af8e2c5dc2f3aac, type: 3}
     - {fileID: 4950250537489264965, guid: 1e40f70f90218e942af8e2c5dc2f3aac, type: 3}
+    - {fileID: 1050200236044561886, guid: 1e40f70f90218e942af8e2c5dc2f3aac, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -6650,13 +6654,13 @@ MonoBehaviour:
   m_DamageMultiplier: 1
   m_DamageToTower: 2
   m_LifeRegen: 0
-  m_Armor: 0
+  m_BaseArmor: 0
+  m_FlatArmorBonus: 10
+  m_Armor: 10
   m_HealthBonusPercent: 0
   m_SpeedBonusPercent: 0
   m_AttackSpeedBonusPercent: 0
   m_DamageBonusPercent: 0
-  m_ExpBonusPercent: 0
-  m_FlatArmorBonus: 0
   m_LifeRegenBonusPercent: 0
   DamageText: {fileID: 4542012624017028618, guid: 781d68e251a410140aa1b4c2e36a4eca,
     type: 3}
@@ -8239,6 +8243,7 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 6879255883371957677, guid: 1e40f70f90218e942af8e2c5dc2f3aac, type: 3}
     - {fileID: 4950250537489264965, guid: 1e40f70f90218e942af8e2c5dc2f3aac, type: 3}
+    - {fileID: 1050200236044561886, guid: 1e40f70f90218e942af8e2c5dc2f3aac, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -8273,13 +8278,13 @@ MonoBehaviour:
   m_DamageMultiplier: 1
   m_DamageToTower: 2
   m_LifeRegen: 0
-  m_Armor: 0
+  m_BaseArmor: 0
+  m_FlatArmorBonus: 10
+  m_Armor: 10
   m_HealthBonusPercent: 0
   m_SpeedBonusPercent: 0
   m_AttackSpeedBonusPercent: 0
   m_DamageBonusPercent: 0
-  m_ExpBonusPercent: 0
-  m_FlatArmorBonus: 0
   m_LifeRegenBonusPercent: 0
   DamageText: {fileID: 4542012624017028618, guid: 781d68e251a410140aa1b4c2e36a4eca,
     type: 3}
@@ -11394,6 +11399,7 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 6879255883371957677, guid: 1e40f70f90218e942af8e2c5dc2f3aac, type: 3}
     - {fileID: 4950250537489264965, guid: 1e40f70f90218e942af8e2c5dc2f3aac, type: 3}
+    - {fileID: 1050200236044561886, guid: 1e40f70f90218e942af8e2c5dc2f3aac, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -11428,13 +11434,13 @@ MonoBehaviour:
   m_DamageMultiplier: 1
   m_DamageToTower: 2
   m_LifeRegen: 0
-  m_Armor: 0
+  m_BaseArmor: 0
+  m_FlatArmorBonus: 10
+  m_Armor: 10
   m_HealthBonusPercent: 0
   m_SpeedBonusPercent: 0
   m_AttackSpeedBonusPercent: 0
   m_DamageBonusPercent: 0
-  m_ExpBonusPercent: 0
-  m_FlatArmorBonus: 0
   m_LifeRegenBonusPercent: 0
   DamageText: {fileID: 4542012624017028618, guid: 781d68e251a410140aa1b4c2e36a4eca,
     type: 3}
@@ -12316,6 +12322,7 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 6879255883371957677, guid: 1e40f70f90218e942af8e2c5dc2f3aac, type: 3}
     - {fileID: 4950250537489264965, guid: 1e40f70f90218e942af8e2c5dc2f3aac, type: 3}
+    - {fileID: 1050200236044561886, guid: 1e40f70f90218e942af8e2c5dc2f3aac, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -12350,13 +12357,13 @@ MonoBehaviour:
   m_DamageMultiplier: 1
   m_DamageToTower: 2
   m_LifeRegen: 0
-  m_Armor: 0
+  m_BaseArmor: 0
+  m_FlatArmorBonus: 10
+  m_Armor: 10
   m_HealthBonusPercent: 0
   m_SpeedBonusPercent: 0
   m_AttackSpeedBonusPercent: 0
   m_DamageBonusPercent: 0
-  m_ExpBonusPercent: 0
-  m_FlatArmorBonus: 0
   m_LifeRegenBonusPercent: 0
   DamageText: {fileID: 4542012624017028618, guid: 781d68e251a410140aa1b4c2e36a4eca,
     type: 3}

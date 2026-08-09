@@ -58,7 +58,10 @@ public class EnemyStats : MonoBehaviour
 
     // --- Escudo ---
     [Header("Escudo")]
-    public float m_Armor = 0f;
+    public float m_BaseArmor = 0f;
+    public float m_FlatArmorBonus = 0f;
+    [SerializeField] private float m_Armor = 0f;
+    public float Armor => m_Armor;
 
     #region SHIELD MANAGEMENT
     public enum ShieldPriority { Passive = 0, Permanent = 1 } // para ordenar primero los pasivos y luego los permanentes
@@ -137,8 +140,6 @@ public class EnemyStats : MonoBehaviour
     public float m_SpeedBonusPercent = 0f;
     public float m_AttackSpeedBonusPercent = 0f;
     public float m_DamageBonusPercent = 0f;
-    public float m_ExpBonusPercent = 0f;
-    public float m_FlatArmorBonus = 0f;
     public float m_LifeRegenBonusPercent = 0f;
 
     // --- Resistencias elementales ---
@@ -156,11 +157,11 @@ public class EnemyStats : MonoBehaviour
     
     public enum Killer { Player, Turret }
 
-    public event System.Action<Killer, ulong> OnDeath;
+    public event System.Action<Killer> OnDeath;
     public event System.Action<float, WorldElements> OnDamageTaken;
+    public static event System.Action<EnemyStats, float, WorldElements, Killer> OnAnyEnemyDamaged;
     //public event System.Action<float> OnHealthChanged;
-    public static event System.Action<Vector3, EnemyStats.Killer, ulong> OnAnyEnemyDeath;
-
+    public static event System.Action<Vector3, EnemyStats.Killer> OnAnyEnemyDeath;
 
     public GameObject DamageText;
         //m_CurrentHealth.OnValueChanged += OnHealthChanged;
@@ -181,7 +182,7 @@ public class EnemyStats : MonoBehaviour
 
     private void Update()
     {
-
+        RecalculateArmor();
         // m_HealthSlider.value = m_CurrentHealth;
         // m_HPCurrent.text = m_CurrentHealth.ToString();
 
@@ -227,6 +228,7 @@ public class EnemyStats : MonoBehaviour
                 m_CurrentHealth = Mathf.Max(0f, m_CurrentHealth - remainingDmg);
 
                 OnDamageTaken?.Invoke(remainingDmg, ed.Element);
+                OnAnyEnemyDamaged?.Invoke(this, remainingDmg, ed.Element, source);
 
                 ShowDamageText(remainingDmg, ed, isCrit);
                 /*
@@ -247,7 +249,7 @@ public class EnemyStats : MonoBehaviour
             if (isCleric != null) if(m_EnemyTypeList.Contains(EnemyTypes.Undead) && isCleric.m_PassiveLevel12) Die(source, attackerClientId);
         }*/
 
-        if (m_CurrentHealth <= 0) Die(source, attackerClientId);
+        if (m_CurrentHealth <= 0) Die(source);
     }
 
     private void ShowDamageText(float damageAmount, ElementDamage element, bool isCrit)
@@ -273,28 +275,28 @@ public class EnemyStats : MonoBehaviour
     }
 
     private bool m_IsDead = false;
-    public void Die(Killer source, ulong attackerClientId)
+    public void Die(Killer source)
     {
         //pot ser a vegades s'invoque molt ràpid i de duplique d'alguna forma, es per a evitar-ho
         if (m_IsDead) return;
         m_IsDead = true;
 
-        OnDeath?.Invoke(source, attackerClientId);
-        NotifyAnyDeath(transform.position, source, attackerClientId);
+        OnDeath?.Invoke(source);
+        NotifyAnyDeath(transform.position, source);
 
         if (m_EnemyClass == EnemyClasses.Elite || m_EnemyClass == EnemyClasses.RoundBoss)
-            NotifyDeath(source, attackerClientId, m_EnemyClass);
+            NotifyDeath(source, m_EnemyClass);
 
         Destroy(gameObject);
     }
 
-    private void NotifyAnyDeath(Vector3 position, Killer source, ulong attackerClientId)
+    private void NotifyAnyDeath(Vector3 position, Killer source)
     {
-        OnAnyEnemyDeath?.Invoke(position, source, attackerClientId);
+        OnAnyEnemyDeath?.Invoke(position, source);
     }
 
     // detectar info del eliminador
-    private void NotifyDeath(Killer source, ulong attackerClientId, EnemyClasses enemyClass)
+    private void NotifyDeath(Killer source, EnemyClasses enemyClass)
     {
         if (source != Killer.Player) return;
 
@@ -331,10 +333,64 @@ public class EnemyStats : MonoBehaviour
         m_DamageMultiplier = 1f + m_DamageBonusPercent;
     }
 
+    // armor
+    public enum ArmorReductionSource
+    {
+        DruidLevel8,
+    }
+
+    private Dictionary<ArmorReductionSource, ArmorReduction> m_ArmorReductions = new Dictionary<ArmorReductionSource, ArmorReduction>();
+
+    [System.Serializable]
+    public class ArmorReduction
+    {
+        public float Percent;
+        public float ExpirationTimeStamp;
+
+        public bool IsExpired => Time.time >= ExpirationTimeStamp;
+
+        public ArmorReduction(float percent, float duration)
+        {
+            Percent = percent;
+            ExpirationTimeStamp = Time.time + duration;
+        }
+    }
+    public void ApplyArmorReduction(ArmorReductionSource source, float percent, float duration)
+    {
+        m_ArmorReductions[source] = new ArmorReduction(percent, duration);
+        RecalculateArmor();
+    }
+    private void RecalculateArmor()
+    {
+        if (m_ArmorReductions.Count > 0)
+        {
+            List<ArmorReductionSource> expired = null;
+            foreach (var kvp in m_ArmorReductions)
+            {
+                if (kvp.Value.IsExpired)
+                {
+                    expired ??= new List<ArmorReductionSource>();
+                    expired.Add(kvp.Key);
+                }
+            }
+            if (expired != null)
+                foreach (var key in expired)
+                    m_ArmorReductions.Remove(key);
+        }
+
+        float multiplier = 1f;
+        foreach (var kvp in m_ArmorReductions)
+            multiplier *= (1f - kvp.Value.Percent);
+
+        float totalArmor = m_BaseArmor + m_FlatArmorBonus;
+        m_Armor = totalArmor * multiplier;
+    }
+
     public void ApplyFlatArmor(float amount)
     {
         m_FlatArmorBonus += amount;
-        m_Armor = m_FlatArmorBonus;
+        RecalculateArmor();
+        //m_Armor = m_FlatArmorBonus;
     }
 
     // -------------------------------------------------------------------------

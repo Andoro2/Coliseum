@@ -78,7 +78,7 @@ public class Class_Cleric : MonoBehaviour
     }
 
     // level 8
-    private void OnEnemyDeath(Vector3 position, EnemyStats.Killer source, ulong attackerClientId)
+    private void OnEnemyDeath(Vector3 position, EnemyStats.Killer source)
     {
         if (source != EnemyStats.Killer.Player) return;
         if (Random.value >= m_DropChance) return;

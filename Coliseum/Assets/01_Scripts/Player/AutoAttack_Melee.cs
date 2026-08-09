@@ -43,7 +43,6 @@ public class AutoAttack_Melee : AutoAttack
                 EnemyStats.Killer.Player
             );
             if (m_BardDoubleHit)
-                Debug.Log("Bard double hit");
             hit.GetComponentInParent<EnemyStats>().TakeDamage(
                 PS.m_Damage * PS.m_DamageMultiplier,
                 BuildElementArray(),
