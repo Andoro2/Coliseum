@@ -69,7 +69,7 @@ public class Class_Druid : MonoBehaviour
         if (source != EnemyStats.Killer.Player) return;
 
         target.ApplyArmorReduction(
-            ArmorReductionSource.DruidLevel8,
+            EnemyArmorReductionSource.DruidLevel8,
             m_ArmorShredPercent,
             m_ArmorShredDuration
         );

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static EnemyStats;
 using static PlayerStats;
 
 public class PlayerStats : MonoBehaviour
@@ -272,6 +273,7 @@ public class PlayerStats : MonoBehaviour
         m_HPMax.text = "/" + m_MaxHealth;
 
         m_Speed = m_BaseSpeed;
+        RecalculateArmor();
     }
 
     private void Update()
@@ -284,7 +286,7 @@ public class PlayerStats : MonoBehaviour
             TakeDamage(10f, null, false, 1f);
         }
 
-
+        RecalculateArmor();
     }
 
     public void AbilityQ()
@@ -474,10 +476,57 @@ public class PlayerStats : MonoBehaviour
     {
         m_ExpBonusPercent += percent;
     }
+
+    // armor
+    private Dictionary<ArmorReduction, ArmorReduction> m_ArmorReductions = new Dictionary<ArmorReduction, ArmorReduction>();
+    
+    [System.Serializable]
+    public class ArmorReduction
+    {
+        public float Percent;
+        public float ExpirationTimeStamp;
+
+        public bool IsExpired => Time.time >= ExpirationTimeStamp;
+
+        public ArmorReduction(float percent, float duration)
+        {
+            Percent = percent;
+            ExpirationTimeStamp = Time.time + duration;
+        }
+    }
+    public void ApplyArmorReduction(ArmorReduction source, float percent, float duration)
+    {
+        m_ArmorReductions[source] = new ArmorReduction(percent, duration);
+        RecalculateArmor();
+    }
+    private void RecalculateArmor()
+    {
+        if (m_ArmorReductions.Count > 0)
+        {
+            List<ArmorReduction> expired = null;
+            foreach (var kvp in m_ArmorReductions)
+            {
+                if (kvp.Value.IsExpired)
+                {
+                    expired ??= new List<ArmorReduction>();
+                    expired.Add(kvp.Key);
+                }
+            }
+            if (expired != null)
+                foreach (var key in expired)
+                    m_ArmorReductions.Remove(key);
+        }
+
+        float multiplier = 1f;
+        foreach (var kvp in m_ArmorReductions)
+            multiplier *= (1f - kvp.Value.Percent);
+
+        m_Armor = (m_BaseArmor + m_FlatArmorBonus) * multiplier;
+    }
     public void ApplyFlatArmor(float amount)
     {
         m_FlatArmorBonus += amount;
-        m_Armor = m_FlatArmorBonus;
+        RecalculateArmor();
     }
 
     // -------------------------------------------------------------------------

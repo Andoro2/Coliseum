@@ -334,13 +334,8 @@ public class EnemyStats : MonoBehaviour
     }
 
     // armor
-    public enum ArmorReductionSource
-    {
-        DruidLevel8,
-    }
-
-    private Dictionary<ArmorReductionSource, ArmorReduction> m_ArmorReductions = new Dictionary<ArmorReductionSource, ArmorReduction>();
-
+    private Dictionary<EnemyArmorReductionSource, ArmorReduction> m_ArmorReductions = new Dictionary<EnemyArmorReductionSource, ArmorReduction>();
+    
     [System.Serializable]
     public class ArmorReduction
     {
@@ -355,7 +350,8 @@ public class EnemyStats : MonoBehaviour
             ExpirationTimeStamp = Time.time + duration;
         }
     }
-    public void ApplyArmorReduction(ArmorReductionSource source, float percent, float duration)
+
+    public void ApplyArmorReduction(EnemyArmorReductionSource source, float percent, float duration)
     {
         m_ArmorReductions[source] = new ArmorReduction(percent, duration);
         RecalculateArmor();
@@ -364,12 +360,12 @@ public class EnemyStats : MonoBehaviour
     {
         if (m_ArmorReductions.Count > 0)
         {
-            List<ArmorReductionSource> expired = null;
+            List<EnemyArmorReductionSource> expired = null;
             foreach (var kvp in m_ArmorReductions)
             {
                 if (kvp.Value.IsExpired)
                 {
-                    expired ??= new List<ArmorReductionSource>();
+                    expired ??= new List<EnemyArmorReductionSource>();
                     expired.Add(kvp.Key);
                 }
             }
