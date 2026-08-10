@@ -11,12 +11,17 @@ public class EnemyMovement : MonoBehaviour
     public float m_Speed = 5f;
     public List<Transform> m_Path = new List<Transform>();
     public List<GameObject> m_TurretsTargetedBy = new List<GameObject>();
+
+    public float m_StunExpirationTime = 0f;
+    public bool IsStunned => Time.time < m_StunExpirationTime;
     void Update()
     {
-        if (m_Path.Count > 0)
+        if (!IsStunned && m_Path.Count > 0)
         {
+            Debug.Log("Zoom zooom");
             Move();
         }
+        else if (IsStunned) Debug.Log("nao nao, no zoom");
     }
     public void Move()
     {
@@ -26,6 +31,13 @@ public class EnemyMovement : MonoBehaviour
         {
             m_Path.RemoveAt(0);
         }
+    }
+
+    public void ApplyStun(float duration)
+    {
+        float newExpiration = Time.time + duration;
+
+        if (newExpiration > m_StunExpirationTime) m_StunExpirationTime = newExpiration;
     }
     private void OnTriggerEnter(Collider other)
     {

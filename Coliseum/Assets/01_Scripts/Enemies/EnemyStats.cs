@@ -159,7 +159,7 @@ public class EnemyStats : MonoBehaviour
 
     public event System.Action<Killer> OnDeath;
     public event System.Action<float, WorldElements> OnDamageTaken;
-    public static event System.Action<EnemyStats, float, WorldElements, Killer> OnAnyEnemyDamaged;
+    public static event System.Action<EnemyStats, float, WorldElements, bool, Killer> OnAnyEnemyDamaged;
     //public event System.Action<float> OnHealthChanged;
     public static event System.Action<Vector3, EnemyStats.Killer> OnAnyEnemyDeath;
 
@@ -228,7 +228,7 @@ public class EnemyStats : MonoBehaviour
                 m_CurrentHealth = Mathf.Max(0f, m_CurrentHealth - remainingDmg);
 
                 OnDamageTaken?.Invoke(remainingDmg, ed.Element);
-                OnAnyEnemyDamaged?.Invoke(this, remainingDmg, ed.Element, source);
+                OnAnyEnemyDamaged?.Invoke(this, remainingDmg, ed.Element, isCrit, source);
 
                 ShowDamageText(remainingDmg, ed, isCrit);
                 /*
@@ -315,7 +315,6 @@ public class EnemyStats : MonoBehaviour
         m_CurrentHealth = Mathf.Min(m_CurrentHealth, m_MaxHealth);
         // m_HealthSlider.maxValue = m_MaxHealth;
     }
-
     public void ApplySpeedBonus(float percent)
     {
         m_SpeedBonusPercent += percent;
@@ -333,7 +332,7 @@ public class EnemyStats : MonoBehaviour
         m_DamageMultiplier = 1f + m_DamageBonusPercent;
     }
 
-    // armor
+    #region armor
     private Dictionary<EnemyArmorReductionSource, ArmorReduction> m_ArmorReductions = new Dictionary<EnemyArmorReductionSource, ArmorReduction>();
     
     [System.Serializable]
@@ -388,7 +387,16 @@ public class EnemyStats : MonoBehaviour
         RecalculateArmor();
         //m_Armor = m_FlatArmorBonus;
     }
+    #endregion
 
+    public void ApplyStun(float duration)
+    {
+        EnemyMovement movementScript = GetComponent<EnemyMovement>();
+        if (movementScript != null)
+        {
+            movementScript.ApplyStun(duration);
+        }
+    }
     // -------------------------------------------------------------------------
     // Métodos para resistencias / inmunidades
     // -------------------------------------------------------------------------

@@ -14,9 +14,16 @@ public class Class_Druid : MonoBehaviour
     public bool m_PassiveLevel16 = false;
     public bool m_PassiveLevel20 = false;
 
-    [Header("Lvl 8")]
+    [Header("Level 8")]
     public float m_ArmorShredPercent = 0.1f;
     public float m_ArmorShredDuration = 10f;
+    [Header("Level 12")]
+    public float m_ElementalDmgHealPercentage = 0.05f;
+    [Header("Level 16")]
+    public float m_CritIncreasePercentage = 0.1f;
+    public float m_RootDuration = 2f;
+    public GameObject m_CritStunVFX;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -53,6 +60,8 @@ public class Class_Druid : MonoBehaviour
         }
         if (newLevel >= 16 && !m_PassiveLevel16)
         {
+            m_PlayerStats.GetCritChance(m_CritIncreasePercentage);
+
             m_PassiveLevel16 = true;
         }
         if (newLevel >= 20 && !m_PassiveLevel20)
@@ -63,16 +72,27 @@ public class Class_Druid : MonoBehaviour
         }
     }
     // lvl 8
-    private void HandleAnyEnemyDamaged(EnemyStats target, float damage, WorldElements element, EnemyStats.Killer source)
+    private void HandleAnyEnemyDamaged(EnemyStats target, float damage, WorldElements element, bool isCrit, EnemyStats.Killer source)
     {
-        if (!m_PassiveLevel8) return;
-        if (source != EnemyStats.Killer.Player) return;
+        if (m_PassiveLevel8)
+        {
+            target.ApplyArmorReduction(
+                EnemyArmorReductionSource.DruidLevel8,
+                m_ArmorShredPercent,
+                m_ArmorShredDuration
+            );
+        }
+        if (m_PassiveLevel12 && element != WorldElements.Null)
+        {
+            m_PlayerStats.Heal(damage * m_ElementalDmgHealPercentage);
+        }
+        if (m_PassiveLevel16 && isCrit)
+        {
+            target.ApplyStun(m_RootDuration);
 
-        target.ApplyArmorReduction(
-            EnemyArmorReductionSource.DruidLevel8,
-            m_ArmorShredPercent,
-            m_ArmorShredDuration
-        );
+            if (m_CritStunVFX != null)
+                Instantiate(m_CritStunVFX, target.transform.position, Quaternion.identity);
+        }
     }
 
     private void OnDestroy()
