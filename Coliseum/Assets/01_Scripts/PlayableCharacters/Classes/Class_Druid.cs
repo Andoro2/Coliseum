@@ -36,12 +36,6 @@ public class Class_Druid : MonoBehaviour
 
         EnemyStats.OnAnyEnemyDamaged += HandleAnyEnemyDamaged;
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
     private void OnLevelUp(int newLevel)
     {
         if (newLevel >= 4 && !m_PassiveLevel4)
@@ -76,9 +70,9 @@ public class Class_Druid : MonoBehaviour
     {
         if (m_PassiveLevel8)
         {
-            target.ApplyArmorReduction(
-                EnemyArmorReductionSource.DruidLevel8,
-                m_ArmorShredPercent,
+            target.ApplyArmorPercentageEffect(
+                EnemyArmorEffectSource.DruidLevel8,
+                -m_ArmorShredPercent,
                 m_ArmorShredDuration
             );
         }

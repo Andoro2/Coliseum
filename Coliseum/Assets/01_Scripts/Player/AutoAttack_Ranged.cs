@@ -5,6 +5,8 @@ using UnityEngine;
 public class AutoAttack_Ranged : AutoAttack
 {
     public GameObject m_ProjectilePrefab;
+    private bool isCrit = false;
+    private GameObject m_AttackTarget;
 
     // Start is called before the first frame update
     protected override void Start()
@@ -19,8 +21,12 @@ public class AutoAttack_Ranged : AutoAttack
 
         m_Anim.SetTrigger("AttackRanged");
 
-        bool isCrit = Random.value <= PS.m_CriticChance;
+        m_AttackTarget = m_Target;
+        isCrit = Random.value <= PS.m_CriticChance;
+    }
 
+    public void ReleaseProjectile()
+    {
         GameObject projectile = Instantiate(m_ProjectilePrefab, transform.position, transform.rotation);
         //projectile.GetComponent<ProjectileForward>().target = m_Target;
         // Initialize y pasar info al proyectil

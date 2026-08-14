@@ -879,7 +879,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_PlayerCharacterData.PJModel
       value: 
-      objectReference: {fileID: 3040966821503632805, guid: 9013b6a77a10e8641a1851dc346c1614,
+      objectReference: {fileID: 9147112699503302873, guid: 9821ccc2a56a368478375bd4d137fa07,
         type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

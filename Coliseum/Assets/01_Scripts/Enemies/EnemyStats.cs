@@ -333,49 +333,49 @@ public class EnemyStats : MonoBehaviour
     }
 
     #region armor
-    private Dictionary<EnemyArmorReductionSource, ArmorReduction> m_ArmorReductions = new Dictionary<EnemyArmorReductionSource, ArmorReduction>();
+    private Dictionary<EnemyArmorEffectSource, ArmorEffectPercentage> m_ArmorPercentageEffects = new Dictionary<EnemyArmorEffectSource, ArmorEffectPercentage>();
     
     [System.Serializable]
-    public class ArmorReduction
+    public class ArmorEffectPercentage
     {
         public float Percent;
         public float ExpirationTimeStamp;
 
         public bool IsExpired => Time.time >= ExpirationTimeStamp;
 
-        public ArmorReduction(float percent, float duration)
+        public ArmorEffectPercentage(float percent, float duration)
         {
             Percent = percent;
             ExpirationTimeStamp = Time.time + duration;
         }
     }
 
-    public void ApplyArmorReduction(EnemyArmorReductionSource source, float percent, float duration)
+    public void ApplyArmorPercentageEffect(EnemyArmorEffectSource source, float percent, float duration)
     {
-        m_ArmorReductions[source] = new ArmorReduction(percent, duration);
+        m_ArmorPercentageEffects[source] = new ArmorEffectPercentage(percent, duration);
         RecalculateArmor();
     }
     private void RecalculateArmor()
     {
-        if (m_ArmorReductions.Count > 0)
+        if (m_ArmorPercentageEffects.Count > 0)
         {
-            List<EnemyArmorReductionSource> expired = null;
-            foreach (var kvp in m_ArmorReductions)
+            List<EnemyArmorEffectSource> expired = null;
+            foreach (var kvp in m_ArmorPercentageEffects)
             {
                 if (kvp.Value.IsExpired)
                 {
-                    expired ??= new List<EnemyArmorReductionSource>();
+                    expired ??= new List<EnemyArmorEffectSource>();
                     expired.Add(kvp.Key);
                 }
             }
             if (expired != null)
                 foreach (var key in expired)
-                    m_ArmorReductions.Remove(key);
+                    m_ArmorPercentageEffects.Remove(key);
         }
 
         float multiplier = 1f;
-        foreach (var kvp in m_ArmorReductions)
-            multiplier *= (1f - kvp.Value.Percent);
+        foreach (var kvp in m_ArmorPercentageEffects)
+            multiplier *= (1f + kvp.Value.Percent);
 
         float totalArmor = m_BaseArmor + m_FlatArmorBonus;
         m_Armor = totalArmor * multiplier;

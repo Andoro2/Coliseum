@@ -1,12 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public enum EnemyArmorReductionSource
+public enum EnemyArmorEffectSource
 {
     DruidLevel8,
 }
-public enum PlayerArmorReductionSource
+public enum PlayerArmorEffectSource
 {
-
+    FighterLevel12,
 }

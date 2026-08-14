@@ -14,12 +14,15 @@ public abstract class AutoAttack : MonoBehaviour
     [Header("Attack stats")]
     public float m_AttackCooldown = 1f;
     public float m_AttackRange = 5f;
-    private float m_LastAttackTime = 0f;
+    protected float m_LastAttackTime = 0f;
 
     // BARD
     protected bool m_BardDoubleHit = false;
     // DRUID
     protected bool m_DruidArmorDebuff = false;
+    // FIGHTER
+    public bool m_FighterChainAttacks = false;
+    public int m_ChainAttackFreq = 0, m_ChainAttackCount = 0;
 
     protected Animator m_Anim;
 
@@ -57,6 +60,20 @@ public abstract class AutoAttack : MonoBehaviour
                 OnAttack?.Invoke();
                 Attack();
                 m_LastAttackTime = Time.time;
+
+                // FIGHTER CHAIN ATTACK
+                /*if (m_FighterChainAttacks)
+                {
+                    if (m_ChainAttackCount == m_ChainAttackFreq) // double hit
+                    {
+                        m_FighterChainAttacks = false;
+                        m_ChainAttackCount = 0;
+                    }
+                    else
+                    {
+                        m_ChainAttackCount++;
+                    }
+                }*/
             }
         }
     }
@@ -145,8 +162,38 @@ public abstract class AutoAttack : MonoBehaviour
     }
     #endregion
 
-    public void DruidArmorDebuff()
+    public void ActivateDruidArmorDebuff()
     {
         if (!m_DruidArmorDebuff) m_DruidArmorDebuff = true;
     }
+
+    #region FIGHTER
+
+    public void SetDoubleAttackFrequency(int freq)
+    {
+        m_ChainAttackFreq = Mathf.Max(freq, 0);
+    }
+    protected bool ConsumeDoubleHit()
+    {
+        if (m_ChainAttackFreq <= 0) return false;
+
+        m_ChainAttackCount++;
+        if (m_ChainAttackCount >= m_ChainAttackFreq)
+        {
+            m_ChainAttackCount = 0;
+            return true;
+        }
+        return false;
+    }
+    public void ForceAttackReady()
+    {
+        m_LastAttackTime = -Mathf.Infinity;
+    }
+    public void OnAttackAnimationEnd()
+    {
+        if (m_FighterChainAttacks)
+            ForceAttackReady();
+    }
+
+    #endregion
 }
