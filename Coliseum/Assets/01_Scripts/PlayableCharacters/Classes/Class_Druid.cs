@@ -66,7 +66,7 @@ public class Class_Druid : MonoBehaviour
         }
     }
     // lvl 8
-    private void HandleAnyEnemyDamaged(EnemyStats target, float damage, WorldElements element, bool isCrit, EnemyStats.Killer source)
+    private void HandleAnyEnemyDamaged(EnemyStats target, float damage, WorldElements element, bool isCrit, PlayerStats playerSource, TowerStats towerSource)
     {
         if (m_PassiveLevel8)
         {

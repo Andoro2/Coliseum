@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 583231747780518223}
   - component: {fileID: 1548075791569270679}
   - component: {fileID: 3566630957672321740}
-  - component: {fileID: 8942983139041027939}
   - component: {fileID: 3004873704747849960}
   m_Layer: 0
   m_Name: Tower_2
@@ -73,27 +72,6 @@ MonoBehaviour:
     type: 3}
   m_ShootPoint: {fileID: 3169380855480534750}
   m_Target: {fileID: 0}
---- !u!114 &8942983139041027939
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 573596426422493728}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3921463168
-  InScenePlacedSourceGlobalObjectIdHash: 0
-  AlwaysReplicateAsRoot: 0
-  SynchronizeTransform: 1
-  ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
-  SpawnWithObservers: 1
-  DontDestroyWithOwner: 0
-  AutoObjectParentSync: 1
 --- !u!114 &3004873704747849960
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -106,7 +84,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 513c86487dde7954688d373c53cdbd6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hexSize: 3
+  m_HexSize: 3
   detectionHeight: 2
   checkInterval: 0.1
   enemyLayer:

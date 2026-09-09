@@ -30,7 +30,8 @@ public class AutoAttack_Melee : AutoAttack
                 BuildElementArray(),
                 isCrit,
                 PS.m_CriticExtra,
-                EnemyStats.Killer.Player
+                GetComponent<PlayerStats>(),
+                null
             );
             if (m_BardDoubleHit)
             hit.GetComponentInParent<EnemyStats>().TakeDamage(
@@ -38,7 +39,8 @@ public class AutoAttack_Melee : AutoAttack
                 BuildElementArray(),
                 isCrit,
                 PS.m_CriticExtra,
-                EnemyStats.Killer.Player
+                GetComponent<PlayerStats>(),
+                null
             );
         }
 

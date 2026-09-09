@@ -115,7 +115,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3666823515742495074}
   - component: {fileID: 3160054042147624393}
-  - component: {fileID: 1050200236044561886}
+  - component: {fileID: 1692647404286015759}
   - component: {fileID: 6879255883371957677}
   - component: {fileID: 2756676106246347585}
   - component: {fileID: 2626500233743809430}
@@ -160,7 +160,7 @@ MonoBehaviour:
   m_Value: 50
   m_ExpValue: 10
   m_Resistances: []
---- !u!114 &1050200236044561886
+--- !u!114 &1692647404286015759
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -169,18 +169,27 @@ MonoBehaviour:
   m_GameObject: {fileID: 2365854645322114647}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Script: {fileID: 11500000, guid: 168cb8ff721c08145983bc3ad7a18c7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2506926277
-  InScenePlacedSourceGlobalObjectIdHash: 0
-  AlwaysReplicateAsRoot: 0
-  SynchronizeTransform: 1
-  ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
-  SpawnWithObservers: 1
-  DontDestroyWithOwner: 0
-  AutoObjectParentSync: 1
+  m_EnemyClass: 0
+  m_EnemyTypeList: 
+  m_MaxHealth: 2500
+  m_CurrentHealth: 0
+  m_Speed: 0
+  m_DamageMultiplier: 1
+  m_DamageToTower: 2
+  m_LifeRegen: 0
+  m_BaseArmor: 0
+  m_FlatArmorBonus: 10
+  m_Armor: 10
+  m_HealthBonusPercent: 0
+  m_SpeedBonusPercent: 0
+  m_AttackSpeedBonusPercent: 0
+  m_DamageBonusPercent: 0
+  m_LifeRegenBonusPercent: 0
+  DamageText: {fileID: 4542012624017028618, guid: 781d68e251a410140aa1b4c2e36a4eca,
+    type: 3}
 --- !u!114 &6879255883371957677
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -197,6 +206,7 @@ MonoBehaviour:
   m_Path:
   - {fileID: 0}
   m_TurretsTargetedBy: []
+  m_StunExpirationTime: 0
 --- !u!54 &2756676106246347585
 Rigidbody:
   m_ObjectHideFlags: 0

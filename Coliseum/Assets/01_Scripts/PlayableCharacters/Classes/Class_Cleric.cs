@@ -44,7 +44,7 @@ public class Class_Cleric : MonoBehaviour
         }
         if (newLevel >= 8 && !m_PassiveLevel8)
         {
-            EnemyStats.OnAnyEnemyDeath += OnEnemyDeath;
+            EnemyStats.OnAnyEnemyDeath += OnEnemyDeath; // (Vector3.zero, m_PlayerStats)
 
             m_PassiveLevel8 = true;
         }
@@ -78,9 +78,9 @@ public class Class_Cleric : MonoBehaviour
     }
 
     // level 8
-    private void OnEnemyDeath(Vector3 position, EnemyStats.Killer source)
+    private void OnEnemyDeath(Vector3 position, PlayerStats playerKill, TowerStats towerKill)
     {
-        if (source != EnemyStats.Killer.Player) return;
+        if (playerKill == null) return;
         if (Random.value >= m_DropChance) return;
 
         m_PlayerStats.transform.parent.GetComponent<PlayerController>().SpawnObject(position, PlayerStats.SpawnableObject.ClericHealL8);

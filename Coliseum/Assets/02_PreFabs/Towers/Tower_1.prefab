@@ -42,7 +42,6 @@ GameObject:
   - component: {fileID: 1095257850143749549}
   - component: {fileID: 8402953685844716334}
   - component: {fileID: 5974546148575209020}
-  - component: {fileID: 8640602588192288394}
   - component: {fileID: 4637901303120219551}
   - component: {fileID: 1541981034213172548}
   m_Layer: 0
@@ -106,27 +105,6 @@ MonoBehaviour:
     type: 3}
   m_ShootPoint: {fileID: 905872285635713901}
   m_Target: {fileID: 0}
---- !u!114 &8640602588192288394
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1948653996950279330}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1786676481
-  InScenePlacedSourceGlobalObjectIdHash: 0
-  AlwaysReplicateAsRoot: 0
-  SynchronizeTransform: 1
-  ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
-  SpawnWithObservers: 1
-  DontDestroyWithOwner: 0
-  AutoObjectParentSync: 1
 --- !u!114 &4637901303120219551
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -139,7 +117,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 513c86487dde7954688d373c53cdbd6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hexSize: 2.5
+  m_HexSize: 3
   detectionHeight: 2
   checkInterval: 0.1
   enemyLayer:

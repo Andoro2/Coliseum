@@ -4,8 +4,7 @@ using TMPro;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UI;
-using static EnemyStats;
-using static UnityEngine.GraphicsBuffer;
+using static Unity.VisualScripting.Member;
 
 public class EnemyStats : MonoBehaviour
 {
@@ -37,6 +36,11 @@ public class EnemyStats : MonoBehaviour
         Undead
     }
     public List<EnemyTypes> m_EnemyTypeList = new List<EnemyTypes>();
+
+    // --- Valor ---
+    [Header("Valor")]
+    public float m_ExpReward,
+        m_GoldReward;
 
     // --- Vida ---
     [Header("Vida")]
@@ -154,14 +158,12 @@ public class EnemyStats : MonoBehaviour
     private Slider m_HealthSlider;
     private TMP_Text m_HPCurrent;
     private TMP_Text m_HPMax;
-    
-    public enum Killer { Player, Turret }
 
-    public event System.Action<Killer> OnDeath;
+    public event System.Action<PlayerStats, TowerStats> OnDeath;
     public event System.Action<float, WorldElements> OnDamageTaken;
-    public static event System.Action<EnemyStats, float, WorldElements, bool, Killer> OnAnyEnemyDamaged;
+    public static event System.Action<EnemyStats, float, WorldElements, bool, PlayerStats, TowerStats> OnAnyEnemyDamaged;
     //public event System.Action<float> OnHealthChanged;
-    public static event System.Action<Vector3, EnemyStats.Killer> OnAnyEnemyDeath;
+    public static event System.Action<Vector3, PlayerStats, TowerStats> OnAnyEnemyDeath;
 
     public GameObject DamageText;
         //m_CurrentHealth.OnValueChanged += OnHealthChanged;
@@ -195,7 +197,7 @@ public class EnemyStats : MonoBehaviour
     // -------------------------------------------------------------------------
     // Recibir daño
     // -------------------------------------------------------------------------
-    public void TakeDamage(float damage, ElementDamage[] attackElements, bool isCrit, float critExtra, Killer source, ulong attackerClientId = 0)
+    public void TakeDamage(float damage, ElementDamage[] attackElements, bool isCrit, float critExtra, PlayerStats playerSource = null, TowerStats towerSource = null)
     {
         if (attackElements == null || attackElements.Length == 0)
             attackElements = new ElementDamage[] { new ElementDamage { Element = WorldElements.Null, Percentage = 1f } };
@@ -228,7 +230,8 @@ public class EnemyStats : MonoBehaviour
                 m_CurrentHealth = Mathf.Max(0f, m_CurrentHealth - remainingDmg);
 
                 OnDamageTaken?.Invoke(remainingDmg, ed.Element);
-                OnAnyEnemyDamaged?.Invoke(this, remainingDmg, ed.Element, isCrit, source);
+                if (playerSource != null) OnAnyEnemyDamaged?.Invoke(this, remainingDmg, ed.Element, isCrit, playerSource, null);
+                if (towerSource != null) OnAnyEnemyDamaged?.Invoke(this, remainingDmg, ed.Element, isCrit, null, towerSource);
 
                 ShowDamageText(remainingDmg, ed, isCrit);
                 /*
@@ -249,7 +252,11 @@ public class EnemyStats : MonoBehaviour
             if (isCleric != null) if(m_EnemyTypeList.Contains(EnemyTypes.Undead) && isCleric.m_PassiveLevel12) Die(source, attackerClientId);
         }*/
 
-        if (m_CurrentHealth <= 0) Die(source);
+        if (m_CurrentHealth <= 0)
+        {
+            if (playerSource != null) Die(playerSource, null);
+            if (towerSource != null) Die(null, towerSource);
+        }
     }
 
     private void ShowDamageText(float damageAmount, ElementDamage element, bool isCrit)
@@ -275,30 +282,41 @@ public class EnemyStats : MonoBehaviour
     }
 
     private bool m_IsDead = false;
-    public void Die(Killer source)
+    public void Die(PlayerStats playerKill = null, TowerStats towerKill = null)
     {
         //pot ser a vegades s'invoque molt ràpid i de duplique d'alguna forma, es per a evitar-ho
         if (m_IsDead) return;
         m_IsDead = true;
 
-        OnDeath?.Invoke(source);
-        NotifyAnyDeath(transform.position, source);
+        if (playerKill != null) OnDeath?.Invoke(playerKill, null); NotifyAnyDeath(transform.position, playerKill, null); playerKill.ObtainExp(m_ExpReward);
+        if (towerKill != null)
+        {
+            OnDeath?.Invoke(null, towerKill);
+            NotifyAnyDeath(transform.position, null, towerKill);
+            towerKill.ObtainExp(m_ExpReward);
+        }
+
+        //OnDeath?.Invoke(source);
+        //NotifyAnyDeath(transform.position, source);
 
         if (m_EnemyClass == EnemyClasses.Elite || m_EnemyClass == EnemyClasses.RoundBoss)
-            NotifyDeath(source, m_EnemyClass);
+            NotifyDeath(m_EnemyClass, playerKill);
 
         Destroy(gameObject);
     }
 
-    private void NotifyAnyDeath(Vector3 position, Killer source)
+    private void NotifyAnyDeath(Vector3 position, PlayerStats playerKill = null, TowerStats towerKill = null)
     {
-        OnAnyEnemyDeath?.Invoke(position, source);
+        if (playerKill != null) OnAnyEnemyDeath?.Invoke(position, playerKill, null);
+        if (towerKill != null) OnAnyEnemyDeath?.Invoke(position, null, towerKill);
+
+        //OnAnyEnemyDeath?.Invoke(position, source);
     }
 
     // detectar info del eliminador
-    private void NotifyDeath(Killer source, EnemyClasses enemyClass)
+    private void NotifyDeath(EnemyClasses enemyClass, PlayerStats playerKill = null)
     {
-        if (source != Killer.Player) return;
+        if (playerKill == null) return;
 
         Class_Bard isBard = GameObject.FindWithTag("Player").gameObject.transform.GetComponentInChildren<Class_Bard>(); //PlayerController.GetComponentInChildren<Class_Bard>();
         if (isBard) isBard.LegendBuff(true, enemyClass);
@@ -412,6 +430,10 @@ public class EnemyStats : MonoBehaviour
     public float CheckDamageResistance(WorldElements element)
     {
         return m_ElementalResistances.ContainsKey(element) ? m_ElementalResistances[element] : 0f;
+    }
+    public bool IsWeakTo(WorldElements element)
+    {
+        return m_ElementalResistances.ContainsKey(element) && m_ElementalResistances[element] < 0f;
     }
 
     public void SetImmunity(StatusEffect effect, bool immune)

@@ -20,7 +20,10 @@ public class AreaElementDamage : MonoBehaviour
     public float m_HealValue;
 
     public Dictionary<WorldElements, float> m_AttackElements = new Dictionary<WorldElements, float>();
-    
+
+    TowerStats m_TowerSource;
+    PlayerStats m_PlayerSource;
+
     public void AddAutoAttackElement(WorldElements element, float percentage)
     {
         if (m_AttackElements.ContainsKey(element))
@@ -101,7 +104,8 @@ public class AreaElementDamage : MonoBehaviour
                 BuildElementArray(),
                 false,
                 0f,
-                EnemyStats.Killer.Player
+                m_PlayerSource,
+                m_TowerSource
                 );
             }
             if(thing.CompareTag("Player"))

@@ -26,11 +26,17 @@ public class HexAreaDamageOverTime : MonoBehaviour
     private float m_CritExtra;
     private ulong m_AttackerClientId;
 
-    public void Initialize(float damage, bool isCrit, float critExtra)
+    TowerStats m_TowerSource;
+    PlayerStats m_PlayerSource;
+
+    public void Initialize(float damage, bool isCrit, float critExtra, TowerStats towerSource = null, PlayerStats playerSource = null)
     {
         m_Damage = damage * m_DamagePercent;
         m_IsCrit = isCrit;
         m_CritExtra = critExtra;
+
+        if (towerSource != null) m_TowerSource = towerSource;
+        if (playerSource != null) m_PlayerSource = playerSource;
 
         ApplyHexDamage();
 
@@ -69,8 +75,8 @@ public class HexAreaDamageOverTime : MonoBehaviour
                         elements,
                         m_IsCrit,
                         m_CritExtra,
-                        EnemyStats.Killer.Player,
-                        m_AttackerClientId
+                        m_PlayerSource,
+                        m_TowerSource
                     );
                 }
                 else

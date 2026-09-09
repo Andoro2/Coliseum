@@ -112,7 +112,7 @@ public class InRangeManager : MonoBehaviour
 
                 return enemiesInRange
                     .Where(e => {
-                        EnemyManager em = e.GetComponent<EnemyManager>();
+                        EnemyStats em = e.GetComponent<EnemyStats>();
                         if (em == null) return false;
                         return targetElements.All(element => em.IsWeakTo(element));
                     })

@@ -5,6 +5,7 @@ using static GameManager;
 
 public class ProjectileForward : MonoBehaviour
 {
+    public TowerStats m_OwnerTower;
     public GameObject target;
     public float speed = 20f,
         m_Damage,

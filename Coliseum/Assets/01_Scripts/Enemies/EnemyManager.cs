@@ -69,8 +69,8 @@ public class EnemyManager : MonoBehaviour
         m_Health -= totalDamage;
     }
 
-    public bool IsWeakTo(WorldElements element)
+    /*public bool IsWeakTo(WorldElements element)
     {
         return m_ResistanceMap.ContainsKey(element) && m_ResistanceMap[element] < 0f;
-    }
+    }*/
 }

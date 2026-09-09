@@ -66,7 +66,8 @@ public class PlayerGenericProjectile : MonoBehaviour
                 elements,
                 m_IsCrit,
                 m_CritExtra,
-                EnemyStats.Killer.Player
+                GetComponent<PlayerStats>(),
+                null
                 );
             //}
 
@@ -77,7 +78,8 @@ public class PlayerGenericProjectile : MonoBehaviour
                     elements,
                     m_IsCrit,
                     m_CritExtra,
-                    EnemyStats.Killer.Player
+                    GetComponent<PlayerStats>(),
+                    null
                 );
             }
 
