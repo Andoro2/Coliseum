@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using static EnemyStats;
-using static PlayerStats;
 
 public class PlayerStats : MonoBehaviour
 {

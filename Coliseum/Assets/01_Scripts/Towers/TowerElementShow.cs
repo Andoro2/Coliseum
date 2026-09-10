@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using System.Linq;
 //using static GameManager;
 
-public class TowertElementShow : MonoBehaviour
+public class TowerElementShow : MonoBehaviour
 {
     public List<ElementIcon> ElementIcons = new List<ElementIcon>();
     public List<WorldElements> ContactingTileElements = new List<WorldElements>();
@@ -83,7 +83,6 @@ public class TowertElementShow : MonoBehaviour
             }
         }
     }
-
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;

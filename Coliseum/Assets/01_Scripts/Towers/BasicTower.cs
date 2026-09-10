@@ -6,7 +6,7 @@ public class BasicTower : MonoBehaviour
 {
     private TowerStats m_TowerStats;
 
-    public float m_ShootTimer = 0f;
+    public float m_ShootTimer;
     public GameObject m_Projectile, m_ShootPoint;
     public GameObject m_Target;
 
@@ -14,7 +14,7 @@ public class BasicTower : MonoBehaviour
     void Start()
     {
         m_TowerStats = GetComponent<TowerStats>();
-        m_ShootTimer = 60f / m_TowerStats.m_Cadency;
+        m_ShootTimer = m_TowerStats.m_Cadency;
     }
 
     void Update()

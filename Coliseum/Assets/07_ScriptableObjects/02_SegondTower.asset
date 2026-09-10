@@ -10,10 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2ad734fda541dbb4e88ee7718184db6e, type: 3}
-  m_Name: 01_Projectile
+  m_Name: 02_SegondTower
   m_EditorClassIdentifier: 
-  m_TurretName: "Torreta b\xE1sica"
-  m_Damage: 50
-  m_ShootsPerMinute: 30
-  m_Range: 750
-  m_Price: 100
+  m_TurretName: Second Tower
+  Element: 4
+  m_ElementPercentage: 0.15
+  m_Damage: 60
+  m_ShootsPerMinute: 25
+  m_Range: 150
+  m_Price: 150
+  m_DamageGrowthPercent: 0.1
+  m_CadencyGrowthFlat: 0.2
+  m_RangeGrowthFlat: 2.5
+  m_ElementPercentageGrowthFlat: 1.1
+  m_BaseLevelExp: 100
+  m_LevelExpGrowthFactor: 1.1

@@ -19,14 +19,21 @@ public class TowerCreator : MonoBehaviour
     {
         GameObject turret;
         if (TurretIndex == 0)
-        {
+        { // crear el sketch
             turret = Instantiate(m_TurretSketch, turretPos, Quaternion.identity);
         }
         else
-        {
+        { // crear la torreta
             turret = Instantiate(m_TurretsToBuild[TurretIndex], turretPos, Quaternion.identity);
+            
+            var groundElementsList = InstancedTurretSketch.GetComponent<TowerElementShow>().ContactingTileElements;
+            var turretElement = turret.GetComponent<TowerStats>().m_TurretStats.Element;
+            
+            if (groundElementsList.Contains(turretElement))
+            {
+                turret.GetComponent<TowerStats>().IsElementProficient();
+            }
         }
-        //InstancedTurretSketch = turret;
     }
     void Update()
     {
@@ -41,7 +48,6 @@ public class TowerCreator : MonoBehaviour
             targetPos += Vector3.down;
             if(InstancedTurretSketch == null)
             {
-                //SpawnTurretServerRpc(targetPos, true);
                 InstancedTurretSketch = Instantiate(m_TurretSketch, targetPos, Quaternion.identity);
             }
             else
@@ -72,13 +78,6 @@ public class TowerCreator : MonoBehaviour
 
                 Destroy(InstancedTurretSketch);
                 GetComponent<TowerCreator>().enabled = false;
-
-                /*if (!Input.GetKey(KeyCode.LeftShift))
-                {
-                    //DestroySketchTurretServerRpc();
-                    Destroy(InstancedTurretSketch);
-                    GetComponent<TowerCreator>().enabled = false;
-                }*/
             }
         }
         else

@@ -49,10 +49,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90e5e3f9010aaad4b9149c6d82960238, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Level: 1
+  m_Cost: 0
+  m_Cadency: 0
   m_RangeMesh: {fileID: 0}
   m_ElementProficiency: 0
-  m_TurretStats: {fileID: 11400000, guid: be3886ffa24d604439e08ac795f78115, type: 2}
+  m_TurretStats: {fileID: 11400000, guid: bc6d34d19c1d5874aa0b0f25706bef8e, type: 2}
+  m_Level: 1
+  m_CurrentExp: 0
 --- !u!114 &3566630957672321740
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -65,8 +68,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1cda61c00d6e9444a948d1f65a1e51e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Damage: 4
-  m_ElementalPercentage: 0
   m_ShootTimer: 0
   m_Projectile: {fileID: 1872292829029996938, guid: 1fdb3b21d6a105843a0a5c804ddb2575,
     type: 3}

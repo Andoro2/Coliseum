@@ -1,6 +1,10 @@
+using Steamworks.Data;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static Steamworks.InventoryItem;
+using static TowerStats;
+using static Unity.VisualScripting.Member;
 
 public class TowerStats : MonoBehaviour
 {
@@ -10,30 +14,33 @@ public class TowerStats : MonoBehaviour
     public GameObject m_RangeMesh;
     public bool m_ElementProficiency = false;
 
+    public Dictionary<WorldElements, float> m_AttackElements = new Dictionary<WorldElements, float>();
+
     public TurretStatsSO m_TurretStats;
 
     public float m_Damage => ApplyModifiers(AffectedStat.Damage, m_TurretStats.m_Damage * m_Level);
     public float m_ShootsPerMinute => ApplyModifiers(AffectedStat.Cadency, m_TurretStats.m_ShootsPerMinute);
     public float m_Range => ApplyModifiers(AffectedStat.Range, m_TurretStats.m_Range + 250f * m_Level);
     public float m_ElementPercentage => ApplyModifiers(AffectedStat.ElementPercentage, m_TurretStats.m_ElementPercentage);
-
-    // Start is called before the first frame update
+    
     void Start()
     {
         m_RangeMesh = transform.GetChild(1).gameObject;
-        //leveles = m_Level;
         m_Cost = m_TurretStats.m_Price;
 
         ApplyLevelStats();
         IncreaseRange();
-        //m_Cadency = m_TurretStats.m_ShootsPerMinute;
-        //m_ElementPercentage = m_TurretStats.m_ElementPercentage;
+
+        if(m_TurretStats.Element != WorldElements.Null)
+        {
+            if(m_ElementProficiency) m_AttackElements.Add(m_TurretStats.Element, m_TurretStats.m_ElementPercentage + 0.5f);
+            else m_AttackElements.Add(m_TurretStats.Element, m_TurretStats.m_ElementPercentage);
+        }
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+
     }
     public void IncreaseRange()
     {
@@ -45,14 +52,13 @@ public class TowerStats : MonoBehaviour
     }
     public void IncreaseCadency()
     {
-        AddModifier(new StatModifier(AffectedStat.Cadency, Modification.Plain, 1f, this));
+        AddModifier(new TurretBuffSource(TurretBuffSources.Level, AffectedStat.Cadency, BuffType.Plain, 1f, -1f));
     }
     public void IncreaseLevel()
     {
         //m_Level++;
         IncreaseRange();
     }
-
     public void CheckElementsOnGround()
     {
         Collider[] m_Intersecting = Physics.OverlapBox(new Vector3(transform.position.x, transform.position.y - 0.3f, transform.position.z), transform.localScale / 2f);
@@ -70,9 +76,7 @@ public class TowerStats : MonoBehaviour
     public int m_Level = 1;
     public float m_CurrentExp;
 
-    public event System.Action<int> OnLevelUp;
-
-    private static readonly object LevelGrowthSource = new object();
+    //public event System.Action<int> OnLevelUp;
 
     private float ExpToNextLevel()
     {
@@ -91,13 +95,13 @@ public class TowerStats : MonoBehaviour
             ApplyLevelStats();
             IncreaseRange();
 
-            OnLevelUp?.Invoke(m_Level);
+            //OnLevelUp?.Invoke(m_Level);
         }
     }
 
     private void ApplyLevelStats()
     {
-        RemoveModifiersFromSource(LevelGrowthSource);
+        RemoveModifiersFromSource(TurretBuffSources.Level);
 
         int levelsAboveBase = m_Level - 1;
 
@@ -107,10 +111,10 @@ public class TowerStats : MonoBehaviour
         float rangeBonus = m_TurretStats.m_RangeGrowthFlat * levelsAboveBase;
         float elementBonus = m_TurretStats.m_ElementPercentageGrowthFlat * levelsAboveBase;
 
-        AddModifier(new StatModifier(AffectedStat.Damage, Modification.Multiplicative, damageMultiplierBonus, LevelGrowthSource));
-        AddModifier(new StatModifier(AffectedStat.Cadency, Modification.Plain, cadencyBonus, LevelGrowthSource));
-        AddModifier(new StatModifier(AffectedStat.Range, Modification.Plain, rangeBonus, LevelGrowthSource));
-        AddModifier(new StatModifier(AffectedStat.ElementPercentage, Modification.Plain, elementBonus, LevelGrowthSource));
+        AddModifier(new TurretBuffSource(TurretBuffSources.Level, AffectedStat.Damage, BuffType.Multiplicative, damageMultiplierBonus, -1));
+        AddModifier(new TurretBuffSource(TurretBuffSources.Level, AffectedStat.Cadency, BuffType.Plain, cadencyBonus, -1));
+        AddModifier(new TurretBuffSource(TurretBuffSources.Level, AffectedStat.Range, BuffType.Plain, rangeBonus, -1));
+        AddModifier(new TurretBuffSource(TurretBuffSources.Level, AffectedStat.ElementPercentage, BuffType.Plain, elementBonus, -1));
     }
 
     #endregion
@@ -118,46 +122,61 @@ public class TowerStats : MonoBehaviour
     #region Stats modifications
     // modifiers, buffs and debuffs
     public enum AffectedStat { Damage, Cadency, Range, ElementPercentage }
-    public enum Modification { Plain, Percentage, Multiplicative }
+    public enum BuffType { Plain, Percentage, Multiplicative }
 
-    public struct StatModifier
+    public enum TurretBuffSources
     {
-        public AffectedStat Stat;
-        public Modification Effect;
-        public float Value;
-        public object Source;
+        Level,
+        TurretUpgrader,
+    }
 
-        public StatModifier(AffectedStat stat, Modification mod, float value, object source)
+    [System.Serializable]
+    public class TurretBuffSource
+    {
+        public TurretBuffSources Source;
+        public AffectedStat Stat;
+        public BuffType ModType;
+        public float Amount;
+        public float ExpirationTime;
+
+        public bool IsExpired => ExpirationTime != -1 && Time.time >= ExpirationTime; // -1 = infinito, permanente
+
+        public TurretBuffSource(TurretBuffSources source, AffectedStat stat, BuffType buffType, float amount, float duration = -1f)
         {
-            Stat = stat;
-            Effect = mod;
-            Value = value;
             Source = source;
+            Stat = stat;
+            ModType = buffType;
+            Amount = amount;
+            ExpirationTime = (duration <= 0) ? -1f : Time.time + duration;
         }
     }
 
-    private readonly List<StatModifier> m_Modifiers = new List<StatModifier>();
-    public void AddModifier(StatModifier modifier) => m_Modifiers.Add(modifier);
-    public void RemoveModifiersFromSource(object source) => m_Modifiers.RemoveAll(m => m.Source == source);
-
-    private float ApplyModifiers(AffectedStat stat, float baseValue)
+    private readonly List<TurretBuffSource> m_TurretBuffs = new List<TurretBuffSource>();
+    public void AddModifier(TurretBuffSource modifier) => m_TurretBuffs.Add(modifier);
+    public void RemoveModifiersFromSource(object source) => m_TurretBuffs.RemoveAll(m => m.Source == TurretBuffSources.Level);
+    private float ApplyModifiers(AffectedStat stat, float value)
     {
         float additive = 0f;
         float percentAdd = 0f;
         float percentMult = 1f;
 
-        foreach (var mod in m_Modifiers)
+        foreach (var mod in m_TurretBuffs)
         {
             if (mod.Stat != stat) continue;
-            switch (mod.Effect)
+            switch (mod.ModType)
             {
-                case Modification.Plain: additive += mod.Value; break;
-                case Modification.Percentage: percentAdd += mod.Value; break;
-                case Modification.Multiplicative: percentMult *= (1f + mod.Value); break;
+                case BuffType.Plain: additive += mod.Amount; break;
+                case BuffType.Percentage: percentAdd += mod.Amount; break;
+                case BuffType.Multiplicative: percentMult *= (1f + mod.Amount); break;
             }
         }
 
-        return (baseValue + additive) * (1f + percentAdd) * percentMult;
+        return (value + additive) * (1f + percentAdd) * percentMult;
     }
     #endregion
+
+    public void IsElementProficient()
+    {
+        m_ElementProficiency = true;
+    }
 }

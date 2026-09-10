@@ -24,7 +24,6 @@ public class HexAreaDamageOverTime : MonoBehaviour
     private float m_Damage;
     private bool m_IsCrit;
     private float m_CritExtra;
-    private ulong m_AttackerClientId;
 
     TowerStats m_TowerSource;
     PlayerStats m_PlayerSource;
