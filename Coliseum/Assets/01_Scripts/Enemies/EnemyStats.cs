@@ -155,13 +155,13 @@ public class EnemyStats : MonoBehaviour
 
     // --- UI ---
     [Header("UI")]
-    private Slider m_HealthSlider;
-    private TMP_Text m_HPCurrent;
-    private TMP_Text m_HPMax;
+    public Slider m_HealthSlider;
+    // private TMP_Text m_HPCurrent;
+    // private TMP_Text m_HPMax;
 
     public event System.Action<PlayerStats, TowerStats> OnDeath;
     public event System.Action<float, WorldElements> OnDamageTaken;
-    public static event System.Action<EnemyStats, float, WorldElements, bool, PlayerStats, TowerStats> OnAnyEnemyDamaged;
+    // public static event System.Action<EnemyStats, float, WorldElements, bool, PlayerStats, TowerStats> OnAnyEnemyDamaged;
     //public event System.Action<float> OnHealthChanged;
     public static event System.Action<Vector3, PlayerStats, TowerStats> OnAnyEnemyDeath;
 
@@ -180,6 +180,8 @@ public class EnemyStats : MonoBehaviour
     private void Start()
     {
         m_CurrentHealth = m_MaxHealth;
+        m_HealthSlider.maxValue = m_MaxHealth;
+        m_HealthSlider.value = m_CurrentHealth;
     }
 
     private void Update()
@@ -230,8 +232,8 @@ public class EnemyStats : MonoBehaviour
                 m_CurrentHealth = Mathf.Max(0f, m_CurrentHealth - remainingDmg);
 
                 OnDamageTaken?.Invoke(remainingDmg, ed.Element);
-                if (playerSource != null) OnAnyEnemyDamaged?.Invoke(this, remainingDmg, ed.Element, isCrit, playerSource, null);
-                if (towerSource != null) OnAnyEnemyDamaged?.Invoke(this, remainingDmg, ed.Element, isCrit, null, towerSource);
+                // if (playerSource != null) OnAnyEnemyDamaged?.Invoke(this, remainingDmg, ed.Element, isCrit, playerSource, null);
+                // if (towerSource != null) OnAnyEnemyDamaged?.Invoke(this, remainingDmg, ed.Element, isCrit, null, towerSource);
 
                 ShowDamageText(remainingDmg, ed, isCrit);
                 /*
@@ -252,10 +254,13 @@ public class EnemyStats : MonoBehaviour
             if (isCleric != null) if(m_EnemyTypeList.Contains(EnemyTypes.Undead) && isCleric.m_PassiveLevel12) Die(source, attackerClientId);
         }*/
 
+        m_HealthSlider.value = m_CurrentHealth;
+
         if (m_CurrentHealth <= 0)
         {
-            if (playerSource != null) Die(playerSource, null);
-            if (towerSource != null) Die(null, towerSource);
+            Debug.Log("Muelot");
+            
+            Die(playerSource, towerSource);
         }
     }
 
@@ -288,7 +293,15 @@ public class EnemyStats : MonoBehaviour
         if (m_IsDead) return;
         m_IsDead = true;
 
-        if (playerKill != null) OnDeath?.Invoke(playerKill, null); NotifyAnyDeath(transform.position, playerKill, null); playerKill.ObtainExp(m_ExpReward);
+        if (playerKill != null)
+        {
+            OnDeath?.Invoke(playerKill, null);
+            NotifyAnyDeath(transform.position, playerKill, null);
+            playerKill.ObtainExp(m_ExpReward);
+
+            if (m_EnemyClass == EnemyClasses.Elite || m_EnemyClass == EnemyClasses.RoundBoss)
+                NotifyDeath(m_EnemyClass, playerKill);
+        }
         if (towerKill != null)
         {
             OnDeath?.Invoke(null, towerKill);
@@ -299,11 +312,8 @@ public class EnemyStats : MonoBehaviour
         //OnDeath?.Invoke(source);
         //NotifyAnyDeath(transform.position, source);
 
-        if (m_EnemyClass == EnemyClasses.Elite || m_EnemyClass == EnemyClasses.RoundBoss)
-            NotifyDeath(m_EnemyClass, playerKill);
-
         GameObject.FindWithTag("GameController").gameObject.GetComponent<GameManager>().GetPaid(m_GoldReward);
-        Destroy(gameObject);
+        Destroy(this.gameObject);
     }
 
     private void NotifyAnyDeath(Vector3 position, PlayerStats playerKill = null, TowerStats towerKill = null)

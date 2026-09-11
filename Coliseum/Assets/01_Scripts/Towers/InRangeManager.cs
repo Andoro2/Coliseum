@@ -98,12 +98,12 @@ public class InRangeManager : MonoBehaviour
 
             case TargetPriority.Slowest:
                 return enemiesInRange
-                    .OrderBy(e => e.GetComponent<EnemyMovement>()?.m_Speed ?? float.MaxValue)
+                    .OrderBy(e => e.GetComponent<EnemyStats>()?.m_Speed ?? float.MaxValue)
                     .First();
 
             case TargetPriority.Fastest:
                 return enemiesInRange
-                    .OrderByDescending(e => e.GetComponent<EnemyMovement>()?.m_Speed ?? 0f)
+                    .OrderByDescending(e => e.GetComponent<EnemyStats>()?.m_Speed ?? 0f)
                     .First();
 
             case TargetPriority.WeakToElement:

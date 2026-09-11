@@ -14,11 +14,11 @@ public class TowerStats : MonoBehaviour
 
     public TurretStatsSO m_TurretStats;
 
-    public float m_Damage => ApplyModifiers(AffectedStat.Damage, m_TurretStats.m_Damage * m_Level);
+    public float m_Damage => ApplyModifiers(AffectedStat.Damage, m_TurretStats.m_Damage);
     public float m_ShootsPerMinute => ApplyModifiers(AffectedStat.Cadency, m_TurretStats.m_ShootsPerMinute);
-    public float m_Range => ApplyModifiers(AffectedStat.Range, m_TurretStats.m_Range + 250f * m_Level);
+    public float m_Range => ApplyModifiers(AffectedStat.Range, m_TurretStats.m_Range);
     public float m_ElementPercentage => ApplyModifiers(AffectedStat.ElementPercentage, m_TurretStats.m_ElementPercentage);
-    
+
     void Start()
     {
         m_RangeMesh = transform.GetChild(1).gameObject;
@@ -36,7 +36,7 @@ public class TowerStats : MonoBehaviour
 
     void Update()
     {
-
+        
     }
     public void IncreaseRange()
     {
@@ -152,9 +152,18 @@ public class TowerStats : MonoBehaviour
 
     private readonly List<TurretBuffSource> m_TurretBuffs = new List<TurretBuffSource>();
     public void AddModifier(TurretBuffSource modifier) => m_TurretBuffs.Add(modifier);
-    public void RemoveModifiersFromSource(object source) => m_TurretBuffs.RemoveAll(m => m.Source == TurretBuffSources.Level);
+    public void RemoveModifiersFromSource(TurretBuffSources source)
+    {
+        m_TurretBuffs.RemoveAll(m => m.Source == source);
+    }
+    public void RemoveExpiredModifiers()
+    {
+        m_TurretBuffs.RemoveAll(m => m.IsExpired);
+    }
     private float ApplyModifiers(AffectedStat stat, float value)
     {
+        RemoveExpiredModifiers();
+
         float additive = 0f;
         float percentAdd = 0f;
         float percentMult = 1f;

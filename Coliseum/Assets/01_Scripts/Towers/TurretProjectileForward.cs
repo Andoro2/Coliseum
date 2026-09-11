@@ -37,6 +37,8 @@ public class TurretProjectileForward : MonoBehaviour
     public void Initialize(float damage, ElementDamage[] attackElements, TowerStats towerSource = null, PlayerStats playerSource = null)
     {
         m_Damage = damage;
+        elements = attackElements;
+        m_OwnerTower = towerSource;
     }
     private void OnTriggerEnter(Collider other)
     {

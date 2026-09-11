@@ -14,7 +14,7 @@ public class Tower_01Basic : MonoBehaviour
     void Start()
     {
         m_TowerStats = GetComponent<TowerStats>();
-        m_ShootTimer = m_TowerStats.m_ShootsPerMinute;
+        m_ShootTimer = 60 / m_TowerStats.m_ShootsPerMinute;
     }
 
     void Update()

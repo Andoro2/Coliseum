@@ -34,7 +34,7 @@ public class Class_Druid : MonoBehaviour
         // Suscribirse al evento de subida de nivel
         m_PlayerStats.OnLevelUp += OnLevelUp;
 
-        EnemyStats.OnAnyEnemyDamaged += HandleAnyEnemyDamaged;
+        // EnemyStats.OnAnyEnemyDamaged += HandleAnyEnemyDamaged;
     }
     private void OnLevelUp(int newLevel)
     {
@@ -92,6 +92,6 @@ public class Class_Druid : MonoBehaviour
     private void OnDestroy()
     {
         m_PlayerStats.OnLevelUp -= OnLevelUp;
-        EnemyStats.OnAnyEnemyDamaged -= HandleAnyEnemyDamaged;
+        // EnemyStats.OnAnyEnemyDamaged -= HandleAnyEnemyDamaged;
     }
 }

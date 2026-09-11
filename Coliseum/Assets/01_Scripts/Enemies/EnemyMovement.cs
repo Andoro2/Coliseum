@@ -8,12 +8,16 @@ using static EnemySpawner;
 
 public class EnemyMovement : MonoBehaviour
 {
-    public float m_Speed = 5f;
+    //public float m_Speed = 5f;
     public List<Transform> m_Path = new List<Transform>();
     public List<GameObject> m_TurretsTargetedBy = new List<GameObject>();
 
     public float m_StunExpirationTime = 0f;
     public bool IsStunned => Time.time < m_StunExpirationTime;
+    void Start()
+    {
+        //m_Speed = GetComponent<EnemyStats>().m_Speed;
+    }
     void Update()
     {
         if (!IsStunned && m_Path.Count > 0)
@@ -25,7 +29,7 @@ public class EnemyMovement : MonoBehaviour
     }
     public void Move()
     {
-        transform.position = Vector3.MoveTowards(transform.position, m_Path[0].position, m_Speed * Time.deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, m_Path[0].position, GetComponent<EnemyStats>().m_Speed * Time.deltaTime);
 
         if(Vector3.Distance(transform.position, m_Path[0].position) <= 0.25f)
         {
