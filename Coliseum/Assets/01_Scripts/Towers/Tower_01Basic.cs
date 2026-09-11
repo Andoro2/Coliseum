@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BasicTower : MonoBehaviour
+public class Tower_01Basic : MonoBehaviour
 {
     private TowerStats m_TowerStats;
 
@@ -14,7 +14,7 @@ public class BasicTower : MonoBehaviour
     void Start()
     {
         m_TowerStats = GetComponent<TowerStats>();
-        m_ShootTimer = m_TowerStats.m_Cadency;
+        m_ShootTimer = m_TowerStats.m_ShootsPerMinute;
     }
 
     void Update()
@@ -30,23 +30,33 @@ public class BasicTower : MonoBehaviour
             if (m_ShootTimer <= 0)
             {
                 Shoot();
-                m_ShootTimer = 60f / m_TowerStats.m_Cadency;
+                m_ShootTimer = 60f / m_TowerStats.m_ShootsPerMinute;
             }
         }
     }
 
     void Shoot()
     {
+        Debug.Log("Shoot");
         GameObject projectile = Instantiate(m_Projectile, m_ShootPoint.transform);
         projectile.transform.SetParent(null);
 
-        ProjectileForward pf = projectile.GetComponent<ProjectileForward>();
+        TurretProjectileForward pf = projectile.GetComponent<TurretProjectileForward>();
 
         if (m_Target != null)
             pf.target = m_Target;
 
-        pf.m_Damage = m_TowerStats.m_Damage;
-        pf.m_ElementalPercentage = m_TowerStats.m_ElementPercentage;
-        pf.m_OwnerTower = m_TowerStats;
+        pf.Initialize(m_TowerStats.m_Damage, BuildElementArray(), m_TowerStats, null);
+    }
+
+    protected ElementDamage[] BuildElementArray()
+    {
+        List<ElementDamage> elements = new List<ElementDamage>();
+        elements.Add(new ElementDamage { Element = WorldElements.Null, Percentage = 1f });
+
+        foreach (var kvp in m_TowerStats.m_AttackElements)
+            elements.Add(new ElementDamage { Element = kvp.Key, Percentage = kvp.Value });
+
+        return elements.ToArray();
     }
 }

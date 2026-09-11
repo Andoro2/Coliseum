@@ -2,14 +2,10 @@ using Steamworks.Data;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static Steamworks.InventoryItem;
-using static TowerStats;
-using static Unity.VisualScripting.Member;
 
 public class TowerStats : MonoBehaviour
 {
     public int m_Cost;
-    public float m_Cadency;
 
     public GameObject m_RangeMesh;
     public bool m_ElementProficiency = false;
@@ -52,7 +48,7 @@ public class TowerStats : MonoBehaviour
     }
     public void IncreaseCadency()
     {
-        AddModifier(new TurretBuffSource(TurretBuffSources.Level, AffectedStat.Cadency, BuffType.Plain, 1f, -1f));
+        AddModifier(new TurretBuffSource(TurretBuffSources.Level, AffectedStat.Cadency, BuffType.Plain, WorldElements.Null, 1f, -1f));
     }
     public void IncreaseLevel()
     {
@@ -111,10 +107,10 @@ public class TowerStats : MonoBehaviour
         float rangeBonus = m_TurretStats.m_RangeGrowthFlat * levelsAboveBase;
         float elementBonus = m_TurretStats.m_ElementPercentageGrowthFlat * levelsAboveBase;
 
-        AddModifier(new TurretBuffSource(TurretBuffSources.Level, AffectedStat.Damage, BuffType.Multiplicative, damageMultiplierBonus, -1));
-        AddModifier(new TurretBuffSource(TurretBuffSources.Level, AffectedStat.Cadency, BuffType.Plain, cadencyBonus, -1));
-        AddModifier(new TurretBuffSource(TurretBuffSources.Level, AffectedStat.Range, BuffType.Plain, rangeBonus, -1));
-        AddModifier(new TurretBuffSource(TurretBuffSources.Level, AffectedStat.ElementPercentage, BuffType.Plain, elementBonus, -1));
+        AddModifier(new TurretBuffSource(TurretBuffSources.Level, AffectedStat.Damage, BuffType.Multiplicative, WorldElements.Null, damageMultiplierBonus, -1));
+        AddModifier(new TurretBuffSource(TurretBuffSources.Level, AffectedStat.Cadency, BuffType.Plain, WorldElements.Null, cadencyBonus, -1));
+        AddModifier(new TurretBuffSource(TurretBuffSources.Level, AffectedStat.Range, BuffType.Plain, WorldElements.Null, rangeBonus, -1));
+        AddModifier(new TurretBuffSource(TurretBuffSources.Level, AffectedStat.ElementPercentage, BuffType.Plain, m_TurretStats.Element, elementBonus, -1));
     }
 
     #endregion
@@ -127,6 +123,7 @@ public class TowerStats : MonoBehaviour
     public enum TurretBuffSources
     {
         Level,
+        Cards,
         TurretUpgrader,
     }
 
@@ -136,16 +133,18 @@ public class TowerStats : MonoBehaviour
         public TurretBuffSources Source;
         public AffectedStat Stat;
         public BuffType ModType;
+        public WorldElements Element;
         public float Amount;
         public float ExpirationTime;
 
         public bool IsExpired => ExpirationTime != -1 && Time.time >= ExpirationTime; // -1 = infinito, permanente
 
-        public TurretBuffSource(TurretBuffSources source, AffectedStat stat, BuffType buffType, float amount, float duration = -1f)
+        public TurretBuffSource(TurretBuffSources source, AffectedStat stat, BuffType buffType, WorldElements element, float amount, float duration = -1f)
         {
             Source = source;
             Stat = stat;
             ModType = buffType;
+            Element = element;
             Amount = amount;
             ExpirationTime = (duration <= 0) ? -1f : Time.time + duration;
         }
@@ -174,6 +173,7 @@ public class TowerStats : MonoBehaviour
         return (value + additive) * (1f + percentAdd) * percentMult;
     }
     #endregion
+
 
     public void IsElementProficient()
     {

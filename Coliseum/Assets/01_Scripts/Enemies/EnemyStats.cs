@@ -39,8 +39,8 @@ public class EnemyStats : MonoBehaviour
 
     // --- Valor ---
     [Header("Valor")]
-    public float m_ExpReward,
-        m_GoldReward;
+    public float m_ExpReward;
+    public int m_GoldReward;
 
     // --- Vida ---
     [Header("Vida")]
@@ -302,6 +302,7 @@ public class EnemyStats : MonoBehaviour
         if (m_EnemyClass == EnemyClasses.Elite || m_EnemyClass == EnemyClasses.RoundBoss)
             NotifyDeath(m_EnemyClass, playerKill);
 
+        GameObject.FindWithTag("GameController").gameObject.GetComponent<GameManager>().GetPaid(m_GoldReward);
         Destroy(gameObject);
     }
 

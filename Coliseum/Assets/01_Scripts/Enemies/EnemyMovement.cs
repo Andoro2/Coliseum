@@ -18,10 +18,10 @@ public class EnemyMovement : MonoBehaviour
     {
         if (!IsStunned && m_Path.Count > 0)
         {
-            Debug.Log("Zoom zooom");
+            //Debug.Log("Zoom zooom");
             Move();
         }
-        else if (IsStunned) Debug.Log("nao nao, no zoom");
+        //else if (IsStunned) Debug.Log("nao nao, no zoom");
     }
     public void Move()
     {

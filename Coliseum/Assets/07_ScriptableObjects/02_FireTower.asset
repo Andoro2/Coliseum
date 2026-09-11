@@ -10,18 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2ad734fda541dbb4e88ee7718184db6e, type: 3}
-  m_Name: 02_SegondTower
+  m_Name: 02_FireTower
   m_EditorClassIdentifier: 
-  m_TurretName: Second Tower
+  m_TurretName: FireTower
   Element: 4
-  m_ElementPercentage: 0.15
-  m_Damage: 60
-  m_ShootsPerMinute: 25
-  m_Range: 150
+  m_ElementPercentage: 0.25
+  m_Damage: 5
+  m_ShootsPerMinute: 90
+  m_Range: 200
   m_Price: 150
   m_DamageGrowthPercent: 0.1
-  m_CadencyGrowthFlat: 0.2
-  m_RangeGrowthFlat: 2.5
-  m_ElementPercentageGrowthFlat: 1.1
-  m_BaseLevelExp: 100
-  m_LevelExpGrowthFactor: 1.1
+  m_CadencyGrowthFlat: 0.5
+  m_RangeGrowthFlat: 20
+  m_ElementPercentageGrowthFlat: 0.05
+  m_BaseLevelExp: 125
+  m_LevelExpGrowthFactor: 1.2

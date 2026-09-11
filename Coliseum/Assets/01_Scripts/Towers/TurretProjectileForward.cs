@@ -1,18 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static GameManager;
 
-public class ProjectileForward : MonoBehaviour
+public class TurretProjectileForward : MonoBehaviour
 {
     public TowerStats m_OwnerTower;
     public GameObject target;
     public float speed = 20f,
-        m_Damage,
-        m_ElementalPercentage;
-    public WorldElements m_ProjectileElement;
-    //public EnemySpawner.Types m_Element = EnemySpawner.Types.Normal;
+        m_Damage;
+    //public WorldElements m_ProjectileElement;
 
+    private ElementDamage[] elements;
+    public Dictionary<WorldElements, float> m_AttackElements = new Dictionary<WorldElements, float>();
+
+    private void Start()
+    {
+        
+    }
     void Update()
     {
         if (target != null)
@@ -30,11 +34,15 @@ public class ProjectileForward : MonoBehaviour
             Destroy(gameObject);
         }
     }
+    public void Initialize(float damage, ElementDamage[] attackElements, TowerStats towerSource = null, PlayerStats playerSource = null)
+    {
+        m_Damage = damage;
+    }
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Enemy"))
         {
-            other.GetComponent<EnemyManager>().TakeDamage(m_Damage, m_ElementalPercentage, m_ProjectileElement);
+            other.GetComponent<EnemyStats>().TakeDamage(m_Damage, elements, false, 0f, null, m_OwnerTower);
             Destroy(gameObject);
         }
     }

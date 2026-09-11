@@ -153,13 +153,31 @@ MonoBehaviour:
   - Name: 0
     Icon: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
   - Name: 1
-    Icon: {fileID: 21300000, guid: 9a0e26827f7683645b2548099e54fd23, type: 3}
+    Icon: {fileID: 21300000, guid: 4da5024f44a999b40889f3ead590e682, type: 3}
   - Name: 2
-    Icon: {fileID: 21300000, guid: 5d7d02380c98a6a48b6ab400778cd3ab, type: 3}
+    Icon: {fileID: 21300000, guid: 41a975e6623826641a11515afc01f4d8, type: 3}
   - Name: 3
-    Icon: {fileID: 21300000, guid: 27d9e90b788f34e4ab047aa026009caf, type: 3}
+    Icon: {fileID: 21300000, guid: f3354321b07269d4b8d4ec9fefb5adc5, type: 3}
   - Name: 4
-    Icon: {fileID: 21300000, guid: 4fe46143d7a87344fa8c4d97a0ea8d44, type: 3}
+    Icon: {fileID: 21300000, guid: 55a59cab03b5a36488e76a1cdcc26e04, type: 3}
+  - Name: 5
+    Icon: {fileID: 21300000, guid: 9c90448eee897704eae6a1770b40e86b, type: 3}
+  - Name: 6
+    Icon: {fileID: 21300000, guid: d56112bc5acdf95478c045ec77cf10ac, type: 3}
+  - Name: 7
+    Icon: {fileID: 21300000, guid: d9a886a353a537e4191400d6de50a518, type: 3}
+  - Name: 8
+    Icon: {fileID: 21300000, guid: 19a6a22bc9a13f648ab6f530b304e745, type: 3}
+  - Name: 9
+    Icon: {fileID: 21300000, guid: 4cf874368953d574a8c2449250bf1c98, type: 3}
+  - Name: 10
+    Icon: {fileID: 21300000, guid: b98240bfb30ede840a1d266973b65cd3, type: 3}
+  - Name: 11
+    Icon: {fileID: 21300000, guid: 3b49106143c98be418ddba6d63540879, type: 3}
+  - Name: 12
+    Icon: {fileID: 21300000, guid: 6b77d58613e9f864ab9b63baf8668475, type: 3}
+  - Name: 13
+    Icon: {fileID: 21300000, guid: 182ff646283d9e34e9e166d70bdcdee0, type: 3}
   ContactingTileElements: 
   Element_1: {fileID: 4322246122046084035}
   Element_2: {fileID: 7073962398080939876}

@@ -9343,18 +9343,45 @@ MonoBehaviour:
   - Name: Null
     Element: 0
     TileMat: {fileID: 2100000, guid: eab844a9eb81b214593310c7214cfca2, type: 2}
-  - Name: Fire
+  - Name: Acid
     Element: 1
-    TileMat: {fileID: 2100000, guid: 578741d82646fa344837706b5fde3a1f, type: 2}
-  - Name: Ice
-    Element: 2
-    TileMat: {fileID: 2100000, guid: 96144ee7f88f9f44d8e398eddc5124a3, type: 2}
-  - Name: Lightning
-    Element: 3
-    TileMat: {fileID: 2100000, guid: 768cf239da76065459c62df1ae04a99b, type: 2}
-  - Name: Water
-    Element: 4
     TileMat: {fileID: 2100000, guid: fef64a8f5979a214881e4b84f5626490, type: 2}
+  - Name: Bludgeoning
+    Element: 2
+    TileMat: {fileID: 2100000, guid: 6fd011b3228e4f64587dc2fb3159dae9, type: 2}
+  - Name: Cold
+    Element: 3
+    TileMat: {fileID: 2100000, guid: 96144ee7f88f9f44d8e398eddc5124a3, type: 2}
+  - Name: Fire
+    Element: 4
+    TileMat: {fileID: 2100000, guid: 578741d82646fa344837706b5fde3a1f, type: 2}
+  - Name: Force
+    Element: 5
+    TileMat: {fileID: 2100000, guid: fbbb3e22090d8b74ab3383a3201fbc7a, type: 2}
+  - Name: Lightning
+    Element: 6
+    TileMat: {fileID: 2100000, guid: 768cf239da76065459c62df1ae04a99b, type: 2}
+  - Name: Necrotic
+    Element: 7
+    TileMat: {fileID: 2100000, guid: 4f7acf4ac7170c04da82ef2bb8cda7c5, type: 2}
+  - Name: Piercing
+    Element: 8
+    TileMat: {fileID: 2100000, guid: 5f20d580dc1e45f4787642ebe88803c9, type: 2}
+  - Name: Poison
+    Element: 9
+    TileMat: {fileID: 2100000, guid: 9483adc931f3d3e46b0813d24fd00238, type: 2}
+  - Name: Psychic
+    Element: 10
+    TileMat: {fileID: 2100000, guid: 371b8fc4b0231cf4d82280d4b8175ae5, type: 2}
+  - Name: Radiant
+    Element: 11
+    TileMat: {fileID: 2100000, guid: 6b8a90c19df52de4fa68fa841dd84a79, type: 2}
+  - Name: Slashing
+    Element: 12
+    TileMat: {fileID: 2100000, guid: b82dc10ee2ae58e468c9da4fe6b328c9, type: 2}
+  - Name: Thunder
+    Element: 13
+    TileMat: {fileID: 2100000, guid: 52170ac2011e6e042a2146936887ed32, type: 2}
 --- !u!114 &1735057703
 MonoBehaviour:
   m_ObjectHideFlags: 0
