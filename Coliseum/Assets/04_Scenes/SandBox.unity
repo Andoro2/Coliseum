@@ -1538,7 +1538,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Cost: 0
-  m_Cadency: 0
   m_RangeMesh: {fileID: 0}
   m_ElementProficiency: 0
   m_TurretStats: {fileID: 0}
@@ -4599,7 +4598,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Cost: 0
-  m_Cadency: 0
   m_RangeMesh: {fileID: 0}
   m_ElementProficiency: 0
   m_TurretStats: {fileID: 0}

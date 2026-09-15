@@ -10,18 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2ad734fda541dbb4e88ee7718184db6e, type: 3}
-  m_Name: 02_FireTower
+  m_Name: 13_PiercingTower
   m_EditorClassIdentifier: 
-  m_TurretName: Red drake breath
-  Element: 4
-  m_ElementPercentage: 0.25
-  m_Damage: 10
-  m_ShootsPerMinute: 240
-  m_Range: 200
-  m_Price: 150
+  m_TurretName: Projectile spines
+  Element: 8
+  m_ElementPercentage: 70
+  m_Damage: 40
+  m_ShootsPerMinute: 12
+  m_Range: 20
+  m_Price: 120
   m_DamageGrowthPercent: 0.1
   m_CadencyGrowthFlat: 0.5
   m_RangeGrowthFlat: 20
-  m_ElementPercentageGrowthFlat: 0.05
+  m_ElementPercentageGrowthFlat: 0.75
   m_BaseLevelExp: 125
   m_LevelExpGrowthFactor: 1.2

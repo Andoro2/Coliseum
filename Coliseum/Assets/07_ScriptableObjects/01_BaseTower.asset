@@ -15,7 +15,7 @@ MonoBehaviour:
   m_TurretName: BaseTurret
   Element: 0
   m_ElementPercentage: 0
-  m_Damage: 50
+  m_Damage: 100
   m_ShootsPerMinute: 60
   m_Range: 200
   m_Price: 100

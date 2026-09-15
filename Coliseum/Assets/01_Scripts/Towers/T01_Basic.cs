@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Tower_01Basic : MonoBehaviour
+public class T01_Basic : MonoBehaviour
 {
     private TowerStats m_TowerStats;
 

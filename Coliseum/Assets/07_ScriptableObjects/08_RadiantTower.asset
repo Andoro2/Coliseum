@@ -10,18 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2ad734fda541dbb4e88ee7718184db6e, type: 3}
-  m_Name: 02_FireTower
+  m_Name: 08_RadiantTower
   m_EditorClassIdentifier: 
-  m_TurretName: Red drake breath
-  Element: 4
-  m_ElementPercentage: 0.25
-  m_Damage: 10
-  m_ShootsPerMinute: 240
+  m_TurretName: Light tower
+  Element: 11
+  m_ElementPercentage: 65
+  m_Damage: 60
+  m_ShootsPerMinute: 12
   m_Range: 200
   m_Price: 150
-  m_DamageGrowthPercent: 0.1
-  m_CadencyGrowthFlat: 0.5
+  m_DamageGrowthPercent: 0.15
+  m_CadencyGrowthFlat: 0.1
   m_RangeGrowthFlat: 20
-  m_ElementPercentageGrowthFlat: 0.05
-  m_BaseLevelExp: 125
-  m_LevelExpGrowthFactor: 1.2
+  m_ElementPercentageGrowthFlat: 0.75
+  m_BaseLevelExp: 150
+  m_LevelExpGrowthFactor: 1.25
